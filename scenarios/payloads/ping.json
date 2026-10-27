@@ -1,0 +1,6 @@
+{
+  "runId": "ping-campaign-source",
+  "address": "0xaA9FE8c47cBFD12E1D6109b7c825c5b478A7B25c",
+  "startBlock": 0,
+  "endBlock": 99999999
+}

@@ -9,3 +9,4 @@ cache/
 typechain-types/
 coverage/
 *.tsbuildinfo
+.cre_build_tmp.*
