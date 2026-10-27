@@ -1,0 +1,5 @@
+# cre/echt-verdict is a Bun project with its own lockfile and is deliberately NOT a member.
+packages:
+  - apps/*
+  - packages/*
+  - contracts
