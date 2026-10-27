@@ -1,6 +1,13 @@
-export const POLICY_VERSION = "echt-policy@2" as const;
-
+export { POLICY_CONFIG } from "./policy.config.ts";
+export { POLICY_VERSION } from "./version.ts";
 export * from "./types.ts";
 export { canonicalJson, type JsonValue } from "./canonical.ts";
 export { sha256Hex } from "./sha256.ts";
 export { hashCanonical } from "./hash.ts";
+export { detectConvergence, type ConvergenceResult, type ConvergingVoice } from "./convergence.ts";
+export { analyzePayments, type PaymentAnalysis, type SourceMeta, type VoiceWallet, type Exclusion } from "./payments.ts";
+export { judgePayment, type PaymentJudgement } from "./verdict.ts";
+export { marketGate, type MarketFacts, type RyoFailure } from "./market.ts";
+export { providerOutcome, type ProviderEvent, type ProviderOutcome } from "./failures.ts";
+export { proposePosition, withinRiskLimits, DEFAULT_RISK_LIMITS, type Proposal, type RiskLimits } from "./proposal.ts";
+export { evaluate, severity, type EvaluationInput, type EvaluationResult, type Decided } from "./evaluate.ts";
