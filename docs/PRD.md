@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.6 (supersedes Project Brief v0.1 and decision rule v1) |
+| **Version** | 0.6.1 (supersedes Project Brief v0.1 and decision rule v1) |
 | **Status** | Approved for build |
 | **Date** | Tue 27 Oct 2026 (Lagos, UTC+1) |
 | **Chain** | Ethereum Sepolia (chain id 11155111). Base Sepolia dropped: Etherscan's API marks it "Paid Tier Only" |
@@ -573,7 +573,7 @@ Five commands from clone to a completed run meets M5.
 
 | # | Scenario | Inputs | Expected |
 |---|---|---|---|
-| T1 | Coordinated linked transfers | 7 bullish voices; 5 verified-linked wallets paid 24–48 h pre-post; no disclosure | `BLOCK` · `THRESHOLD_MET` · NO POSITION · 5 edges with transaction links |
+| T1 | Coordinated linked transfers | 7 bullish voices; 5 verified-linked wallets paid 8–14 h before their posts (measured from block timestamps); no disclosure | `BLOCK` · `THRESHOLD_MET` · NO POSITION · 5 edges with transaction links |
 | T2 | Unrelated convergence | 7 bullish; all verified; 1 linked | `ELIGIBLE` · then market gate decides |
 | T3 | Disclosed campaign | 5 linked; all posts contain clear disclosure | `ELIGIBLE` + `DISCLOSED_CAMPAIGN`; edges styled "disclosed" |
 | T4 | Unverified identities | 7 bullish; only 2 `signed_challenge` | `REVIEW` · `INSUFFICIENT_VERIFIED_WALLETS` · never names anyone |
@@ -728,6 +728,7 @@ Days run in Lagos time. **Gate = stop and cut scope if it is not met.** Build st
 ---
 
 ## 17. Changelog
+- **0.6.1 (28 Oct):** Scenario timing is measured, not assumed. Each synthetic post is dated 8–14 h after its persona's real payment block timestamp; all T1 posts fall in one 6 h window. `postBlock` is filled from RPC only once that time has passed, and a scenario whose posts are still in the future is refused. UI and demo copy show the gap measured from block timestamps, never a fixed "24–48 h". T2 is seeded at least 84 h after T1, because both read the same on-chain history (see DECISIONS.md, "Scenario timing"). Attestations are real `signed_challenge` signatures for all 7 personas, and each scenario chooses its verified set.
 - **0.6 (27 Oct):** No test token. Scenario payments are native Sepolia ETH; campaign sources are detected from the transfers (a wallet paying ≥ 2 converging voices); threshold 0.001 ETH instead of $50; `TEST_TOKEN_ADDRESS`, `AMBIGUOUS_TOKEN` and the contract's `address token` removed. Rule `echt-policy@2` redefined before any verdict was written. Added §11b: nothing is gated for testers.
 - **0.5 (27 Oct):** Default LLM `openai/gpt-oss-120b` on Groq (verified with JSON mode); `llama-3.3-70b-versatile` returned `model_not_found`. LLM made provider-agnostic. Anthropic SDK replaced by the `openai` SDK pointed at any OpenAI-compatible endpoint; default Groq free tier (no card). Env vars `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL` replace `ANTHROPIC_API_KEY`. FR2.1 uses JSON mode + zod validation instead of provider-specific JSON schema.
 - **0.4 (27 Oct):**
