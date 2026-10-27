@@ -11,7 +11,7 @@ Windows + PowerShell. No Docker. Use `curl.exe`, not `curl`.
   - **Base Sepolia (84532) is "Paid Tier Only" on Etherscan's API**, checked today on docs.etherscan.io/supported-chains. The transfer lookup would fail on a free key.
   - Ethereum Sepolia is free on Etherscan, supported by CRE, and its Glamsterdam upgrade already happened (6 Oct), so the write-failure window has passed.
   - Fallback: Arbitrum Sepolia (421614): also free on Etherscan and supported by CRE.
-- [ ] Record in `docs/DECISIONS.md`: `chain = ethereum-sepolia (11155111); explorer = sepolia.etherscan.io; transfer provider = Etherscan V2 tokentx`
+- [ ] Record in `docs/DECISIONS.md`: `chain = ethereum-sepolia (11155111); explorer = sepolia.etherscan.io; transfer provider = Etherscan V2 txlist (native Sepolia ETH, no test token)`
 - [x] PRD v0.4 and CLAUDE.md updated to Ethereum Sepolia. Check with `Select-String -Path docs\PRD.md,CLAUDE.md -Pattern "Base Sepolia|84532|basescan"` → 0 matches.
 
 ---
@@ -92,7 +92,7 @@ Windows + PowerShell. No Docker. Use `curl.exe`, not `curl`.
 - [ ] BLI deliverables (public repo, architecture doc, video): https://bli.tools/international-hackathon-with-ryo-digital-chainlink-labs-focuses-on-ai-payrails-stablecoins-more/
 
 **Data provider and legal**
-- [ ] Etherscan V2 docs, account `tokentx` endpoint with `startblock` / `endblock`: https://docs.etherscan.io
+- [ ] Etherscan V2 docs, account `txlist` endpoint with `startblock` / `endblock`: https://docs.etherscan.io
 - [ ] Etherscan chain tiers: https://docs.etherscan.io/supported-chains
 - [ ] FTC Endorsement Guides FAQ (disclosure language): https://www.ftc.gov/business-guidance/resources/ftcs-endorsement-guides-what-people-are-asking
 
@@ -108,7 +108,7 @@ Defaults come from PRD v0.3. Changing one later bumps `policyVersion`.
 | [ ] | Convergence: window | 6 h | |
 | [ ] | Watchlist size | 20 (scenario uses 7 converging) | |
 | [ ] | Payment lookback before each post | 72 h | |
-| [ ] | Minimum qualifying transfer | $50 (test token priced at $1 = 1 token) | |
+| [ ] | Minimum qualifying transfer | 0.001 Sepolia ETH (no test token) | |
 | [ ] | BLOCK threshold (linked + undisclosed voices) | 3 | |
 | [ ] | Minimum verified wallets to judge at all | 3 (else REVIEW) | |
 | [ ] | Practice position: max size | $400 | |
@@ -209,7 +209,7 @@ curl.exe -s "$env:RYO_MCP_URL/health"
 curl.exe -s "$env:RYO_MCP_URL/whoami" -H "Authorization: Bearer $env:RYO_MCP_KEY"
 curl.exe -s -X POST "$env:RYO_MCP_URL/tools/analyze_token/call" -H "Authorization: Bearer $env:RYO_MCP_KEY" -H "Content-Type: application/json" -d '{\"symbol\":\"SOL\"}'
 
-curl.exe -s "https://api.etherscan.io/v2/api?chainid=11155111&module=account&action=tokentx&address=<deployer>&startblock=0&endblock=99999999&sort=asc&apikey=$env:ETHERSCAN_API_KEY"
+curl.exe -s "https://api.etherscan.io/v2/api?chainid=11155111&module=account&action=txlist&address=<deployer>&startblock=0&endblock=99999999&sort=asc&apikey=$env:ETHERSCAN_API_KEY"
 curl.exe -s -X POST $env:SEPOLIA_RPC_URL -H "Content-Type: application/json" -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"eth_blockNumber\",\"params\":[]}'
 
 $llmBody = @{ model = $env:LLM_MODEL; response_format = @{ type = "json_object" }; messages = @(@{ role = "user"; content = 'Reply with the JSON object {"ok": true} and nothing else.' }) } | ConvertTo-Json -Depth 5

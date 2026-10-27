@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.5 (supersedes Project Brief v0.1 and decision rule v1) |
+| **Version** | 0.6 (supersedes Project Brief v0.1 and decision rule v1) |
 | **Status** | Approved for build |
 | **Date** | Tue 27 Oct 2026 (Lagos, UTC+1) |
 | **Chain** | Ethereum Sepolia (chain id 11155111). Base Sepolia dropped: Etherscan's API marks it "Paid Tier Only" |
@@ -204,14 +204,13 @@ No performance claims beyond these. No P&L claims: RYO's rubric explicitly does 
 - **FR5.1** Trigger: HTTP trigger with a payload containing:
   - `runId`
   - `evidenceHash`
-  - `tokenAddress`
-  - `campaignSources[]` (the token deployer and any wallet it funded within the window)
+  - `tokenSymbol` (the symbol the voices converged on; used for labelling only)
   - `wallets[]` (only verified-linked wallets of converging voices, at most 9)
   - `postTimes[]`
   - `pinnedToBlock`
   - `policyVersion`
 - **FR5.2** For each wallet, one HTTP call to the transfer-history provider, bounded by `startblock = postBlock − lookbackBlocks` and `endblock = pinnedToBlock`. At most **12 HTTP calls per execution**, under CRE's limit of 15.
-- **FR5.3** Responses are normalized: lowercased addresses, sorted by `(blockNumber, logIndex)`, only fields the policy needs. This keeps node observations byte-identical so consensus can succeed.
+- **FR5.3** Responses are normalized: lowercased addresses, sorted by `(blockNumber, transactionIndex)`, only fields the policy needs. This keeps node observations byte-identical so consensus can succeed.
 - **FR5.4** The workflow runs the **same policy package** (`packages/policy`) that the server uses, compiled into the workflow.
 - **FR5.5** The workflow writes a signed report to `EchtVerdicts` on Ethereum Sepolia via the EVM write capability.
 - **FR5.6** The UI labels the run `CRE · local simulation` unless a deployed workflow is independently verified. That claim is never made otherwise.
@@ -223,7 +222,8 @@ No performance claims beyond these. No P&L claims: RYO's rubric explicitly does 
 | Term | Meaning |
 |---|---|
 | Verified-linked wallet | Attestation method `signed_challenge`: the account posted a nonce, and the wallet signed `echt:{handle}:{nonce}`. Anything else is `unverified_claim`. |
-| Qualifying transfer | Into a verified-linked wallet, from a `campaignSource`, with `amountUsd ≥ $50`, inside `[postTime − 72 h, postTime)` |
+| Campaign source | Any sending address that paid **≥ 2 different converging voices** inside their lookback windows. Detected by the policy from the transfers themselves; no token contract or deployer is needed |
+| Qualifying transfer | A native Sepolia ETH transfer into a verified-linked wallet, from a campaign source, with `amountWei ≥ 1e15` (0.001 ETH), inside `[postTime − 72 h, postTime)` |
 | Linked voice | Converging voice with ≥ 1 qualifying transfer |
 
 **Payment verdict**
@@ -231,7 +231,7 @@ No performance claims beyond these. No P&L claims: RYO's rubric explicitly does 
 | Verdict | Condition | UI wording |
 |---|---|---|
 | `BLOCK` | ≥ 3 linked voices **and** none of them has disclosure detected | "Policy threshold met: 5 of 7 voices received linked transfers before posting, no disclosure detected. This is not a finding that any law was broken." |
-| `REVIEW` | Any of: < 3 voices verified-linked in total; any provider call failed or was inconsistent; any converging post had `extraction_failed`; token symbol maps to more than one contract; a campaign source is a known exchange or high-volume hot wallet | Names the reason code (§10.2) |
+| `REVIEW` | Any of: < 3 voices verified-linked in total; any provider call failed or was inconsistent; any converging post had `extraction_failed`; a campaign source is a known exchange or high-volume hot wallet | Names the reason code (§10.2) |
 | `ELIGIBLE` | All required data retrieved, < 3 linked voices, ≥ 3 voices verified-linked | "No qualifying transfer pattern observed in this window." Never "organic" or "safe". |
 
 **Disclosed links.** A linked voice *with* disclosure detected is shown as **"Disclosed connection"**. It does not count toward `BLOCK`. If ≥ 3 linked voices are all disclosed → `ELIGIBLE` with flag `DISCLOSED_CAMPAIGN`.
@@ -456,12 +456,10 @@ export interface Extraction {
 export interface Transfer {
   txHash: `0x${string}`;
   blockNumber: number;
-  logIndex: number;
+  transactionIndex: number;
   from: `0x${string}`;
   to: `0x${string}`;
-  token: `0x${string}`;
-  amountRaw: string;          // decimal string, no floats
-  amountUsd: number | null;   // null if unpriced, never 0
+  amountWei: string;          // native Sepolia ETH, decimal string, no floats
   timestamp: string;
   provenance: "TESTNET";
 }
@@ -501,7 +499,7 @@ export interface Decision {
 export type ReasonCode =
   | "THRESHOLD_MET" | "NO_QUALIFYING_PATTERN" | "DISCLOSED_CAMPAIGN"
   | "INSUFFICIENT_VERIFIED_WALLETS" | "PROVIDER_FAILED" | "PROVIDER_INCONSISTENT"
-  | "EXTRACTION_FAILED" | "AMBIGUOUS_TOKEN" | "EXCHANGE_SOURCE"
+  | "EXTRACTION_FAILED" | "EXCHANGE_SOURCE"
   | "MARKET_FAIL" | "MARKET_UNAVAILABLE" | "RISK_LIMIT";
 ```
 
@@ -512,7 +510,7 @@ export type ReasonCode =
 struct Verdict {
     bytes32 runId;
     bytes32 evidenceHash;
-    address token;
+    bytes32 tokenSymbolHash;  // keccak256 of the converged symbol, e.g. "ETH"
     uint64  pinnedToBlock;
     uint8   paymentVerdict;   // 0 ELIGIBLE, 1 REVIEW, 2 BLOCK
     uint8   convergingCount;
@@ -559,7 +557,7 @@ echt/
 ### 9.7 Commands (PowerShell, from the repo root)
 ```
 pnpm install
-pnpm seed:testnet         # deploy test token + EchtVerdicts, send scenario transfers (one-time)
+pnpm seed:testnet         # deploy EchtVerdicts, send small Sepolia ETH scenario payments (one-time)
 pnpm dev                  # server :8787 + web :5173
 pnpm test                 # vitest: policy + snapshot + scenarios
 pnpm test:scenarios       # runs all 6 scenarios end-to-end, prints the M1 table
@@ -591,15 +589,15 @@ Plus a market-gate case run on T2: `ryo_unavailable` → `NO POSITION · MARKET_
 | RYO 429 / 503 | HTTP status | Backoff ×3 → `MARKET_UNAVAILABLE` |
 | RYO `status: unavailable` or `data_mode: simulated` | Envelope | Gate `UNAVAILABLE`; the UI shows RYO's own warning text |
 | RYO `isError: true` with HTTP 200 | MCP result | Same as unavailable |
+| RYO REST HTTP error with `{code, message, trace_id}`, e.g. `VALIDATION_FAILED` "market data unavailable for SOL" (observed 27 Oct) | HTTP status + body | Gate `UNAVAILABLE`; no retry; show RYO's message and `trace_id` |
 | Transfer provider timeout or 5xx | HTTP | `REVIEW · PROVIDER_FAILED` |
 | Provider returns > 1,000 rows (pagination) | Row count | Paginate within the call budget; if exceeded → `REVIEW · PROVIDER_FAILED` |
 | Nodes disagree (consensus fails) | CRE consensus error | `REVIEW · PROVIDER_INCONSISTENT` |
 | Transfer *after* the post | Timestamp | Not qualifying; listed under "post-dated transfers" |
-| Transfer below $50 or unpriced | Amount | Not qualifying; listed; never counted as 0 |
+| Transfer below 0.001 ETH | Amount | Not qualifying; listed as "below threshold" |
 | Funding source is an exchange or hot wallet | Label list or tx count > 10k | `REVIEW · EXCHANGE_SOURCE` |
 | Same voice posts 3× | Dedupe by persona | Counts once |
 | Disclosure only in a follow-up post | Disclosure scan covers all posts in the window | Treated as disclosed, with the post id cited |
-| Symbol maps to more than one contract | Token registry | `REVIEW · AMBIGUOUS_TOKEN` |
 | LLM schema failure after retry | zod | Post `extraction_failed` → if converging → `REVIEW` |
 | EVM write fails (gas, RPC, upgrade window) | Transaction receipt | Decision stands locally; receipt shows "pending — retry"; retry is idempotent by `runId` |
 | Duplicate report | Contract revert `AlreadyRecorded` | Treated as success; read back the existing verdict |
@@ -624,6 +622,20 @@ Plus a market-gate case run on T2: `ryo_unavailable` → `NO POSITION · MARKET_
 | **F10** Matrix | `pnpm test:scenarios` prints 6/6 expected outcomes plus the market-gate case |
 
 ---
+
+## 11b. Who needs what to try Echt
+
+No wallet, no token, no sign-up and no funds are needed to *use* Echt. Nothing is gated.
+
+| Who | What they need | What they get |
+|---|---|---|
+| Judge or visitor watching the demo / dashboard | A browser | Every scenario, the verdict, the Evidence Brief, Replay |
+| Anyone checking the evidence | A browser | Every payment and verdict is a public Sepolia transaction on sepolia.etherscan.io |
+| Developer cloning the repo | Node 24, pnpm, Bun, free Etherscan key + free Sepolia RPC URL | Re-runs the CRE check against the **already-seeded** public testnet payments listed in the committed `scenarios/addresses.json`; no deploying, no faucet, no wallet |
+| Developer who also wants live market data | A RYO builder key | Live RYO evidence. Without one, the market gate shows `UNAVAILABLE · RYO key not set`, honestly labelled; the payment check still runs |
+| Developer who wants to re-extract posts | Any free OpenAI-compatible key (default Groq) | Fresh extraction. Without one, the committed cache is used (labelled `MODEL · cached`) |
+
+Only the builder needs funded testnet wallets, once, to seed the scenarios.
 
 ## 12. Out of scope (non-goals)
 
@@ -672,7 +684,7 @@ Days run in Lagos time. **Gate = stop and cut scope if it is not met.** Build st
 
 | Day | Date | Deliverable | Gate / acceptance |
 |---|---|---|---|
-| 0 | Tue 27 (evening) | RYO key working, fixtures saved (done); install Bun + CRE CLI, `cre login`, `cre account access`; `cre workflow supported-chains` → Ethereum Sepolia forwarder address; Etherscan V2 `tokentx` call on chain 11155111; wallets funded; pnpm workspace scaffolded | One CRE hello-world simulation runs; one Etherscan call returns `status` 1 or "No transactions found" |
+| 0 | Tue 27 (evening) | RYO key working, fixtures saved (done); install Bun + CRE CLI, `cre login`, `cre account access`; `cre workflow supported-chains` → Ethereum Sepolia forwarder address; Etherscan V2 `txlist` call on chain 11155111; wallets funded; pnpm workspace scaffolded | One CRE hello-world simulation runs; one Etherscan call returns `status` 1 or "No transactions found" |
 | 1 | Wed 28 | `packages/policy` (types, policy@2, canonical hash, unit tests for T1–T6); deploy `EchtVerdicts`; `seed-testnet.ts` creates T1/T2 transfers; attestations signed; CRE workflow skeleton with HTTP trigger + one provider call | Policy tests green; seeded transactions visible on sepolia.etherscan.io |
 | 2 | Thu 29 | **CRE workflow end-to-end**: lookups at pinned block → consensus → policy → `writeReport` → `EchtVerdicts`; minimal orchestrator (snapshot, cached extraction, convergence, proposal, RYO client with backoff) | **Critical gate:** T1 `BLOCK` verdict on Ethereum Sepolia from the CRE simulation, triggered by the server. If missed by 18:00, shrink to 3 wallets and T1 only |
 | 3 | Fri 30 | Dashboard: five zones, states BLOCK / REVIEW / ELIGIBLE, edges link to transactions; Evidence Brief + JSON + Replay; T5 fault flag; `pnpm test:scenarios` | T1, T2, T5 end-to-end; Replay MATCH on T1, HASH_MISMATCH on T6 |
@@ -707,15 +719,16 @@ Days run in Lagos time. **Gate = stop and cut scope if it is not met.** Build st
 |---|---|---|---|
 | Q1 | Does RYO accept a project also submitted to BLI? Does the BLI RYO bounty equal RYO Track 1? | Agent & data | Day 1 (Discord) |
 | Q2 | Exact `deep_analysis` field path for its deterministic verdict and primary-section availability | Agent & data | Day 1 (live catalog) |
-| Q3 | Does the testnet scenario token need a real symbol for RYO analysis? **Proposal:** personas mention a real listed symbol (live RYO evidence); the payment graph uses a labelled testnet stand-in contract. The dashboard says so in the provenance legend. | All | Day 2 |
+| Q3 | ~~Test token?~~ Resolved 27 Oct: no test token. Personas mention a real symbol (for RYO market evidence); payments are native Sepolia ETH; nothing for testers to hold or buy | All | Done |
 | Q4 | ~~Which transfer provider?~~ Etherscan V2 on chain 11155111 (free tier); Alchemy `alchemy_getAssetTransfers` as fallback. Confirm with one live call | Integration | Day 0 |
-| Q7 | Does the RYO key's "Expires At" fall after 11 Nov? If not, ask the Help Desk for renewal | Agent & data | Day 0 |
+| Q7 | ~~RYO key expiry?~~ Resolved 27 Oct: expires 2026-12-17, 60 calls/min, scope `tools:read` | Agent & data | Done |
 | Q5 | Is CRE deploy access granted in time for S4? | Integration | Day 5 |
 | Q6 | BLI main-track prizes and payout currency (unanswered on the DoraHacks Q&A) | Any | Email hello@bli.tools Day 1 |
 
 ---
 
 ## 17. Changelog
+- **0.6 (27 Oct):** No test token. Scenario payments are native Sepolia ETH; campaign sources are detected from the transfers (a wallet paying ≥ 2 converging voices); threshold 0.001 ETH instead of $50; `TEST_TOKEN_ADDRESS`, `AMBIGUOUS_TOKEN` and the contract's `address token` removed. Rule `echt-policy@2` redefined before any verdict was written. Added §11b: nothing is gated for testers.
 - **0.5 (27 Oct):** Default LLM `openai/gpt-oss-120b` on Groq (verified with JSON mode); `llama-3.3-70b-versatile` returned `model_not_found`. LLM made provider-agnostic. Anthropic SDK replaced by the `openai` SDK pointed at any OpenAI-compatible endpoint; default Groq free tier (no card). Env vars `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL` replace `ANTHROPIC_API_KEY`. FR2.1 uses JSON mode + zod validation instead of provider-specific JSON schema.
 - **0.4 (27 Oct):**
   - Chain moved from Base Sepolia to **Ethereum Sepolia (11155111)**. Base Sepolia is "Paid Tier Only" on Etherscan's API; Ethereum Sepolia is free and supported by CRE. Its Glamsterdam upgrade already happened (6 Oct).

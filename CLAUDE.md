@@ -2,7 +2,7 @@
 
 **Echt stops an AI trading agent from following coordinated crypto hype before it places a practice trade.**
 
-Source of truth for scope: `docs/PRD.md` (v0.5). If this file and the PRD disagree, the PRD wins. Update both in the same commit.
+Source of truth for scope: `docs/PRD.md` (v0.6). If this file and the PRD disagree, the PRD wins. Update both in the same commit.
 
 ---
 
@@ -82,10 +82,10 @@ echt/
     ignition/ or scripts/        deploy script
   scripts/
     load-env.ps1            dot-source to load .env into a PowerShell session: . .\scripts\load-env.ps1
-    seed-testnet.ts         deploys test token + campaign wallets, sends T1–T3 transfers, writes scenarios/addresses.json
+    seed-testnet.ts         sends small native Sepolia ETH payments from the campaign wallet to persona wallets (T1–T3), writes scenarios/addresses.json (committed, so cloners reuse it)
     sign-attestations.ts    signs echt:{handle}:{nonce} with each persona wallet
   scenarios/
-    fixtures/               real RYO responses (ryo-tools-catalog.json, ryo-analyze_token-SOL.json, ryo-deep_analysis-SOL.json). Use these for response shapes
+    fixtures/               real RYO responses captured 27 Oct during a RYO market-data outage: ryo-tools-catalog.json (tool schemas), ryo-market_overview.json (status partial, nulls), ryo-scan_market.json (status unavailable), ryo-*-error.json (HTTP errors, VALIDATION_FAILED). Re-capture an ok envelope when RYO recovers (ryo-analyze_token-<SYM>.json). Use these for response shapes and the failure path
     T1-coordinated.json … T6-tampered.json   inputs + expected outputs
     addresses.json          generated; testnet addresses and tx hashes
     wallets.local.json      generated persona keys, gitignored, never read or print
@@ -95,7 +95,7 @@ echt/
   .gitignore                .env, .env.local, *.local.json, *.key, node_modules, dist
 ```
 
-**Env vars (`.env.example`):** `RYO_MCP_URL`, `RYO_MCP_KEY`, `RYO_RATE_PER_MINUTE`, `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL`, `ETHERSCAN_API_KEY`, `SEPOLIA_RPC_URL`, `DEPLOYER_PRIVATE_KEY`, `CRE_ETH_PRIVATE_KEY`, `CAMPAIGN_PRIVATE_KEY`, `ECHT_VERDICTS_ADDRESS`, `TEST_TOKEN_ADDRESS`
+**Env vars (`.env.example`):** `RYO_MCP_URL`, `RYO_MCP_KEY`, `RYO_RATE_PER_MINUTE`, `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL`, `ETHERSCAN_API_KEY`, `SEPOLIA_RPC_URL`, `DEPLOYER_PRIVATE_KEY`, `CRE_ETH_PRIVATE_KEY`, `CAMPAIGN_PRIVATE_KEY`, `ECHT_VERDICTS_ADDRESS`
 
 Code reads these from `process.env`. Never open, print or log `.env`. The RYO client must throttle to `RYO_RATE_PER_MINUTE`.
 
@@ -109,7 +109,7 @@ Build starts **Tue 27 Oct evening**: 4 days to BLI. Each phase ends with a **gat
    - [x] RYO key issued; `/health`, `/whoami`, catalog and `analyze_token` / `deep_analysis` fixtures saved in `scenarios/fixtures/`
    - [ ] Install Bun + CRE CLI; `cre login`; `cre account access` (request deploy access)
    - [ ] `cre workflow supported-chains`: confirm Ethereum Sepolia; note the forwarder address in `docs/DECISIONS.md`
-   - [ ] Etherscan V2 `tokentx` on `chainid=11155111` returns `status` 1 or "No transactions found"
+   - [ ] Etherscan V2 `txlist` on `chainid=11155111` returns `status` 1 or "No transactions found"
    - [ ] pnpm workspace scaffolded (apps/web, apps/server, packages/policy, contracts); `pnpm test` runs
    - **Gate:** one CRE hello-world simulation runs; one Etherscan call works.
 1. [ ] **Day 1 — Wed 28: policy + chain + CRE skeleton**
@@ -227,6 +227,8 @@ Show one real failed run before the successful rerun. Never label a recording as
 - EVM log reads only reach back 100 blocks. Get transfer history over HTTP, never via `eth_getLogs` in the workflow.
 - Hard limits: 15 HTTP calls, 250 KB response, 100 KB workflow response, 5 min execution. Our budget is ≤12 calls. Trim provider responses to the fields we use.
 - `packages/policy` importing zod 4 (or anything) clashes with the SDK's bundled zod 3.25.76. Keep the policy package dependency-free.
+- `cre init` created a second `.env` at `cre/echt-verdict/.env` (gitignored by the root `.gitignore`). Don't copy secrets into it. Run CRE commands with `-e ..\..\.env` (from `cre/echt-verdict`) so the root `.env` is the only place keys live.
+- Layout from `cre init` (27 Oct): project `cre/echt-verdict/` (project.yaml, secrets.yaml, .env) containing workflow `cre/echt-verdict/echt-verdict/` (main.ts, main.test.ts, workflow.yaml, config.staging.json, config.production.json). Install with `bun install --cwd ./echt-verdict`, simulate with `cre workflow simulate echt-verdict`, both from `cre/echt-verdict`.
 - Running the workflow with Node instead of Bun fails. `cre/` is a Bun project.
 - Hardcoding the forwarder address. Read it from `cre workflow supported-chains`; simulation and deployment may differ.
 - Don't switch chains. Base Sepolia's Etherscan API is paid-only. Ethereum Sepolia already took its Glamsterdam upgrade (6 Oct); if a new network-upgrade notice appears before filming, avoid writes in the ~30 min around it.
@@ -236,6 +238,7 @@ Show one real failed run before the successful rerun. Never label a recording as
 - MCP tool failures come back as **HTTP 200 with `result.isError: true`**. Check it.
 - REST tool failures come back as an **HTTP error with a JSON body** `{code, message, details, trace_id}`, e.g. `VALIDATION_FAILED` "Current USD market data is unavailable for SOL" (seen 27 Oct). Read the body, map it to market gate `UNAVAILABLE`, log `trace_id`, never retry it as if it were a 429. Saved as `scenarios/fixtures/ryo-*-error.json`.
 - Coverage varies by symbol and over time. Pick the scenario symbol from a symbol that returned `status: ok` in a saved fixture, and keep the failure fixture as the T5-style market-unavailable case.
+- **27 Oct 21:17 Lagos: RYO market data was down for every symbol tried** (BTC, ETH, SOL failed; `market_overview` partial with nulls; `scan_market` unavailable). Build the client against the error/partial fixtures first; never fake an `ok` envelope.
 - Key facts (27 Oct): `scopes tools:read`, `rate_limit_per_min 60`, `expires_at 2026-12-17`.
 - The MCP `text` content is a JSON string. Parse it once.
 - `null` or unavailable ≠ 0. Never coerce.
@@ -246,7 +249,9 @@ Show one real failed run before the successful rerun. Never label a recording as
 **Data and hashing**
 - `JSON.stringify` for hashing gives a non-canonical hash. Use `canonicalize`.
 - Windows CRLF in fixtures changes bytes. `.gitattributes eol=lf`, and hash canonical JSON, never raw file bytes.
-- Floats for token amounts. Use decimal strings / `bigint`; `amountUsd` is `number | null`.
+- Assuming private keys start with `0x`. MetaMask/Rabby export 64 hex characters without it. Normalize on read (`k.startsWith('0x') ? k : '0x' + k`) and never log the value.
+- Floats for ETH amounts. Use `amountWei` as a decimal string / `bigint`.
+- Adding a test token, a faucet step or a wallet requirement for users. There is no test token: payments are native Sepolia ETH, read with Etherscan `txlist`. Testers need nothing but a browser (PRD §11b).
 - Calling the LLM during Replay. Replay is offline: cached extraction only.
 
 **LLM (free tier)**
