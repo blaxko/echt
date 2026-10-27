@@ -1,0 +1,22 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "types": [
+      "node"
+    ],
+    "module": "node16",
+    "moduleResolution": "node16",
+    "lib": [
+      "ES2023"
+    ],
+    "strict": false,
+    "noUncheckedIndexedAccess": false,
+    "exactOptionalPropertyTypes": false
+  },
+  "include": [
+    "hardhat.config.ts",
+    "scripts",
+    "artifacts/artifacts.d.ts",
+    "artifacts/contracts/**/artifacts.d.ts"
+  ]
+}

@@ -8,7 +8,7 @@
     "node": ">=24"
   },
   "scripts": {
-    "test": "vitest run",
+    "test": "vitest run && pnpm --filter @echt/contracts test",
     "typecheck": "tsc -p tsconfig.json"
   },
   "devDependencies": {

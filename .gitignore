@@ -4,3 +4,8 @@
 *.key
 node_modules/
 dist/
+artifacts/
+cache/
+typechain-types/
+coverage/
+*.tsbuildinfo
