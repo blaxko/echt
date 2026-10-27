@@ -1,0 +1,16 @@
+{
+  "name": "@echt/scripts",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "seed": "tsx seed-testnet.ts",
+    "sign": "tsx sign-attestations.ts"
+  },
+  "dependencies": {
+    "viem": "2.57.11"
+  },
+  "devDependencies": {
+    "tsx": "4.23.15"
+  }
+}

@@ -9,7 +9,9 @@
   },
   "scripts": {
     "test": "vitest run && pnpm --filter @echt/contracts test",
-    "typecheck": "tsc -p tsconfig.json"
+    "typecheck": "tsc -p tsconfig.json",
+    "seed:testnet": "pnpm --filter @echt/scripts seed",
+    "sign:attestations": "pnpm --filter @echt/scripts sign"
   },
   "devDependencies": {
     "@types/node": "^24.19.2",

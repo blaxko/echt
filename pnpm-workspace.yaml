@@ -3,5 +3,6 @@ packages:
   - apps/*
   - packages/*
   - contracts
+  - scripts
 allowBuilds:
   esbuild: true
