@@ -20,7 +20,7 @@ function judge(
   paidNumbers: number[],
   opts: { extractionFailed?: boolean; provider?: "ok" | "failed" | "inconsistent" } = {},
 ): PaymentJudgement {
-  const transfers = paidNumbers.map((n, i) => transferTo(n, { index: i, hoursBeforePost: 36 }));
+  const transfers = paidNumbers.map((n, i) => transferTo(n, { index: i, hoursBeforePost: 11 }));
   const analysis = analyzePayments(voices, transfers, meta);
   const linked = analysis.linkedPersonaIds.map((personaId) => {
     const v = voices.find((x) => x.personaId === personaId);
@@ -95,7 +95,7 @@ describe("judgePayment: every row of PRD §6.6 and §10.2", () => {
 
   it("REVIEW EXCHANGE_SOURCE when a campaign source is a known exchange", () => {
     const voices = all(7);
-    const analysis = analyzePayments(voices, [1, 2, 3, 4, 5].map((n, i) => transferTo(n, { index: i, hoursBeforePost: 36 })), {
+    const analysis = analyzePayments(voices, [1, 2, 3, 4, 5].map((n, i) => transferTo(n, { index: i, hoursBeforePost: 11 })), {
       [SOURCE]: { txCount: 1, knownExchange: true },
     });
     const linked = analysis.linkedPersonaIds.map((personaId) => ({ personaId, disclosed: false }));

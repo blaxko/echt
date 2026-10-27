@@ -1,0 +1,313 @@
+{
+  "id": "T3",
+  "title": "Disclosed campaign: 5 linked, every linked post carries #ad",
+  "provenance": "SYNTHETIC unit fixture. Personas and posts are synthetic. Transfer hashes are not on-chain; provenance is SYNTHETIC here, TESTNET only in the seeded scenarios.",
+  "input": {
+    "runId": "test-run",
+    "posts": [
+      {
+        "id": "post_1_1",
+        "personaId": "persona_01",
+        "text": "synthetic test post",
+        "postedAt": "2026-10-29T12:01:00.000Z",
+        "postBlock": 0,
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "id": "post_2_2",
+        "personaId": "persona_02",
+        "text": "synthetic test post",
+        "postedAt": "2026-10-29T12:02:00.000Z",
+        "postBlock": 0,
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "id": "post_3_3",
+        "personaId": "persona_03",
+        "text": "synthetic test post",
+        "postedAt": "2026-10-29T12:03:00.000Z",
+        "postBlock": 0,
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "id": "post_4_4",
+        "personaId": "persona_04",
+        "text": "synthetic test post",
+        "postedAt": "2026-10-29T12:04:00.000Z",
+        "postBlock": 0,
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "id": "post_5_5",
+        "personaId": "persona_05",
+        "text": "synthetic test post",
+        "postedAt": "2026-10-29T12:05:00.000Z",
+        "postBlock": 0,
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "id": "post_6_6",
+        "personaId": "persona_06",
+        "text": "synthetic test post",
+        "postedAt": "2026-10-29T12:06:00.000Z",
+        "postBlock": 0,
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "id": "post_7_7",
+        "personaId": "persona_07",
+        "text": "synthetic test post",
+        "postedAt": "2026-10-29T12:07:00.000Z",
+        "postBlock": 0,
+        "provenance": "SYNTHETIC"
+      }
+    ],
+    "extractions": [
+      {
+        "postId": "post_1_1",
+        "tokenSymbol": "ETH",
+        "sentiment": "bullish",
+        "conviction": 0.8,
+        "urgency": 0.5,
+        "disclosureDetected": true,
+        "disclosureEvidence": "#ad",
+        "status": "ok",
+        "modelId": "test-model",
+        "promptVersion": "test",
+        "provenance": "MODEL"
+      },
+      {
+        "postId": "post_2_2",
+        "tokenSymbol": "ETH",
+        "sentiment": "bullish",
+        "conviction": 0.8,
+        "urgency": 0.5,
+        "disclosureDetected": true,
+        "disclosureEvidence": "#ad",
+        "status": "ok",
+        "modelId": "test-model",
+        "promptVersion": "test",
+        "provenance": "MODEL"
+      },
+      {
+        "postId": "post_3_3",
+        "tokenSymbol": "ETH",
+        "sentiment": "bullish",
+        "conviction": 0.8,
+        "urgency": 0.5,
+        "disclosureDetected": true,
+        "disclosureEvidence": "#ad",
+        "status": "ok",
+        "modelId": "test-model",
+        "promptVersion": "test",
+        "provenance": "MODEL"
+      },
+      {
+        "postId": "post_4_4",
+        "tokenSymbol": "ETH",
+        "sentiment": "bullish",
+        "conviction": 0.8,
+        "urgency": 0.5,
+        "disclosureDetected": true,
+        "disclosureEvidence": "#ad",
+        "status": "ok",
+        "modelId": "test-model",
+        "promptVersion": "test",
+        "provenance": "MODEL"
+      },
+      {
+        "postId": "post_5_5",
+        "tokenSymbol": "ETH",
+        "sentiment": "bullish",
+        "conviction": 0.8,
+        "urgency": 0.5,
+        "disclosureDetected": true,
+        "disclosureEvidence": "#ad",
+        "status": "ok",
+        "modelId": "test-model",
+        "promptVersion": "test",
+        "provenance": "MODEL"
+      },
+      {
+        "postId": "post_6_6",
+        "tokenSymbol": "ETH",
+        "sentiment": "bullish",
+        "conviction": 0.8,
+        "urgency": 0.5,
+        "disclosureDetected": false,
+        "disclosureEvidence": null,
+        "status": "ok",
+        "modelId": "test-model",
+        "promptVersion": "test",
+        "provenance": "MODEL"
+      },
+      {
+        "postId": "post_7_7",
+        "tokenSymbol": "ETH",
+        "sentiment": "bullish",
+        "conviction": 0.8,
+        "urgency": 0.5,
+        "disclosureDetected": false,
+        "disclosureEvidence": null,
+        "status": "ok",
+        "modelId": "test-model",
+        "promptVersion": "test",
+        "provenance": "MODEL"
+      }
+    ],
+    "personas": [
+      {
+        "id": "persona_01",
+        "handle": "@echt_persona_01",
+        "wallet": "0x0000000000000000000000000000000000001001",
+        "attestation": {
+          "method": "signed_challenge",
+          "nonce": "n1",
+          "signature": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        },
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "id": "persona_02",
+        "handle": "@echt_persona_02",
+        "wallet": "0x0000000000000000000000000000000000001002",
+        "attestation": {
+          "method": "signed_challenge",
+          "nonce": "n2",
+          "signature": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        },
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "id": "persona_03",
+        "handle": "@echt_persona_03",
+        "wallet": "0x0000000000000000000000000000000000001003",
+        "attestation": {
+          "method": "signed_challenge",
+          "nonce": "n3",
+          "signature": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        },
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "id": "persona_04",
+        "handle": "@echt_persona_04",
+        "wallet": "0x0000000000000000000000000000000000001004",
+        "attestation": {
+          "method": "signed_challenge",
+          "nonce": "n4",
+          "signature": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        },
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "id": "persona_05",
+        "handle": "@echt_persona_05",
+        "wallet": "0x0000000000000000000000000000000000001005",
+        "attestation": {
+          "method": "signed_challenge",
+          "nonce": "n5",
+          "signature": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        },
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "id": "persona_06",
+        "handle": "@echt_persona_06",
+        "wallet": "0x0000000000000000000000000000000000001006",
+        "attestation": {
+          "method": "signed_challenge",
+          "nonce": "n6",
+          "signature": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        },
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "id": "persona_07",
+        "handle": "@echt_persona_07",
+        "wallet": "0x0000000000000000000000000000000000001007",
+        "attestation": {
+          "method": "signed_challenge",
+          "nonce": "n7",
+          "signature": "0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001"
+        },
+        "provenance": "SYNTHETIC"
+      }
+    ],
+    "transfers": [
+      {
+        "txHash": "0x00000000000000000000000000000000000000000000000000000000000003e9",
+        "blockNumber": 18400001,
+        "transactionIndex": 0,
+        "from": "0x000000000000000000000000000000000000cafe",
+        "to": "0x0000000000000000000000000000000000001001",
+        "amountWei": "2000000000000000",
+        "timestamp": "2026-10-29T01:01:00.000Z",
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "txHash": "0x00000000000000000000000000000000000000000000000000000000000007d2",
+        "blockNumber": 18400002,
+        "transactionIndex": 1,
+        "from": "0x000000000000000000000000000000000000cafe",
+        "to": "0x0000000000000000000000000000000000001002",
+        "amountWei": "2000000000000000",
+        "timestamp": "2026-10-29T01:02:00.000Z",
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "txHash": "0x0000000000000000000000000000000000000000000000000000000000000bbb",
+        "blockNumber": 18400003,
+        "transactionIndex": 2,
+        "from": "0x000000000000000000000000000000000000cafe",
+        "to": "0x0000000000000000000000000000000000001003",
+        "amountWei": "2000000000000000",
+        "timestamp": "2026-10-29T01:03:00.000Z",
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "txHash": "0x0000000000000000000000000000000000000000000000000000000000000fa4",
+        "blockNumber": 18400004,
+        "transactionIndex": 3,
+        "from": "0x000000000000000000000000000000000000cafe",
+        "to": "0x0000000000000000000000000000000000001004",
+        "amountWei": "2000000000000000",
+        "timestamp": "2026-10-29T01:04:00.000Z",
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "txHash": "0x000000000000000000000000000000000000000000000000000000000000138d",
+        "blockNumber": 18400005,
+        "transactionIndex": 4,
+        "from": "0x000000000000000000000000000000000000cafe",
+        "to": "0x0000000000000000000000000000000000001005",
+        "amountWei": "2000000000000000",
+        "timestamp": "2026-10-29T01:05:00.000Z",
+        "provenance": "SYNTHETIC"
+      }
+    ],
+    "sourceMeta": {
+      "0x000000000000000000000000000000000000cafe": {
+        "txCount": 42,
+        "knownExchange": false
+      }
+    },
+    "provider": "ok",
+    "market": {
+      "kind": "envelope",
+      "status": "ok",
+      "dataMode": "live",
+      "verdict": "neutral",
+      "primarySectionsAvailable": true
+    }
+  },
+  "expected": {
+    "status": "DECIDED",
+    "paymentVerdict": "ELIGIBLE",
+    "reasonCodes": [
+      "DISCLOSED_CAMPAIGN"
+    ],
+    "marketGate": "PASS",
+    "finalAction": "OPEN_PRACTICE_POSITION"
+  }
+}

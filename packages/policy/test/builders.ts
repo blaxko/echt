@@ -78,7 +78,7 @@ export function t1Input(overrides: Partial<EvaluationInput> = {}): EvaluationInp
     posts.push(bullish.post);
     extractions.push(bullish.extraction);
   }
-  const transfers = [1, 2, 3, 4, 5].map((n, i) => transferTo(n, { index: i, hoursBeforePost: 36 }));
+  const transfers = [1, 2, 3, 4, 5].map((n, i) => transferTo(n, { index: i, hoursBeforePost: 11 }));
   return {
     runId: "test-run",
     posts,

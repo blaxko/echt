@@ -20,7 +20,7 @@ describe("evaluate: scenario-level outcomes (PRD §10.1)", () => {
   });
 
   it("T2 unrelated convergence → ELIGIBLE, then market decides: PASS → OPEN_PRACTICE_POSITION", () => {
-    const input = t1Input({ transfers: [transferTo(1, { index: 0, hoursBeforePost: 36 })] });
+    const input = t1Input({ transfers: [transferTo(1, { index: 0, hoursBeforePost: 11 })] });
     expect(evaluate(input)).toMatchObject({
       paymentVerdict: "ELIGIBLE",
       reasonCodes: ["NO_QUALIFYING_PATTERN"],
@@ -31,7 +31,7 @@ describe("evaluate: scenario-level outcomes (PRD §10.1)", () => {
 
   it("T2 with RYO unavailable → NO_POSITION, MARKET_UNAVAILABLE (PRD §10.1 market-gate case)", () => {
     const input = t1Input({
-      transfers: [transferTo(1, { index: 0, hoursBeforePost: 36 })],
+      transfers: [transferTo(1, { index: 0, hoursBeforePost: 11 })],
       market: { kind: "failed", failure: "http_429" },
     });
     expect(evaluate(input)).toMatchObject({
@@ -68,7 +68,7 @@ describe("evaluate: scenario-level outcomes (PRD §10.1)", () => {
 
 describe("evaluate: failure safety", () => {
   it("a provider failure never yields ELIGIBLE, and any failure never yields OPEN_PRACTICE_POSITION", () => {
-    const cleanTransfers = [transferTo(1, { index: 0, hoursBeforePost: 36 })];
+    const cleanTransfers = [transferTo(1, { index: 0, hoursBeforePost: 11 })];
     const providerFailures: Partial<EvaluationInput>[] = [{ provider: "failed" }, { provider: "inconsistent" }];
     for (const f of providerFailures) {
       const r = evaluate(t1Input({ ...f, transfers: cleanTransfers }));
