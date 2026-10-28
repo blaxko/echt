@@ -14,3 +14,11 @@ coverage/
 apps/web/public/demo/
 dist-public/
 apps/web/dist-public/
+
+design/reference/*.mp4
+design/reference/*.mov
+design/reference/frames/
+
+design/reference/*.mp4
+design/reference/*.mov
+design/reference/frames/
