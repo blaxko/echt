@@ -8,8 +8,8 @@
     "start": "node src/index.ts"
   },
   "dependencies": {
+    "@echt/policy": "workspace:*",
     "@hono/node-server": "2.1.5",
-    "hono": "4.13.13",
-    "@echt/policy": "workspace:*"
+    "hono": "4.13.13"
   }
 }
