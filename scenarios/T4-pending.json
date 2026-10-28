@@ -1,0 +1,7 @@
+{
+  "id": "T4",
+  "title": "Scenario T4: not built yet",
+  "provenance": "SIMULATED",
+  "status": "pending",
+  "pendingReason": "RYO phase (CLAUDE.md §4, phase 5): this scenario needs full RYO market inputs, which are not built. Shown as PENDING, not PASS."
+}
