@@ -107,9 +107,10 @@ Build starts **Tue 27 Oct evening**: 4 days to BLI. Each phase ends with a **gat
 
 0. [ ] **Day 0 — Tue 27 (evening): truth tests + scaffold**
    - [x] RYO key issued; `/health`, `/whoami`, catalog and `analyze_token` / `deep_analysis` fixtures saved in `scenarios/fixtures/`
-   - [ ] Install Bun + CRE CLI; `cre login`; `cre account access` (request deploy access)
+   - [x] Install Bun 1.4.4 + CRE CLI v1.39.0; `cre login`; `cre account access` (request submitted 27 Oct)
    - [ ] `cre workflow supported-chains`: confirm Ethereum Sepolia; note the forwarder address in `docs/DECISIONS.md`
    - [ ] Etherscan V2 `txlist` on `chainid=11155111` returns `status` 1 or "No transactions found"
+   - [x] `cre init` TS project at `cre/echt-verdict`; hello-world `cre workflow simulate echt-verdict` passed 27 Oct 23:00 Lagos
    - [ ] pnpm workspace scaffolded (apps/web, apps/server, packages/policy, contracts); `pnpm test` runs
    - **Gate:** one CRE hello-world simulation runs; one Etherscan call works.
 1. [ ] **Day 1 — Wed 28: policy + chain + CRE skeleton**
@@ -194,7 +195,7 @@ Use `;` between commands (Windows PowerShell 5.1 has no `&&`). Use `curl.exe`, n
 | 0:00–0:12 | **Anchor:** the cited 2025 ZachXBT finding (~160 influencers paid, fewer than 5 disclosed). Attributed, not our data |
 | 0:12–0:25 | Watchlist of 7 **SYNTHETIC**-badged personas; posts arrive; convergence alert |
 | 0:25–0:40 | Agent proposes **Practice long · $400** with its rationale. RYO market evidence appears, labelled **LIVE** |
-| 0:40–1:15 | Live run log: "Checking 7 wallets up to block …". The CRE simulation runs. **Payment graph lights up: one source → 5 wallets, 24–48 h before posting** |
+| 0:40–1:15 | Live run log: "Checking 7 wallets up to block …". The CRE simulation runs. **Payment graph lights up: one source → 5 wallets, posts measured 8–14 h after their payments** |
 | 1:15–1:30 | Proposal struck through; banner flips to **NO POSITION · BLOCK**. Click an edge and the real Etherscan transaction opens |
 | 1:30–1:45 | Switch to T5: provider down → **REVIEW**, with the reason named. Switch to T2 → **ELIGIBLE**, practice position opened |
 | 1:45–2:00 | Evidence Brief, evidence hash = the on-chain record, Replay → MATCH. Limitations line: synthetic personas, testnet transfers, local CRE simulation |
@@ -246,6 +247,11 @@ Show one real failed run before the successful rerun. Never label a recording as
 - On 429/503, use exponential backoff with jitter (3 tries, 1 s base). Read the `Retry-After` and `X-RateLimit-*` headers.
 - The key must never reach the browser. All calls go through `apps/server`.
 
+**Scenario timing (PRD v0.6.1)**
+- Never hardcode "24–48 h" in UI, copy or fixtures. Post times are `payment block timestamp + 8–14 h`, and the gap shown is measured from block timestamps.
+- A scenario whose posts are still in the future is refused. Do not fill `postBlock` before that time has passed.
+- T1 and T2 read the same chain history. T2 uses its own personas 08–14, so the two scenarios read disjoint wallet sets. A test proves the sets are disjoint. Never reuse a T1 wallet in T2.
+
 **Data and hashing**
 - `JSON.stringify` for hashing gives a non-canonical hash. Use `canonicalize`.
 - Windows CRLF in fixtures changes bytes. `.gitattributes eol=lf`, and hash canonical JSON, never raw file bytes.
@@ -294,3 +300,21 @@ Show one real failed run before the successful rerun. Never label a recording as
 | CRE / RYO / provider integration | `agent-skills` → `source-driven-development` (check the official docs first) |
 | Before every push | `agent-skills` → `code-review-and-quality` + `security-and-hardening` |
 | Commits | `agent-skills` → `git-workflow-and-versioning` (no AI attribution lines) |
+
+## 11. Autonomy and spend limits
+
+Standing approval from the user (28 Oct). Ethereum Sepolia only.
+
+**Allowed without asking**
+- Before every transaction, verify chain id = 11155111. Abort on anything else, mainnet above all.
+- Spend caps for the whole build: deployer ≤ 0.02 ETH total; campaign source ≤ 0.02 ETH total; CRE writer ≤ 0.01 ETH total. If an estimate would exceed a cap, retry once when gas is lower. If it still would, stop.
+- Balance floor: every wallet stays ≥ 0.005 ETH after each send.
+- Commit after every green step. No AI attribution lines.
+- Merge `day1-build` into `main` when a gate passes, and push to `origin`. Push only after `gitleaks` is clean and `git ls-files` shows no `.env` or `*.local.json`.
+
+**Hard stops (ask the user)**
+- A spend cap would be exceeded, or a balance would drop below the floor.
+- A chain id mismatch.
+- Anything that needs a secret, a new account, or editing `.env`.
+- A failing test that is not fixed after 2 attempts.
+- A change of scope beyond the PRD.
