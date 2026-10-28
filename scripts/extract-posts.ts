@@ -35,7 +35,7 @@ const cache: ExtractionCache = {
     return existsSync(path) ? (JSON.parse(readFileSync(path, "utf8")) as { extraction: Extraction }).extraction : undefined;
   },
   set(key, value) {
-    writeFileSync(join(CACHE, `${key}.json`), JSON.stringify({ key, model, promptVersion: PROMPT_VERSION, label: "MODEL", extraction: value }, null, 2) + "\n");
+    writeFileSync(join(CACHE, `${key}.json`), JSON.stringify({ sha256: key, model, promptVersion: PROMPT_VERSION, label: "MODEL", extraction: value }, null, 2) + "\n");
   },
 };
 
@@ -52,7 +52,7 @@ for (const scenario of ["T1", "T2", "T3"]) {
       postId: post.id,
       personaId: post.personaId,
       text: post.text,
-      cacheKey: cacheKey(post.text, model),
+      sha256: cacheKey(post.text, model),
       label: "MODEL",
       status: result.status,
       cached: result.cached,
