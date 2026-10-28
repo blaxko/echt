@@ -55,3 +55,15 @@ GitHub Pages does not report traffic, errors or uptime to the repository. Monito
 - Set up the lint step that CLAUDE.md §5 names (there is no lint script yet).
 - Run a Lighthouse pass and record the Core Web Vitals numbers.
 - Decide whether to add an error reporting service. It would need a key, so it is a decision for the owner.
+
+## Running the Lighthouse check
+
+Lighthouse is run on demand, not kept as a dependency: its Chrome-download chain carries high-severity advisories with no fixed version (DECISIONS.md, D33). To reproduce the scores:
+
+```bash
+pnpm --filter @echt/web build:public
+pnpm --filter @echt/web exec vite preview --outDir dist-public --port 4173 --strictPort
+npx --yes lighthouse@12 http://localhost:4173/ --only-categories=performance,accessibility,best-practices,seo --chrome-flags="--headless=new"
+```
+
+Pass `--preset=desktop` for the desktop run. Set `CHROME_PATH` if Chrome is not on the default path.
