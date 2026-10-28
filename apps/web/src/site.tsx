@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
-import { BUILT_WITH, CONTRACT, DASHBOARD, ETHERSCAN, FAQ_TEASER, HERO, HOW, LIMITS, NAV, PAGES, PROBLEM, PROOF, REPO_URL, T1_TX, T2_TX } from "./content.ts";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { CONTRACT, DASHBOARD, ETHERSCAN, NAV, PAGES, REPO_URL, T1_TX, T2_TX } from "./content.ts";
+import { Landing } from "./landing.tsx";
 import type { SitePage } from "./route.ts";
 
 const BASE = import.meta.env.BASE_URL;
@@ -155,7 +156,7 @@ function SiteFooter({ inert }: { inert: boolean }) {
         <p className="footer-line">
           <a href={REPO_URL} rel="noopener noreferrer" target="_blank">Source on GitHub</a>
           <span aria-hidden="true"> · </span>
-          Built for the BLI Legal Tech Hackathon 2
+          Echt
         </p>
         <p className="footer-line muted">Practice trades only. Testnet only (Ethereum Sepolia).</p>
         {/* One dashboard button on mobile: the header holds it. The footer repeats it on desktop only. */}
@@ -165,197 +166,7 @@ function SiteFooter({ inert }: { inert: boolean }) {
   );
 }
 
-function MoreLink({ to, label }: { to: string; label: string }) {
-  return (
-    <p className="more">
-      <a href={`#/${to}`}>Read more<span className="sr-only"> about {label}</span> <span aria-hidden="true">→</span></a>
-    </p>
-  );
-}
-
-function Hero() {
-  return (
-    <section className="hero" aria-labelledby="hero-title">
-      <div className="hero-glow" aria-hidden="true" />
-      <div className="site-wrap hero-grid">
-        <div className="hero-copy">
-          <h1 id="hero-title" className="hero-title">{HERO.title}</h1>
-          <p className="hero-sub">{HERO.sub}</p>
-          <div className="hero-actions">
-            <a className="btn" href={DASHBOARD}>Open dashboard</a>
-          </div>
-        </div>
-        <figure className="hero-art">
-          <svg viewBox="0 0 480 300" role="img" aria-label="Seven voices linked to one campaign source. Five of the seven are linked.">
-            {[0, 1, 2, 3, 4, 5, 6].map((i) => {
-              const y = 36 + i * 40;
-              const linked = i < 5;
-              return (
-                <path
-                  key={`line-${i}`}
-                  pathLength={1}
-                  d={`M 70 ${y} C 190 ${y}, 300 150, 402 150`}
-                  className={linked ? "wire linked" : "wire"}
-                  style={{ "--i": i } as CSSProperties}
-                />
-              );
-            })}
-            {[0, 1, 2, 3, 4, 5, 6].map((i) => (
-              <circle key={`voice-${i}`} cx="70" cy={36 + i * 40} r="9" className={i < 5 ? "node linked" : "node"} />
-            ))}
-            <circle cx="402" cy="150" r="20" className="source" />
-            <text x="402" y="196" textAnchor="middle" className="source-label">source</text>
-          </svg>
-          <p className="verdict-chip">
-            <span className="chip-dot" aria-hidden="true" />
-            BLOCK · 5 of 7 linked
-          </p>
-          <figcaption>{HERO.caption}</figcaption>
-        </figure>
-      </div>
-    </section>
-  );
-}
-
-function Problem() {
-  return (
-    <section className="section" id="problem" aria-labelledby="problem-title">
-      <div className="site-wrap">
-        <div className="reveal">
-          <h2 id="problem-title">{PROBLEM.title}</h2>
-          <ul className="facts">
-            {PROBLEM.facts.map((f) => (
-              <li key={f.source} className="fact">
-                <p className="fact-figure">{f.figure}</p>
-                <p>{f.text}</p>
-                <p className="fact-source"><a href={f.href} rel="noopener noreferrer" target="_blank">{f.source}</a></p>
-              </li>
-            ))}
-          </ul>
-          <MoreLink to={PROBLEM.more} label={PROBLEM.moreLabel} />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function How() {
-  return (
-    <section className="section" aria-labelledby="how-title">
-      <div className="site-wrap">
-        <div className="reveal">
-          <h2 id="how-title">{HOW.title}</h2>
-          <ol className="steps">
-            {HOW.steps.map((s, i) => (
-              <li key={s.title} className="step">
-                <span className="step-num" aria-hidden="true">{i + 1}</span>
-                <h3>{s.title}</h3>
-                <p>{s.text}</p>
-              </li>
-            ))}
-          </ol>
-          <MoreLink to={HOW.more} label={HOW.moreLabel} />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Proof() {
-  return (
-    <section className="section" aria-labelledby="proof-title">
-      <div className="site-wrap">
-        <div className="reveal">
-          <h2 id="proof-title">{PROOF.title}</h2>
-          <p className="lede">{PROOF.text}</p>
-          <ul className="proof-links">
-            {PROOF.items.map((item) => (
-              <li key={item.href}>
-                <a href={item.href} rel="noopener noreferrer" target="_blank">
-                  <span>{item.label}</span>
-                  <span className="muted">{item.text}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-          <MoreLink to={PROOF.more} label={PROOF.moreLabel} />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function BuiltWith() {
-  return (
-    <section className="section" aria-labelledby="built-title">
-      <div className="site-wrap">
-        <div className="reveal">
-          <h2 id="built-title">{BUILT_WITH.title}</h2>
-          <ul className="stack">
-            {BUILT_WITH.items.map((item) => (
-              <li key={item.name} className="stack-item">
-                <h3>{item.name}</h3>
-                <p>{item.text}</p>
-              </li>
-            ))}
-          </ul>
-          <MoreLink to={BUILT_WITH.more} label={BUILT_WITH.moreLabel} />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Limits() {
-  return (
-    <section className="section" aria-labelledby="limits-title">
-      <div className="site-wrap">
-        <div className="reveal">
-          <h2 id="limits-title">{LIMITS.title}</h2>
-          {LIMITS.lines.map((line) => <p key={line} className="lede">{line}</p>)}
-          <MoreLink to={LIMITS.more} label={LIMITS.moreLabel} />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function FaqTeaser() {
-  return (
-    <section className="section" aria-labelledby="faq-title">
-      <div className="site-wrap">
-        <div className="reveal">
-          <h2 id="faq-title">Questions</h2>
-          <dl className="qa">
-            {FAQ_TEASER.map((item) => (
-              <div key={item.q} className="qa-item">
-                <dt>{item.q}</dt>
-                <dd>{item.a}</dd>
-              </div>
-            ))}
-          </dl>
-          <MoreLink to="faq" label="the FAQ" />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function Landing() {
-  return (
-    <>
-      <Hero />
-      <Problem />
-      <How />
-      <Proof />
-      <BuiltWith />
-      <Limits />
-      <FaqTeaser />
-    </>
-  );
-}
-
-// Section pages: the fuller text for one landing section, with the same facts and links.
+// Section pages: the fuller text for one section, with the same facts and links.
 function SectionPage({ page }: { page: Exclude<SitePage, "home"> }) {
   const p = PAGES[page];
   return (

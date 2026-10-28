@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PUBLIC_DEMO, type RunRecord, type Transfer, type Voice } from "./api.ts";
 import { ethFrom, hours, reasonText, short, txLink } from "./format.ts";
 import type { ReplayResult } from "./replay.ts";
@@ -47,10 +47,26 @@ export function Banner({ record, phase }: { record: RunRecord | null; phase: Run
   );
 }
 
-// Below 600 px the SVG graph is hidden (its labels would be unreadable) and the table opens by default.
-const NARROW = typeof window !== "undefined" && window.matchMedia("(max-width: 600px)").matches;
+// Below 600 px the SVG graph is hidden (its labels would be unreadable), so the table opens by default and the zone is never blank.
+const NARROW_QUERY = "(max-width: 600px)";
+
+function useNarrow(): boolean {
+  const [narrow, setNarrow] = useState(() => typeof window !== "undefined" && window.matchMedia(NARROW_QUERY).matches);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia(NARROW_QUERY);
+    const onChange = () => setNarrow(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+  return narrow;
+}
 
 export function PaymentGraph({ record }: { record: RunRecord | null }) {
+  const narrow = useNarrow();
+  // The table is open on phones unless the reader has closed it; a reader's choice always wins.
+  const [choice, setChoice] = useState<boolean | null>(null);
+  const tableOpen = choice ?? narrow;
   if (!record) return <section aria-labelledby="zone-graph" className="zone"><h2 id="zone-graph">Payment graph</h2><p>No run recorded yet.</p></section>;
   const paid = record.voices.filter((v) => v.paymentTx);
   const source = (record.inputs as { transfers: Transfer[] }).transfers[0]?.from ?? "";
@@ -86,7 +102,7 @@ export function PaymentGraph({ record }: { record: RunRecord | null }) {
           );
         })}
       </svg>
-      <details className="table-alt" open={NARROW}>
+      <details className="table-alt" open={tableOpen} onToggle={(e) => setChoice(e.currentTarget.open)}>
         <summary>Table view of every voice, its payment and measured gap</summary>
         <table>
           <caption className="sr-only">Voices, payments from the campaign source, and measured gap to post</caption>

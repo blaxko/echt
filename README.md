@@ -3,6 +3,8 @@
 **Live demo (read-only): https://echt-sepia.vercel.app/** · dashboard: https://echt-sepia.vercel.app/#/app
 Backup (GitHub Pages): https://blaxko.github.io/echt/ · dashboard: https://blaxko.github.io/echt/#/app
 
+**How to test:** pick a scenario tab (T1 to T6), press R to replay the run, press E to open the Evidence Brief, then change payments, disclosure or the provider in the What-if panel; the recorded verdict stays as it was.
+
 **In one sentence:** Echt checks whether a wave of "independent" crypto voices was paid from one source, before an AI agent trades on it, and writes the verdict to Ethereum Sepolia.
 
 ## What you can check in two minutes

@@ -7,6 +7,17 @@ export const REPO_URL = "https://github.com/blaxko/echt";
 export const ETHERSCAN = "https://sepolia.etherscan.io";
 export const CONTRACT = "0x2bc4819848efd784995ff6eab33be28b2b85bf8f";
 export const T1_TX = "0xc0141cba6a540fce98f3ea414e9523d44c1a1a7ff4d2276aa0032497fc01a7be";
+
+// The recorded T1 run, as the landing shows it. A test checks every value against scenarios/runs/T1.json.
+export const T1_FACTS = {
+  verdict: "NO POSITION · BLOCK",
+  voices: 7,
+  linked: 5,
+  payments: 5,
+  gapHours: "11.9 h",
+  pinnedBlock: 12013685,
+  evidenceHash: "0x83953d258191a53b3e274751d6cc014f5da6951bdb0c75912c17fa1e344d010e",
+};
 export const T2_TX = "0x97d2b04e85dca1e5aa02664795019b73b50af954dc720065bc7347c5868d5c63";
 
 export const SOURCES = {
@@ -27,7 +38,6 @@ export const NAV = [
 export const HERO = {
   title: "Seven bullish voices. One funding wallet. The agent changed its mind.",
   sub: "Echt checks whether a wave of crypto voices was paid from one source before an AI trading agent places a practice trade.",
-  caption: "Illustration of the T1 record. Testnet transfers, synthetic voices.",
 };
 
 export const PROBLEM = {
@@ -41,58 +51,6 @@ export const PROBLEM = {
   more: "why-it-matters" as const,
   moreLabel: "why it matters",
 };
-
-export const HOW = {
-  title: "How it works",
-  steps: [
-    { title: "Catch a wave of agreement", text: "Seven watched voices turn bullish on one token within six hours." },
-    { title: "Propose a practice trade, with no real money", text: "A practice long is proposed with its rationale. No real funds move." },
-    { title: "Trace the payments behind the posts", text: "At a pinned block, the Chainlink CRE workflow asks whether the voices' wallets were paid from one source before posting." },
-    { title: "Get a verdict anyone can check", text: "The policy returns BLOCK, REVIEW or ELIGIBLE. The verdict is written to Ethereum Sepolia." },
-  ],
-  more: "how-it-works" as const,
-  moreLabel: "how it works",
-};
-
-export const PROOF = {
-  title: "The verdicts are on chain",
-  text: "Each verdict was read back from the contract with getVerdict before it was recorded.",
-  items: [
-    { label: "Contract EchtVerdicts", text: "Ethereum Sepolia", href: `${ETHERSCAN}/address/${CONTRACT}` },
-    { label: "T1 verdict", text: "BLOCK, 5 linked voices", href: `${ETHERSCAN}/tx/${T1_TX}` },
-    { label: "T2 verdict", text: "ELIGIBLE, 0 linked voices", href: `${ETHERSCAN}/tx/${T2_TX}` },
-  ],
-  more: "proof" as const,
-  moreLabel: "proof",
-};
-
-export const BUILT_WITH = {
-  title: "Built with",
-  items: [
-    { name: "Chainlink CRE", text: "Orchestrates the check: HTTP trigger, consensus over a pinned block, and the on-chain write. Runs as a local simulation." },
-    { name: "RYO", text: "Live market data for the proposal, read-only. Currently unavailable, and the dashboard says so." },
-    { name: "Etherscan V2", text: "Transfer history for each voice wallet." },
-    { name: "Ethereum Sepolia", text: "The testnet where payments and verdicts are recorded." },
-  ],
-  more: "built-with" as const,
-  moreLabel: "what Echt is built with",
-};
-
-export const LIMITS = {
-  title: "What Echt doesn't claim",
-  lines: [
-    "Echt reports patterns in transfers and whether disclosure was detected. It makes no legal finding.",
-    "The voices and posts are synthetic, the payments are testnet transfers, and the CRE run is a local simulation, not a deployed network.",
-  ],
-  more: "limits" as const,
-  moreLabel: "the limits",
-};
-
-export const FAQ_TEASER = [
-  { q: "Does Echt decide who broke the law?", a: "No. It reports linked transfers and whether disclosure was detected. It makes no legal finding." },
-  { q: "Does it trade with real money?", a: "No. Positions are practice only, on testnet, and the RYO tools are read-only." },
-  { q: "Is the market data live?", a: "Not right now. RYO market data has been unavailable since 27 October, so the dashboard shows the market gate as UNAVAILABLE." },
-];
 
 export const PAGES = {
   "how-it-works": {

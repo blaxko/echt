@@ -131,3 +131,17 @@ headline cycle was seen at about 4–5 s between swaps.
    colour on the graph accents, 14 px radius, and the 240 ms panel fade.
 3. No third-party fonts, images or marks. No copied headline text from the reference.
 4. The lime accent appears on the landing only. The verdict colours stay on the dashboard.
+
+## 7. Ambient background (day 5, sampled from frames)
+
+Sampled with `watch-video` frame extraction (`--no-audio`, 24 frames per video), then a 6×4 colour grid
+averaged over frame 012 of each reference. Averages include UI, so they show where the glows sit, not
+pure background.
+
+| Reference | Base (corners) | Glow | Position | Used as |
+|---|---|---|---|---|
+| Landing | `#020502` to `#070C04` | lime, `#283F06` to `#658F24` | lower-left, around 20% / 78% | `.site` background: `rgba(161,209,28,0.16)` at 20% 78% |
+| Landing | | teal-green, `#152104` | mid-left, around 15% / 38% | `.site` background: `rgba(32,56,56,0.5)` at 15% 38% |
+| Dashboard | `#0A1110` to `#161515` | teal, `#243432` to `#3F4645` | mid-left, around 18% / 40% | body background: `rgba(32,56,56,0.55)` at 18% 40% |
+
+The base stays `#000000` (`--bg`), so the palette is unchanged. The glows are static gradients: no animation.
