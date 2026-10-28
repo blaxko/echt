@@ -1,0 +1,48 @@
+{
+  "scenario": "T1",
+  "note": "Synthetic persona posts for extraction. Written for the test; not real posts.",
+  "posts": [
+    {
+      "id": "post_t1_01",
+      "personaId": "persona_01",
+      "text": "ETH just reclaimed the level I have been waiting for. Adding here, this looks like the start of a run.",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "id": "post_t1_02",
+      "personaId": "persona_02",
+      "text": "Honestly the chart on ETH is screaming. Every dip is getting bought. Not financial advice, but I am all in.",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "id": "post_t1_03",
+      "personaId": "persona_03",
+      "text": "Watching ETH build volume into the close. If this holds, the next leg up is not far away.",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "id": "post_t1_04",
+      "personaId": "persona_04",
+      "text": "ETH looks ready to move. The setup is clean and the momentum is turning in favour of bulls.",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "id": "post_t1_05",
+      "personaId": "persona_05",
+      "text": "Been bullish on ETH for weeks and today confirms it. Strong hands, strong trend.",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "id": "post_t1_06",
+      "personaId": "persona_06",
+      "text": "ETH breakout incoming. I expect continuation over the next session, keeping my position.",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "id": "post_t1_07",
+      "personaId": "persona_07",
+      "text": "Calling it: ETH takes this range high. The flows support the move and sentiment is shifting up.",
+      "provenance": "SYNTHETIC"
+    }
+  ]
+}

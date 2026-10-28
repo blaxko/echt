@@ -10,3 +10,4 @@ typechain-types/
 coverage/
 *.tsbuildinfo
 .cre_build_tmp.*
+!scenarios/extractions/cache/

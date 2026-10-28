@@ -1,0 +1,48 @@
+{
+  "scenario": "T2",
+  "note": "Synthetic persona posts for extraction. Written for the test; not real posts.",
+  "posts": [
+    {
+      "id": "post_t2_01",
+      "personaId": "persona_08",
+      "text": "Quiet day for ETH, but the trend structure still looks constructive to me.",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "id": "post_t2_02",
+      "personaId": "persona_09",
+      "text": "Thinking about ETH over the long term. I like the fundamentals more than the short term noise.",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "id": "post_t2_03",
+      "personaId": "persona_10",
+      "text": "ETH is consolidating. Not much to say today, just watching the range.",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "id": "post_t2_04",
+      "personaId": "persona_11",
+      "text": "Interesting ETH upgrade discussion on the forum. Curious how it plays out.",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "id": "post_t2_05",
+      "personaId": "persona_12",
+      "text": "Good week for ETH developers. Nothing I would trade on yet, just a view.",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "id": "post_t2_06",
+      "personaId": "persona_13",
+      "text": "Mild bullish lean on ETH after the weekend volume. We will see on Monday.",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "id": "post_t2_07",
+      "personaId": "persona_14",
+      "text": "ETH chart is boring but healthy. Would not chase it here.",
+      "provenance": "SYNTHETIC"
+    }
+  ]
+}

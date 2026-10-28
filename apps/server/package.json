@@ -11,6 +11,8 @@
     "@echt/policy": "workspace:*",
     "@hono/node-server": "2.1.5",
     "hono": "4.13.13",
-    "viem": "2.57.11"
+    "openai": "7.45.1",
+    "viem": "2.57.11",
+    "zod": "4.6.7"
   }
 }
