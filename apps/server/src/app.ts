@@ -6,6 +6,9 @@ import { Hono } from "hono";
 import { evidenceBytes, POLICY_VERSION, type JsonValue } from "@echt/policy";
 import { buildRunPayload, type ScenarioFile } from "./run-payload.ts";
 import { runCreSimulation, type SimulationOptions, type SimulationOutcome } from "./cre-run.ts";
+import { makeRealPersistence } from "./chain-record.ts";
+import type { PersistOutcome } from "./run-record.ts";
+import type { RunPayload } from "./run-payload.ts";
 
 // Blocks behind the head to pin the run to. CLAUDE.md §8: pin at least 12 blocks behind the head.
 const PIN_DEPTH = 20;
@@ -19,6 +22,8 @@ export interface RunDeps {
   latestBlock: () => Promise<number>;
   simulate: (options: SimulationOptions) => Promise<SimulationOutcome>;
   now: () => number;
+  /** Called after a broadcast run finishes. Writes scenarios/runs/<scenario>.json only if the chain agrees. */
+  persist?: (scenario: string, payload: RunPayload, result: Record<string, unknown>) => Promise<PersistOutcome>;
 }
 
 interface RunState {
@@ -93,6 +98,10 @@ export function createApp(deps: RunDeps) {
         run.result = outcome.result;
         run.status = outcome.result ? "done" : "failed";
         run.logs.push(outcome.result ? "workflow finished" : `workflow failed (exit ${outcome.exitCode})`);
+        if (outcome.result && broadcast && deps.persist) {
+          const saved = await deps.persist(name, payload, outcome.result);
+          run.logs.push(saved.written ? "verdict read back from EchtVerdicts; record written" : `record not written: ${saved.reason}`);
+        }
       } catch (error) {
         run.status = "failed";
         run.logs.push(`run error: ${(error as Error).message}`);
@@ -174,4 +183,5 @@ export const app = createApp({
   latestBlock,
   simulate: runCreSimulation,
   now: () => Date.now(),
+  persist: makeRealPersistence(REPO_ROOT).persist,
 });
