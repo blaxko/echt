@@ -5,10 +5,10 @@ import type { ReplayResult } from "./replay.ts";
 import { finalState } from "./state.ts";
 
 export const SCENARIOS = [
-  { id: "T1", name: "T1 · Coordinated" },
-  { id: "T2", name: "T2 · Unrelated" },
-  { id: "T5", name: "T5 · Provider fault" },
-  { id: "T6", name: "T6 · Tampered snapshot (replay)" },
+  { id: "T1", name: "T1 Coordinated" },
+  { id: "T2", name: "T2 Unrelated" },
+  { id: "T5", name: "T5 Fault" },
+  { id: "T6", name: "T6 Tampered" },
 ] as const;
 
 export type RunPhase = { kind: "idle" } | { kind: "running"; id: string } | { kind: "refused"; message: string } | { kind: "finished" };
