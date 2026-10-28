@@ -13,10 +13,12 @@
     "seed:testnet": "pnpm --filter @echt/scripts seed",
     "sign:attestations": "pnpm --filter @echt/scripts sign",
     "scenarios:build": "pnpm --filter @echt/scripts scenarios build",
-    "scenarios:fill": "pnpm --filter @echt/scripts scenarios fill"
+    "scenarios:fill": "pnpm --filter @echt/scripts scenarios fill",
+    "lint": "eslint --config tools/lint/eslint.config.js ."
   },
   "devDependencies": {
     "@types/node": "^24.19.2",
+    "eslint": "^9.39.5",
     "typescript": "7.0.2",
     "vitest": "5.0.5"
   },

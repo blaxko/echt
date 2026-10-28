@@ -25,7 +25,7 @@ interface ScenarioJson {
   };
 }
 
-const readJson = async <T>(path: string): Promise<T> => JSON.parse((await readFile(path, "utf8")).replace(/^﻿/, "")) as T;
+const readJson = async <T>(path: string): Promise<T> => JSON.parse((await readFile(path, "utf8")).replace(/^\uFEFF/, "")) as T;
 
 /**
  * How many txlist rows the campaign source has in the window the workflow reads: from the earliest voice

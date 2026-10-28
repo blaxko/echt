@@ -160,7 +160,7 @@ async function loadScenario(name: string): Promise<ScenarioFile | null> {
 
 async function loadDisclosed(name: string): Promise<ReadonlySet<string>> {
   try {
-    const file = JSON.parse((await readFile(join(REPO_ROOT, "scenarios", "extractions", `${name}.json`), "utf8")).replace(/^﻿/, "")) as { results: { personaId: string; extraction: { disclosure_detected: boolean } | null }[] };
+    const file = JSON.parse((await readFile(join(REPO_ROOT, "scenarios", "extractions", `${name}.json`), "utf8")).replace(/^\uFEFF/, "")) as { results: { personaId: string; extraction: { disclosure_detected: boolean } | null }[] };
     return new Set(file.results.filter((r) => r.extraction?.disclosure_detected).map((r) => r.personaId));
   } catch {
     return new Set();
@@ -170,7 +170,7 @@ async function loadDisclosed(name: string): Promise<ReadonlySet<string>> {
 async function loadRecord(name: string): Promise<Record<string, unknown> | null> {
   if (!/^T\d$/.test(name)) return null;
   try {
-    return JSON.parse((await readFile(join(REPO_ROOT, "scenarios", "runs", `${name}.json`), "utf8")).replace(/^﻿/, "")) as Record<string, unknown>;
+    return JSON.parse((await readFile(join(REPO_ROOT, "scenarios", "runs", `${name}.json`), "utf8")).replace(/^\uFEFF/, "")) as Record<string, unknown>;
   } catch {
     return null;
   }

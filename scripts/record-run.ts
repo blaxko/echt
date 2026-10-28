@@ -17,8 +17,8 @@ const FILES: Record<string, string> = { T1: "T1-coordinated.json", T2: "T2-unrel
 const file = FILES[scenario];
 if (!file) throw new Error(`unknown scenario ${scenario}`);
 
-const scenarioFile = JSON.parse(readFileSync(join(ROOT, "scenarios", file), "utf8").replace(/^﻿/, "")) as ScenarioFile;
+const scenarioFile = JSON.parse(readFileSync(join(ROOT, "scenarios", file), "utf8").replace(/^\uFEFF/, "")) as ScenarioFile;
 const payload = buildRunPayload(scenarioFile, Number(pinned), Date.now());
-const result = JSON.parse(readFileSync(resultPath, "utf8").replace(/^﻿/, "")) as Record<string, unknown>;
+const result = JSON.parse(readFileSync(resultPath, "utf8").replace(/^\uFEFF/, "")) as Record<string, unknown>;
 const outcome = await makeRealPersistence(ROOT).persist(scenario, payload, result);
 console.log(outcome.written ? `record written: scenarios/runs/${scenario}.json` : `record not written: ${outcome.reason}`);

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { PUBLIC_DEMO, startRun, type RunRecord, type Transfer, type Voice } from "./api.ts";
+import { PUBLIC_DEMO, type RunRecord, type Transfer, type Voice } from "./api.ts";
 import { ethFrom, hours, reasonText, short, txLink } from "./format.ts";
 import type { ReplayResult } from "./replay.ts";
 import { finalState } from "./state.ts";
