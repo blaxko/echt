@@ -7,6 +7,17 @@ export const REPO_URL = "https://github.com/blaxko/echt";
 export const ETHERSCAN = "https://sepolia.etherscan.io";
 export const CONTRACT = "0x2bc4819848efd784995ff6eab33be28b2b85bf8f";
 export const T1_TX = "0xc0141cba6a540fce98f3ea414e9523d44c1a1a7ff4d2276aa0032497fc01a7be";
+
+// The recorded T1 run, as the landing shows it. A test checks every value against scenarios/runs/T1.json.
+export const T1_FACTS = {
+  verdict: "NO POSITION · BLOCK",
+  voices: 7,
+  linked: 5,
+  payments: 5,
+  gapHours: "11.9 h",
+  pinnedBlock: 12013685,
+  evidenceHash: "0x83953d258191a53b3e274751d6cc014f5da6951bdb0c75912c17fa1e344d010e",
+};
 export const T2_TX = "0x97d2b04e85dca1e5aa02664795019b73b50af954dc720065bc7347c5868d5c63";
 
 export const SOURCES = {

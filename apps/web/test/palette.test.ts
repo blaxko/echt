@@ -13,7 +13,7 @@ const screenCss = css.replace(/@media print \{[\s\S]*$/, "");
 
 // Palette literals allowed in a background declaration, and the glow colour the body uses.
 const PALETTE_HEX = new Set(["#000000", "#0b0d0b", "#111411", "#203838", "#a1d11c", "#0b0d0b"]);
-const PALETTE_VARS = ["--bg", "--surface", "--surface-raised", "--accent", "--accent-ink", "--teal", "--ink", "--ink-muted", "--line", "--block", "--review", "--eligible", "--open", "--run"];
+const PALETTE_VARS = ["--bg", "--surface", "--surface-raised", "--accent", "--accent-ink", "--teal", "--ink", "--ink-muted", "--line", "--block", "--review", "--eligible", "--open", "--run", "--glass-fill", "--surface-raised"];
 
 function backgroundValues(source: string): string[] {
   return [...source.matchAll(/background(?:-color)?:\s*([^;}]+)[;}]/g)].map((m) => m[1]!.trim());
@@ -28,7 +28,8 @@ function isPaletteBackground(value: string): boolean {
   if (!hexes.every((h) => PALETTE_HEX.has(h))) return false;
   const tints = [...value.matchAll(/rgba?\(([^)]*)\)/g)].map((m) => m[1]!.replace(/\s+/g, ""));
   // The teal glow, the lime tint, and the black scrim behind a modal dialog are the only tints allowed.
-  if (!tints.every((t) => t.startsWith("32,56,56,") || t.startsWith("161,209,28,") || t.startsWith("0,0,0,"))) return false;
+  // The ink tint is the specular line on a glass card; it is the text colour, so it stays on the palette.
+  if (!tints.every((t) => t.startsWith("32,56,56,") || t.startsWith("161,209,28,") || t.startsWith("0,0,0,") || t.startsWith("244,244,242,"))) return false;
   const vars = [...value.matchAll(/var\(--([a-z-]+)\)/g)].map((m) => `--${m[1]}`);
   return vars.every((v) => PALETTE_VARS.includes(v));
 }
