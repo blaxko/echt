@@ -56,7 +56,7 @@ Column order taken from `cre workflow supported-chains` (name, selector, forward
 | Pin depth | ≥ 12 blocks behind head |
 | CRE HTTP budget | ≤ 12 of 15 calls per execution |
 | Timeouts | RYO 60 s · provider 10 s · LLM 30 s |
-| Scenario symbol | **TBD**: the first symbol RYO returns `status: ok` for once its market data recovers |
+| Scenario symbol | **Not set.** RYO retry 28 Oct: BTC, ETH and SOL all still return `VALIDATION_FAILED` (trace ids in `scenarios/fixtures/ryo-analyze_token-*-error-retry-28oct.json`). Scenarios use `ETH` as a placeholder and the market gate reads `UNAVAILABLE`. A payment verdict does not need market data |
 
 ## Deadlines
 
