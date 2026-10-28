@@ -8,9 +8,10 @@
       "postId": "post_t1_01",
       "personaId": "persona_01",
       "text": "ETH just reclaimed the level I have been waiting for. Adding here, this looks like the start of a run.",
+      "sha256": "53b5447d32e26e5c36ce677a3f638c2cf9eadef1181f6a3783083e26c08b819c",
       "label": "MODEL",
       "status": "ok",
-      "cached": false,
+      "cached": true,
       "extraction": {
         "token": "ETH",
         "sentiment": "bullish",
@@ -19,16 +20,16 @@
         "disclosure_detected": false,
         "disclosure_evidence": null
       },
-      "error": null,
-      "sha256": "53b5447d32e26e5c36ce677a3f638c2cf9eadef1181f6a3783083e26c08b819c"
+      "error": null
     },
     {
       "postId": "post_t1_02",
       "personaId": "persona_02",
       "text": "Honestly the chart on ETH is screaming. Every dip is getting bought. Not financial advice, but I am all in.",
+      "sha256": "799651f2d13f9bccbc29791ce9e9b35f7940720228f8322fde638a312ef430ee",
       "label": "MODEL",
       "status": "ok",
-      "cached": false,
+      "cached": true,
       "extraction": {
         "token": "ETH",
         "sentiment": "bullish",
@@ -37,16 +38,16 @@
         "disclosure_detected": false,
         "disclosure_evidence": null
       },
-      "error": null,
-      "sha256": "799651f2d13f9bccbc29791ce9e9b35f7940720228f8322fde638a312ef430ee"
+      "error": null
     },
     {
       "postId": "post_t1_03",
       "personaId": "persona_03",
       "text": "Watching ETH build volume into the close. If this holds, the next leg up is not far away.",
+      "sha256": "fd41f88873eec804bc9df1ca04eda225536d084f94ac9e3dde440180a4397492",
       "label": "MODEL",
       "status": "ok",
-      "cached": false,
+      "cached": true,
       "extraction": {
         "token": "ETH",
         "sentiment": "bullish",
@@ -55,16 +56,16 @@
         "disclosure_detected": false,
         "disclosure_evidence": null
       },
-      "error": null,
-      "sha256": "fd41f88873eec804bc9df1ca04eda225536d084f94ac9e3dde440180a4397492"
+      "error": null
     },
     {
       "postId": "post_t1_04",
       "personaId": "persona_04",
       "text": "ETH looks ready to move. The setup is clean and the momentum is turning in favour of bulls.",
+      "sha256": "4024e628eecea62779a60032c683a61f61803dba7099e21f646e1c02408fb15e",
       "label": "MODEL",
       "status": "ok",
-      "cached": false,
+      "cached": true,
       "extraction": {
         "token": "ETH",
         "sentiment": "bullish",
@@ -73,16 +74,16 @@
         "disclosure_detected": false,
         "disclosure_evidence": null
       },
-      "error": null,
-      "sha256": "4024e628eecea62779a60032c683a61f61803dba7099e21f646e1c02408fb15e"
+      "error": null
     },
     {
       "postId": "post_t1_05",
       "personaId": "persona_05",
       "text": "Been bullish on ETH for weeks and today confirms it. Strong hands, strong trend.",
+      "sha256": "659a9d40f061e1fdfe446e0981139cdf14866c21cbd0c1127f7472250702fd24",
       "label": "MODEL",
       "status": "ok",
-      "cached": false,
+      "cached": true,
       "extraction": {
         "token": "ETH",
         "sentiment": "bullish",
@@ -91,16 +92,16 @@
         "disclosure_detected": false,
         "disclosure_evidence": null
       },
-      "error": null,
-      "sha256": "659a9d40f061e1fdfe446e0981139cdf14866c21cbd0c1127f7472250702fd24"
+      "error": null
     },
     {
       "postId": "post_t1_06",
       "personaId": "persona_06",
       "text": "ETH breakout incoming. I expect continuation over the next session, keeping my position.",
+      "sha256": "720c878a195f34a808ce15a6dbd36b048228f4b71ce19974a84041a0a392f67a",
       "label": "MODEL",
       "status": "ok",
-      "cached": false,
+      "cached": true,
       "extraction": {
         "token": "ETH",
         "sentiment": "bullish",
@@ -109,16 +110,16 @@
         "disclosure_detected": false,
         "disclosure_evidence": null
       },
-      "error": null,
-      "sha256": "720c878a195f34a808ce15a6dbd36b048228f4b71ce19974a84041a0a392f67a"
+      "error": null
     },
     {
       "postId": "post_t1_07",
       "personaId": "persona_07",
       "text": "Calling it: ETH takes this range high. The flows support the move and sentiment is shifting up.",
+      "sha256": "b6629e2955b5b9e8daeaca7382ca71265c1b7455ca5d7cd56c40e36403a3096b",
       "label": "MODEL",
       "status": "ok",
-      "cached": false,
+      "cached": true,
       "extraction": {
         "token": "ETH",
         "sentiment": "bullish",
@@ -127,8 +128,7 @@
         "disclosure_detected": false,
         "disclosure_evidence": null
       },
-      "error": null,
-      "sha256": "b6629e2955b5b9e8daeaca7382ca71265c1b7455ca5d7cd56c40e36403a3096b"
+      "error": null
     }
   ]
 }
