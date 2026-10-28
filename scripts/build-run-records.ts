@@ -136,7 +136,7 @@ const records = {
 for (const [name, r] of Object.entries(records)) {
   // Never overwrite a real run. A record with dryRun false came from the chain read-back (server/chain-record.ts).
   const path = join(SCEN, "runs", `${name}.json`);
-  if (existsSync(path) && (JSON.parse(readFileSync(path, "utf8").replace(/^﻿/, "")) as { dryRun?: boolean }).dryRun === false) {
+  if (existsSync(path) && (JSON.parse(readFileSync(path, "utf8").replace(/^\uFEFF/, "")) as { dryRun?: boolean }).dryRun === false) {
     console.log(`${name}: kept the real record (dryRun false); not overwritten`);
     continue;
   }
