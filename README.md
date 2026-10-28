@@ -23,8 +23,8 @@ Then open http://localhost:5173. The first two commands need nothing but Node 24
 | `EchtVerdicts` on Ethereum Sepolia | https://sepolia.etherscan.io/address/0x2bc4819848efd784995ff6eab33be28b2b85bf8f |
 | Deploy transaction | https://sepolia.etherscan.io/tx/0xd7b21891714f5d98b47fd469e0db235b37b9d315b6b3765d6e8f75d6a0facb05 |
 | T1 payments (5 voices, 0.002 ETH each) | see `scenarios/addresses.json`, or the list in `docs/demo-script.md` |
-| T1 verdict (`BLOCK`) | to be filled after the 17:20 Lagos broadcast, from `scenarios/runs/T1.json` |
-| T2 verdict (`ELIGIBLE`) | to be filled after the broadcast, from `scenarios/runs/T2.json` |
+| T1 verdict (`BLOCK`, 5 linked voices) | https://sepolia.etherscan.io/tx/0xc0141cba6a540fce98f3ea414e9523d44c1a1a7ff4d2276aa0032497fc01a7be |
+| T2 verdict (`ELIGIBLE`, 0 linked voices) | https://sepolia.etherscan.io/tx/0x97d2b04e85dca1e5aa02664795019b73b50af954dc720065bc7347c5868d5c63 |
 
 ## Who needs what (PRD §11b)
 
