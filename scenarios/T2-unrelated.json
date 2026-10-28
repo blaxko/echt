@@ -99,7 +99,7 @@
         "personaId": "persona_08",
         "text": "Quiet day for ETH, but the trend structure still looks constructive to me.",
         "postedAt": "2026-10-28T16:10:00.000Z",
-        "postBlock": null,
+        "postBlock": 12013420,
         "provenance": "SYNTHETIC"
       },
       {
@@ -107,7 +107,7 @@
         "personaId": "persona_09",
         "text": "Thinking about ETH over the long term. I like the fundamentals more than the short term noise.",
         "postedAt": "2026-10-28T16:11:00.000Z",
-        "postBlock": null,
+        "postBlock": 12013425,
         "provenance": "SYNTHETIC"
       },
       {
@@ -115,7 +115,7 @@
         "personaId": "persona_10",
         "text": "ETH is consolidating. Not much to say today, just watching the range.",
         "postedAt": "2026-10-28T16:12:00.000Z",
-        "postBlock": null,
+        "postBlock": 12013430,
         "provenance": "SYNTHETIC"
       },
       {
@@ -123,7 +123,7 @@
         "personaId": "persona_11",
         "text": "Interesting ETH upgrade discussion on the forum. Curious how it plays out.",
         "postedAt": "2026-10-28T16:13:00.000Z",
-        "postBlock": null,
+        "postBlock": 12013435,
         "provenance": "SYNTHETIC"
       },
       {
@@ -131,7 +131,7 @@
         "personaId": "persona_12",
         "text": "Good week for ETH developers. Nothing I would trade on yet, just a view.",
         "postedAt": "2026-10-28T16:14:00.000Z",
-        "postBlock": null,
+        "postBlock": 12013440,
         "provenance": "SYNTHETIC"
       },
       {
@@ -139,7 +139,7 @@
         "personaId": "persona_13",
         "text": "Mild bullish lean on ETH after the weekend volume. We will see on Monday.",
         "postedAt": "2026-10-28T16:15:00.000Z",
-        "postBlock": null,
+        "postBlock": 12013445,
         "provenance": "SYNTHETIC"
       },
       {
@@ -147,7 +147,7 @@
         "personaId": "persona_14",
         "text": "ETH chart is boring but healthy. Would not chase it here.",
         "postedAt": "2026-10-28T16:16:00.000Z",
-        "postBlock": null,
+        "postBlock": 12013450,
         "provenance": "SYNTHETIC"
       }
     ],

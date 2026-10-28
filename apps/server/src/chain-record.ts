@@ -3,18 +3,19 @@
 
 import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import { analyzePayments, type SourceMeta, type Transfer, type VoiceWallet } from "@echt/policy";
 import { readVerdictOnChain } from "./chain-read.ts";
-
-type Address = `0x${string}`;
-import type { Transfer } from "@echt/policy";
 import type { PaymentFact, Persona, PersistOptions, Readback, RecordMarket, RunRecord } from "./run-record.ts";
 import { persistRealRun } from "./run-record.ts";
 import type { RunPayload } from "./run-payload.ts";
 
-
+type Address = `0x${string}`;
 
 const SCENARIO_FILES: Record<string, string> = { T1: "T1-coordinated.json", T2: "T2-unrelated.json" };
 const PROPOSAL = { side: "long", sizeUsd: 400, stopPct: 0.08, symbol: "ETH", rationale: "Seven voices turned bullish on ETH inside one 6 h window" };
+const LOOKBACK_BLOCKS = 21_600;
+const MAX_SOURCE_LOOKUPS = 5; // matches the workflow
+const ETHERSCAN = "https://api.etherscan.io/v2/api";
 
 interface ScenarioJson {
   input: {
@@ -26,12 +27,44 @@ interface ScenarioJson {
 
 const readJson = async <T>(path: string): Promise<T> => JSON.parse((await readFile(path, "utf8")).replace(/^﻿/, "")) as T;
 
+/**
+ * How many txlist rows the campaign source has in the window the workflow reads: from the earliest voice
+ * post minus the lookback, up to the pinned block. The workflow counts these rows into the evidence, so
+ * the server must count the same rows, including transfers into the source itself.
+ */
+export async function countSourceTxs(source: string, startBlock: number, endBlock: number, apiKey: string): Promise<number> {
+  const url = `${ETHERSCAN}?chainid=11155111&module=account&action=txlist&address=${source}&startblock=${startBlock}&endblock=${endBlock}&page=1&offset=10000&sort=asc&apikey=${encodeURIComponent(apiKey)}`;
+  const body = (await (await fetch(url)).json()) as { status: string; message: string; result: unknown };
+  if (body.status === "1" && Array.isArray(body.result)) return body.result.length;
+  if (body.message === "No transactions found") return 0;
+  throw new Error(`etherscan source count failed: ${body.message}`);
+}
+
+/** Which sources get a lookup, and their counts. Same rule as the workflow: only sources the policy finds. */
+export async function sourceMetaFor(
+  voices: VoiceWallet[],
+  transfers: Transfer[],
+  knownExchanges: readonly string[],
+  windowStart: number,
+  pinned: number,
+  apiKey: string,
+): Promise<Record<string, SourceMeta>> {
+  const sources = analyzePayments(voices, transfers, {}).campaignSources;
+  const meta: Record<string, SourceMeta> = {};
+  for (const s of sources.slice(0, MAX_SOURCE_LOOKUPS)) {
+    meta[s] = { txCount: await countSourceTxs(s, windowStart, pinned, apiKey), knownExchange: knownExchanges.includes(s) };
+  }
+  return meta;
+}
+
 export function makeRealPersistence(repoRoot: string) {
   const scenarioDir = join(repoRoot, "scenarios");
   const addressesPath = join(scenarioDir, "addresses.json");
 
   async function buildInputs(scenario: string, payload: RunPayload) {
-    const addresses = await readJson<{ campaignSource: string; verdicts?: { address: string }; payments: Record<string, PaymentFact[] & { wallet?: string }> }>(addressesPath);
+    const apiKey = process.env.ETHERSCAN_API_KEY;
+    if (!apiKey) throw new Error("ETHERSCAN_API_KEY must be set to count the campaign source transactions");
+    const addresses = await readJson<{ campaignSource: string; verdicts?: { address: string }; payments: Record<string, PaymentFact[]> }>(addressesPath);
     const payments: PaymentFact[] = Object.values(addresses.payments).flat();
     const wallets = new Map<string, string>();
     const personas: Record<string, Persona> = {};
@@ -55,15 +88,25 @@ export function makeRealPersistence(repoRoot: string) {
       timestamp: new Date(p.blockTimestamp * 1000).toISOString(),
       provenance: "TESTNET",
     }));
+    const windowStart = Math.max(0, Math.min(...payload.voices.map((v) => v.postBlock)) - LOOKBACK_BLOCKS);
+    const voices: VoiceWallet[] = payload.voices.map((v) => ({
+      personaId: v.personaId,
+      wallet: v.wallet,
+      verified: v.verified,
+      postedAtMs: v.postedAtMs,
+      disclosedByPostId: v.disclosedByPostId,
+    }));
+    const sourceMeta = await sourceMetaFor(voices, transfers, payload.knownExchanges, windowStart, payload.pinnedToBlock, apiKey);
     const market = await readMarket(payload.symbol);
     return {
       transfers,
-      sourceMeta: { [source]: { txCount: payFacts.length, knownExchange: false } },
+      sourceMeta,
       payments,
       personas,
       market,
       proposal: PROPOSAL,
-      address: (process.env.ECHT_VERDICTS_ADDRESS ?? addresses.verdicts?.address) as Address,
+      // An empty ECHT_VERDICTS_ADDRESS means "not set", so the recorded deploy address is used.
+      address: (process.env.ECHT_VERDICTS_ADDRESS || addresses.verdicts?.address || "") as Address,
     };
   }
 
@@ -76,6 +119,7 @@ export function makeRealPersistence(repoRoot: string) {
   return {
     async persist(scenario: string, payload: RunPayload, result: Record<string, unknown>) {
       const inputs = await buildInputs(scenario, payload);
+      if (!inputs.address) throw new Error("no verdicts address: set ECHT_VERDICTS_ADDRESS or record the deploy in scenarios/addresses.json");
       const readVerdict = async (runId: string): Promise<Readback> => readVerdictOnChain(process.env.SEPOLIA_RPC_URL ?? "", inputs.address, runId);
       const writeRecord = async (name: string, record: RunRecord) => {
         await writeFile(join(scenarioDir, "runs", `${name}.json`), JSON.stringify(record, (_k, val) => (typeof val === "bigint" ? val.toString() : val), 2) + "\n");
