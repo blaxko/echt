@@ -1,51 +1,62 @@
-**Live read-only demo: https://blaxko.github.io/echt/** (GitHub Pages, built from `main`. Read-only: it shows the committed records and replays them in your browser. Running a new check needs the local setup below.)
-
 # Echt
 
-Echt stops an AI trading agent from following coordinated crypto hype before it places a practice trade. When seven watched voices turn bullish on one token, a Chainlink CRE workflow checks, at a pinned block, whether the voices' verified wallets received transfers from the same campaign source before they posted. A deterministic policy returns `BLOCK`, `REVIEW` or `ELIGIBLE`, the verdict is written to Ethereum Sepolia, and the dashboard shows every transfer, the cancelled trade and an Evidence Brief anyone can replay. Echt reports patterns in transfers. It does not make legal findings.
+**Live demo (read-only): https://blaxko.github.io/echt/**
+
+**In one sentence:** Echt checks whether a wave of "independent" crypto voices was paid from one source, before an AI agent trades on it, and writes the verdict to Ethereum Sepolia.
+
+## What you can check in two minutes
+
+1. Open the [live demo](https://blaxko.github.io/echt/). Each tab is a scenario.
+2. **T1** blocks the trade: 5 of 7 voices received payments from one source before they posted. Every payment is an [Etherscan link](https://sepolia.etherscan.io/tx/0xcbcb1806ae5953cca2279e0f185782707024e81b6d109bd86d34c65fd725a231), with its measured gap to the post.
+3. **T2** does not: one payment is not a pattern, so it is ELIGIBLE with no linked voices.
+4. Press **Replay**. T1 returns MATCH. T6, a tampered copy, returns HASH_MISMATCH.
+
+## The on-chain verdicts
+
+| Run | Verdict | Verdict transaction |
+|---|---|---|
+| T1 | BLOCK, 5 linked voices | [0xc0141cba…](https://sepolia.etherscan.io/tx/0xc0141cba6a540fce98f3ea414e9523d44c1a1a7ff4d2276aa0032497fc01a7be) |
+| T2 | ELIGIBLE, 0 linked voices | [0x97d2b04e…](https://sepolia.etherscan.io/tx/0x97d2b04e85dca1e5aa02664795019b73b50af954dc720065bc7347c5868d5c63) |
+
+Contract: [`EchtVerdicts`](https://sepolia.etherscan.io/address/0x2bc4819848efd784995ff6eab33be28b2b85bf8f). Each verdict was read back with `getVerdict` before it was recorded. The demo script opens with the broadcast that failed and was fixed: [docs/demo-script.md](docs/demo-script.md).
+
+## How it works
+
+1. A model reads each post into a structured record (token, sentiment, conviction, urgency, disclosure). Results are cached and labelled `MODEL`.
+2. A Chainlink CRE workflow reads each voice wallet's transfers at a pinned block, and finds whether one sender reached at least two converging voices before they posted.
+3. A deterministic policy (`packages/policy`, no dependencies) returns BLOCK, REVIEW or ELIGIBLE. The model never decides.
+4. The verdict and a hash of its evidence are written to `EchtVerdicts`. The read-back must match before a record is stored.
+
+Honest labels: the personas and posts are synthetic, the payments are Sepolia testnet transfers, and the CRE step is a local simulation, not a deployed DON. Echt reports patterns and whether disclosure was detected. It does not make legal findings. See [docs/LIMITATIONS.md](docs/LIMITATIONS.md).
 
 ## Run it locally
 
-The public demo needs nothing. To run checks yourself, follow these steps.
-
-The repo pins pnpm 10.34.9 in `packageManager`. With `corepack enable`, that version is used automatically.
+The public demo needs nothing. Running new checks needs the setup below.
 
 ```bash
+corepack enable
 pnpm install
 pnpm test
 . .\scripts\load-env.ps1
 pnpm --filter @echt/server start
-pnpm --filter @echt/web dev
 ```
 
-Then open http://localhost:5173. The first two commands need nothing but Node 24 and pnpm. The last three need a `.env` with a Sepolia RPC URL and an Etherscan key (see `.env.example`). The dashboard reads the committed run records, so it works without them.
-
-## Live contract and transactions
-
-| What | Link |
-|---|---|
-| `EchtVerdicts` on Ethereum Sepolia | https://sepolia.etherscan.io/address/0x2bc4819848efd784995ff6eab33be28b2b85bf8f |
-| Deploy transaction | https://sepolia.etherscan.io/tx/0xd7b21891714f5d98b47fd469e0db235b37b9d315b6b3765d6e8f75d6a0facb05 |
-| T1 payments (5 voices, 0.002 ETH each) | see `scenarios/addresses.json`, or the list in `docs/demo-script.md` |
-| T1 verdict (`BLOCK`, 5 linked voices) | https://sepolia.etherscan.io/tx/0xc0141cba6a540fce98f3ea414e9523d44c1a1a7ff4d2276aa0032497fc01a7be |
-| T2 verdict (`ELIGIBLE`, 0 linked voices) | https://sepolia.etherscan.io/tx/0x97d2b04e85dca1e5aa02664795019b73b50af954dc720065bc7347c5868d5c63 |
+Then, in a second terminal, `pnpm --filter @echt/web dev` and open http://localhost:5173. The pinned pnpm version (10.34.9) comes from `packageManager`. Checks need a `.env` with a Sepolia RPC URL and an Etherscan key (see `.env.example`).
 
 ## Who needs what (PRD §11b)
 
-No wallet, no token, no sign-up and no funds are needed to use Echt. Nothing is gated.
-
-| Who | What they need | What they get |
+| Who | Needs | Gets |
 |---|---|---|
-| Judge or visitor watching the dashboard | A browser | Every scenario, the verdict, the Evidence Brief, Replay |
-| Anyone checking the evidence | A browser | Every payment and verdict is a public Sepolia transaction |
-| Developer cloning the repo | Node 24, pnpm, Bun, a free Etherscan key and a free Sepolia RPC URL | Re-runs the CRE check against the already-seeded public payments in `scenarios/addresses.json`. No deploy, no faucet, no wallet |
-| Developer who also wants live market data | A RYO builder key | Live RYO evidence. Without one, the market gate shows UNAVAILABLE, labelled honestly |
+| Anyone viewing the demo | A browser | Every scenario, verdicts, Brief, Replay |
+| Anyone checking the evidence | A browser | Every payment and verdict on sepolia.etherscan.io |
+| A developer cloning the repo | Node 24, corepack (pnpm 10.34.9), Bun, a free Etherscan key and a Sepolia RPC URL | Re-runs the checks against the committed public payments |
+| Anyone wanting live market data | A RYO builder key | Live market evidence. Without it, the market gate reads UNAVAILABLE |
 
-Only the builder needs funded testnet wallets, and only once, to seed the scenarios.
+## Documents
 
-## More
-
-- `docs/ARCHITECTURE.md`: diagrams, data flow, CRE limits, decisions D1–D16
-- `docs/LIMITATIONS.md`: what Echt does not prove
-- `docs/demo-script.md`: the two-minute shot list
-- `docs/PRD.md` and `docs/DECISIONS.md`: requirements and the record of each choice
+- [docs/submission.md](docs/submission.md): the BUIDL text
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): diagrams, data flow, CRE limits, decisions
+- [docs/LIMITATIONS.md](docs/LIMITATIONS.md): what Echt does not prove
+- [docs/launch.md](docs/launch.md): the launch checklist, rollback and monitoring
+- [docs/DECISIONS.md](docs/DECISIONS.md): each decision and its reason
+- [docs/demo-script.md](docs/demo-script.md): the two-minute shot list
