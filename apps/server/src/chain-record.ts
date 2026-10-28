@@ -4,6 +4,8 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { readVerdictOnChain } from "../../../scripts/chain-read.ts";
+
+type Address = `0x${string}`;
 import type { Transfer } from "@echt/policy";
 import type { PaymentFact, Persona, PersistOptions, Readback, RecordMarket, RunRecord } from "./run-record.ts";
 import { persistRealRun } from "./run-record.ts";

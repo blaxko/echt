@@ -1,6 +1,7 @@
 {
   "schemaVersion": 1,
   "scenario": "T5",
+  "generatedAt": "2026-10-28T04:44:23.268Z",
   "label": "SIMULATED · injected provider fault (T5), nothing written on-chain",
   "provenance": "SIMULATED",
   "cre": "Chainlink CRE · local simulation",

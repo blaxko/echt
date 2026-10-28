@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { startRun, type RunRecord, type Transfer, type Voice } from "./api.ts";
 import { ethFrom, hours, reasonText, short, txLink } from "./format.ts";
 import type { ReplayResult } from "./replay.ts";
+import { finalState } from "./state.ts";
 
 export const SCENARIOS = [
   { id: "T1", name: "T1 · Coordinated" },
@@ -16,10 +17,12 @@ export type RunPhase = { kind: "idle" } | { kind: "running"; id: string } | { ki
 export function headline(record: RunRecord | null, phase: RunPhase): { tone: string; icon: string; title: string } {
   if (phase.kind === "running") return { tone: "run", icon: "◌", title: "RUNNING · checking the chain" };
   if (!record) return { tone: "idle", icon: "○", title: "IDLE · no run recorded for this scenario" };
-  if (record.verdict === "BLOCK") return { tone: "block", icon: "■", title: "NO POSITION · BLOCK" };
-  if (record.verdict === "REVIEW") return { tone: "review", icon: "▲", title: "NO POSITION · REVIEW" };
-  if (record.marketGate === "PASS") return { tone: "open", icon: "●", title: "OPEN PRACTICE POSITION · ELIGIBLE" };
-  return { tone: "eligible", icon: "◇", title: "NO POSITION · ELIGIBLE, market unavailable" };
+  switch (finalState(record)) {
+    case "BLOCK": return { tone: "block", icon: "■", title: "NO POSITION · BLOCK" };
+    case "REVIEW": return { tone: "review", icon: "▲", title: "NO POSITION · REVIEW" };
+    case "OPEN_PRACTICE_POSITION": return { tone: "open", icon: "●", title: "OPEN PRACTICE POSITION · ELIGIBLE" };
+    default: return { tone: "eligible", icon: "◇", title: "NO POSITION · ELIGIBLE, market unavailable" };
+  }
 }
 
 export function Banner({ record, phase }: { record: RunRecord | null; phase: RunPhase }) {
@@ -37,7 +40,7 @@ export function Banner({ record, phase }: { record: RunRecord | null; phase: Run
           <li className="chip">Payment: {record.verdict}</li>
           <li className="chip">Reason: {record.reasons.join(", ")}</li>
           <li className="chip">Market: {record.marketGate}</li>
-          <li className="chip">{record.dryRun ? "SIMULATED · dry run, nothing written on-chain" : `Verdict tx: ${record.verdictTx}`}</li>
+          <li className="chip">{record.label}</li>
         </ul>
       )}
     </section>
@@ -65,8 +68,13 @@ export function PaymentGraph({ record }: { record: RunRecord | null }) {
             <g key={v.personaId}>
               {v.paymentTx && (
                 <a href={txLink(v.paymentTx)} target="_blank" rel="noreferrer" tabIndex={0} aria-label={`${v.handle}: ${hours(v.gapHours)}, transaction ${v.paymentTx}`}>
-                  <line x1="178" y1={height / 2} x2="430" y2={cy} className={`edge ${v.linked ? "linked" : "unlinked"}`} />
+                  <line x1="178" y1={height / 2} x2="430" y2={cy} className={`edge ${v.linked ? "linked" : "not-campaign"}`} />
                 </a>
+              )}
+              {v.paymentTx && !v.linked && (
+                <text x="300" y={(height / 2 + cy) / 2 - 6} textAnchor="middle" className="node-sub edge-note">
+                  not from a campaign source (paid only {paid.length} voice{paid.length === 1 ? "" : "s"})
+                </text>
               )}
               <rect x="430" y={y} width="200" height="34" rx="6" className={`node voice ${v.linked ? "linked" : ""}`} />
               <text x="440" y={cy + 5} className="node-label">{v.handle.replace("@echt_", "")}</text>
@@ -100,12 +108,13 @@ export function PaymentGraph({ record }: { record: RunRecord | null }) {
 export function Proposal({ record }: { record: RunRecord | null }) {
   if (!record) return <section aria-labelledby="zone-proposal" className="zone"><h2 id="zone-proposal">Proposal</h2><p>No proposal yet.</p></section>;
   const p = record.proposal;
+  const state = finalState(record);
   return (
     <section aria-labelledby="zone-proposal" className="zone proposal">
       <h2 id="zone-proposal">Before the check · proposal</h2>
       <p><s>Practice long · {p.symbol} · ${p.sizeUsd} · stop −{Math.round(p.stopPct * 100)}%</s></p>
       <p className="muted">{p.rationale}</p>
-      <p><strong>Final action: </strong>{record.finalAction === "OPEN_PRACTICE_POSITION" ? "OPEN PRACTICE POSITION" : "NO POSITION"}</p>
+      <p><strong>Final action: </strong>{state === "OPEN_PRACTICE_POSITION" ? "OPEN PRACTICE POSITION" : "NO POSITION"}</p>
     </section>
   );
 }
@@ -127,7 +136,9 @@ export function Market({ record }: { record: RunRecord | null }) {
   );
 }
 
-export function Proof({ record, onBrief, onReplay, onExport }: { record: RunRecord | null; onBrief: () => void; onReplay: () => void; onExport: () => void }) {
+export function Proof({ record, scenario, phase, onRun, onBrief, onReplay, onExport }: {
+  record: RunRecord | null; scenario: string; phase: RunPhase; onRun: () => void; onBrief: () => void; onReplay: () => void; onExport: () => void;
+}) {
   return (
     <section aria-labelledby="zone-proof" className="zone proof">
       <h2 id="zone-proof">Proof</h2>
@@ -138,9 +149,12 @@ export function Proof({ record, onBrief, onReplay, onExport }: { record: RunReco
           <div><dt>Pinned block</dt><dd>{record.pinnedToBlock}{record.pinNote ? ` · ${record.pinNote}` : ""}</dd></div>
           <div><dt>Verdict transaction</dt><dd>{record.verdictTx ? <a href={txLink(record.verdictTx)} target="_blank" rel="noreferrer">{short(record.verdictTx)}</a> : "none: dry run"}</dd></div>
           <div><dt>Run</dt><dd>{record.cre}</dd></div>
+          <div><dt>Recorded</dt><dd>{record.generatedAt ? utc(record.generatedAt) : "not recorded"}</dd></div>
+          <div><dt>Lookback</dt><dd>72 h before each post, read to pinned block {record.pinnedToBlock}</dd></div>
         </dl>
-      ) : <p>Nothing to prove yet.</p>}
+      ) : <p>Nothing to prove yet. Run a check to create a record, or choose another scenario.</p>}
       <div className="actions">
+        <button type="button" onClick={onRun} disabled={phase.kind === "running"}>Run check for {scenario}</button>
         <button type="button" onClick={onBrief} disabled={!record}>Evidence Brief (E)</button>
         <button type="button" onClick={onExport} disabled={!record}>JSON</button>
         <button type="button" onClick={onReplay} disabled={!record}>Replay (R)</button>
@@ -167,16 +181,9 @@ export function ReplayDialog({ result, onClose, scenario }: { result: ReplayResu
   );
 }
 
-export function RunDrawer({ open, setOpen, scenario, phase, setPhase, log, onRun }: {
-  open: boolean; setOpen: (v: boolean) => void; scenario: string; phase: RunPhase; setPhase: (p: RunPhase) => void;
-  log: string[]; onRun: (id: string) => void;
+export function RunDrawer({ open, setOpen, log, phase }: {
+  open: boolean; setOpen: (v: boolean) => void; log: string[]; phase: RunPhase;
 }) {
-  const start = async () => {
-    const r = await startRun(scenario);
-    if ("error" in r) { setPhase({ kind: "refused", message: r.error }); return; }
-    setPhase({ kind: "running", id: r.id });
-    onRun(r.id);
-  };
   return (
     <aside className={`drawer ${open ? "open" : ""}`} aria-labelledby="drawer-title">
       <button type="button" className="drawer-toggle" aria-expanded={open} aria-controls="run-log" onClick={() => setOpen(!open)}>
@@ -184,14 +191,45 @@ export function RunDrawer({ open, setOpen, scenario, phase, setPhase, log, onRun
       </button>
       <div id="run-log" hidden={!open}>
         <h2 id="drawer-title">Run log</h2>
-        <button type="button" onClick={start} disabled={phase.kind === "running"}>Run check for {scenario}</button>
-        <ol className="log" aria-live="polite">
+        <p className="muted" aria-live="polite">{phase.kind === "running" ? "A check is running. Lines appear as the CRE workflow prints them." : "The check button is in the proof strip."}</p>
+        <ol className="log">
           {log.length === 0 && <li>No run in this session.</li>}
           {log.map((l, i) => <li key={i}>{l}</li>)}
         </ol>
       </div>
     </aside>
   );
+}
+
+/** Formats an ISO time as "28 Oct 2026, 16:00 UTC" so reviewers do not parse raw timestamps. */
+export const utc = (iso: string) => {
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return iso;
+  const day = d.getUTCDate().toString().padStart(2, "0");
+  const mon = d.toLocaleString("en-GB", { month: "short", timeZone: "UTC" });
+  const hh = d.getUTCHours().toString().padStart(2, "0");
+  const mm = d.getUTCMinutes().toString().padStart(2, "0");
+  return `${day} ${mon} ${d.getUTCFullYear()}, ${hh}:${mm} UTC`;
+};
+
+/** The qualifying transfers as CSV, one row per payment, for analysis outside the page. */
+export function transfersCsv(record: RunRecord): string {
+  const transfers = (record.inputs as { transfers: Transfer[] }).transfers;
+  const byHash = new Map(transfers.map((t) => [t.txHash, t]));
+  const rows = (record.evidence.transfers ?? []).map((q) => {
+    const t = byHash.get(q.txHash);
+    return [q.personaId, t?.from ?? "", t?.to ?? "", ethFrom(q.amountWei), String(t?.blockNumber ?? ""), q.txHash, txLink(q.txHash)];
+  });
+  const lines = [["persona", "from", "to", "amount_eth", "block", "tx_hash", "etherscan_url"], ...rows];
+  return lines.map((r) => r.map((c) => `"${c.replace(/"/g, '""')}"`).join(",")).join("\n") + "\n";
+}
+
+export function downloadCsv(record: RunRecord, scenario: string) {
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([transfersCsv(record)], { type: "text/csv" }));
+  a.download = `echt-${scenario}-transfers.csv`;
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 
 export function Brief({ record, scenario }: { record: RunRecord; scenario: string }) {
@@ -204,12 +242,13 @@ export function Brief({ record, scenario }: { record: RunRecord; scenario: strin
       <p><strong>{record.label}</strong></p>
       <p><strong>Final action:</strong> {record.finalAction === "NO_POSITION" ? "NO POSITION" : record.finalAction} · {record.verdict} · {record.reasons.join(", ")}</p>
       <p><strong>Policy:</strong> {record.policyVersion} · <strong>Evidence hash:</strong> <code>{record.evidenceHash}</code></p>
-      <p><strong>Verdict transaction:</strong> {record.verdictTx ?? "none: dry run, nothing written on-chain"}</p>
+      <p><strong>Recorded:</strong> {record.generatedAt ? utc(record.generatedAt) : "not recorded"} · <strong>Pinned block:</strong> {record.pinnedToBlock}</p>
+      <p><strong>Verdict transaction:</strong> {record.verdictTx ? <a href={txLink(record.verdictTx)}>{record.verdictTx}</a> : "none: dry run, nothing written on-chain"}</p>
       <h2>Converging posts</h2>
       <table>
         <thead><tr><th>Persona</th><th>Posted (UTC)</th><th>Provenance</th><th>Disclosure</th><th>Gap from payment</th></tr></thead>
         <tbody>{record.voices.map((v) => (
-          <tr key={v.personaId}><td>{v.handle}</td><td>{v.postedAt}</td><td>{v.provenance}</td><td>{v.disclosed ? "disclosed" : "not detected"}</td><td>{hours(v.gapHours)}</td></tr>
+          <tr key={v.personaId}><td>{v.handle}</td><td>{utc(v.postedAt)}</td><td>{v.provenance}</td><td>{v.disclosed ? "disclosed" : "not detected"}</td><td>{hours(v.gapHours)}</td></tr>
         ))}</tbody>
       </table>
       <h2>Qualifying transfers</h2>
@@ -217,7 +256,7 @@ export function Brief({ record, scenario }: { record: RunRecord; scenario: strin
         <table>
           <thead><tr><th>From</th><th>To</th><th>Amount (ETH)</th><th>Block</th><th>Transaction</th></tr></thead>
           <tbody>{qualifying.map((q) => (
-            <tr key={q.txHash}><td><code>{short(q.t?.from ?? "", 10, 6)}</code></td><td><code>{short(q.t?.to ?? "", 10, 6)}</code></td><td>{ethFrom(q.amountWei)}</td><td>{q.t?.blockNumber}</td><td><code>{short(q.txHash)}</code></td></tr>
+            <tr key={q.txHash}><td><code>{short(q.t?.from ?? "", 10, 6)}</code></td><td><code>{short(q.t?.to ?? "", 10, 6)}</code></td><td>{ethFrom(q.amountWei)}</td><td>{q.t?.blockNumber}</td><td><a href={txLink(q.txHash)} target="_blank" rel="noreferrer">{short(q.txHash)}</a></td></tr>
           ))}</tbody>
         </table>
       )}
@@ -227,7 +266,7 @@ export function Brief({ record, scenario }: { record: RunRecord; scenario: strin
       <p>{record.market.status === "UNAVAILABLE" ? "Market evidence from RYO. " : ""}{record.provider.status === "failed" ? record.provider.detail : "No provider data missing."}</p>
       <h2>Limitations</h2>
       <p>Personas and posts are synthetic. Transfers are testnet transfers on Ethereum Sepolia. The CRE step runs as a local simulation, not a deployed DON. Disclosure is a heuristic flag. Nothing here is a finding that any law was broken.</p>
-      <p><button type="button" className="no-print" onClick={() => window.print()}>Print</button> <a className="no-print" href="#/">Back to dashboard</a></p>
+      <p><button type="button" className="no-print" onClick={() => window.print()}>Print</button>{" "}<button type="button" className="no-print" onClick={() => downloadCsv(record, scenario)}>Transfers CSV</button> <a className="no-print" href="#/">Back to dashboard</a></p>
     </article>
   );
 }
