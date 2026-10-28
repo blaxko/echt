@@ -155,7 +155,7 @@ function SiteFooter({ inert }: { inert: boolean }) {
         <p className="footer-line">
           <a href={REPO_URL} rel="noopener noreferrer" target="_blank">Source on GitHub</a>
           <span aria-hidden="true"> · </span>
-          Built for the BLI Legal Tech Hackathon 2
+          Echt
         </p>
         <p className="footer-line muted">Practice trades only. Testnet only (Ethereum Sepolia).</p>
         {/* One dashboard button on mobile: the header holds it. The footer repeats it on desktop only. */}
