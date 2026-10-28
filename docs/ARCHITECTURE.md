@@ -104,3 +104,7 @@ Full text and dates are in `docs/DECISIONS.md`. Summary:
 - `apps/web`: the dashboard and the Evidence Brief. Plain React and CSS tokens. Replay runs `decideRun` in the browser.
 - `contracts`: `EchtVerdicts.sol`, forwarder-only and idempotent by run id.
 - `scripts`: seeding, attestations, post scheduling, run records, RYO retry, and the chain read used by the server.
+
+## The failed write, and the read-back that caught it
+
+A broadcast has two parts: the forwarder transaction and the receiver's storage. A successful transaction does not mean a stored verdict. On 28 Oct the first two broadcasts had a 500,000 gas limit against a receiver that needs about 1.36M. The forwarder swallowed the failure, so both transactions succeeded with no verdict. `getVerdict` caught it (it reverted with `UnknownRun`). The server writes a record only when three things agree: the workflow's evidence hash, the server's own recomputation, and `getVerdict`. The fix is D25. The evidence is [0x1fe3a333…](https://sepolia.etherscan.io/tx/0x1fe3a333a2a7900b0884b81664fa3beaa0223bc0b789737a2b4435df1115a75d) and [0xa893a158…](https://sepolia.etherscan.io/tx/0xa893a158d3fa42495a1fb5b9cc7cede342bb57a1a2910da718157956bbfad253).

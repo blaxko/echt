@@ -53,3 +53,9 @@ Echt reports patterns in transfers and whether disclosure was detected. It does 
 - A deployed CRE workflow with a real forwarder.
 - A live RYO envelope with `status: ok` (the retry script saves one if it appears).
 - Real disclosure review by a person, not the heuristic.
+
+## The failed write (what happened and why it matters)
+
+The first T1 and T2 broadcasts used a write gas limit of 500,000. The receiver needs about 1.36M gas. The forwarder's call ran out of gas, and the mock forwarder swallowed the revert. Both transactions are on chain: [0x1fe3a333…](https://sepolia.etherscan.io/tx/0x1fe3a333a2a7900b0884b81664fa3beaa0223bc0b789737a2b4435df1115a75d) and [0xa893a158…](https://sepolia.etherscan.io/tx/0xa893a158d3fa42495a1fb5b9cc7cede342bb57a1a2910da718157956bbfad253). Neither stored a verdict, and `getVerdict` reverts for both. The fix raised the limit to 2,000,000 (DECISIONS D25). The records are written only after the read-back matches, so the failed runs never reached the dashboard.
+
+A forwarder that hides a receiver's failure is a real hazard. Echt's defence is the read-back, not the forwarder's status. Any verdict shown as on-chain has been read back from `getVerdict` with the same evidence hash.
