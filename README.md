@@ -4,6 +4,8 @@ Echt stops an AI trading agent from following coordinated crypto hype before it 
 
 ## Run it
 
+The repo pins pnpm 10.34.9 in `packageManager`. With `corepack enable`, that version is used automatically.
+
 ```bash
 pnpm install
 pnpm test
