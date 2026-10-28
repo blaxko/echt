@@ -1,7 +1,7 @@
+import type { JsonValue } from "@echt/policy";
 import { useEffect, useState } from "react";
-import { canonicalJson, type JsonValue } from "@echt/policy";
 import { fetchRecord, PUBLIC_DEMO, startRun } from "./api.ts";
-import { replay, type ReplayResult } from "./replay.ts";
+import type { ReplayResult } from "./replay.ts";
 import { Banner, Brief, Market, PaymentGraph, Proof, Proposal, ReplayDialog, RunDrawer, SCENARIOS, type RunPhase } from "./components.tsx";
 import { recordOf, screenFor, shownFor, type LoadState } from "./state.ts";
 
@@ -64,8 +64,11 @@ export function App() {
     else setPhase({ kind: "running", id: r.id });
   };
 
-  const runReplay = () => {
-    if (record) setReplayResult(replay(record));
+  // The policy code is loaded on first use, so the first paint does not pay for it.
+  const runReplay = async () => {
+    if (!record) return;
+    const { replay } = await import("./replay.ts");
+    setReplayResult(replay(record));
   };
 
   // Esc closes the run log when it is open, as the drawer pattern expects.
@@ -79,8 +82,10 @@ export function App() {
   // Keyboard: R replays, E opens the Evidence Brief. Ignored while typing or inside a dialog.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      const tag = (e.target as HTMLElement).tagName;
-      if (e.altKey || e.ctrlKey || e.metaKey || tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement).closest("dialog")) return;
+      // Key events from the page itself (document or window) have no element to inspect; ignore them.
+      if (!(e.target instanceof Element)) return;
+      const tag = e.target.tagName;
+      if (e.altKey || e.ctrlKey || e.metaKey || tag === "INPUT" || tag === "TEXTAREA" || e.target.closest("dialog")) return;
       if (e.key === "r" || e.key === "R") runReplay();
       if ((e.key === "e" || e.key === "E") && record) window.location.hash = `#/brief/${scenario}`;
     };
@@ -97,10 +102,11 @@ export function App() {
   }
 
   // The JSON download is the canonical evidence bytes, built in the browser with the same code as the server.
-  const exportJson = () => {
+  const exportJson = async () => {
     if (!record) return;
+    const { canonicalJson } = await import("@echt/policy");
     const a = document.createElement("a");
-    a.href = URL.createObjectURL(new Blob([canonicalJson(record.evidence as Record<string, JsonValue>)], { type: "application/json" }));
+    a.href = URL.createObjectURL(new Blob([canonicalJson(record.evidence as JsonValue)], { type: "application/json" }));
     a.download = `echt-${scenario}-evidence.json`;
     a.click();
     URL.revokeObjectURL(a.href);
