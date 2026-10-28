@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.6.1 (supersedes Project Brief v0.1 and decision rule v1) |
+| **Version** | 0.6.2 (supersedes Project Brief v0.1 and decision rule v1) |
 | **Status** | Approved for build |
 | **Date** | Tue 27 Oct 2026 (Lagos, UTC+1) |
 | **Chain** | Ethereum Sepolia (chain id 11155111). Base Sepolia dropped: Etherscan's API marks it "Paid Tier Only" |
@@ -222,7 +222,7 @@ No performance claims beyond these. No P&L claims: RYO's rubric explicitly does 
 | Term | Meaning |
 |---|---|
 | Verified-linked wallet | Attestation method `signed_challenge`: the account posted a nonce, and the wallet signed `echt:{handle}:{nonce}`. Anything else is `unverified_claim`. |
-| Campaign source | Any sending address that paid **≥ 2 different converging voices** inside their lookback windows. Detected by the policy from the transfers themselves; no token contract or deployer is needed |
+| Campaign source | Any sending address whose transfers reach **≥ 2 different converging voices** inside their lookback windows. Detected by the policy from the transfers themselves; no token contract or deployer is needed. A transfer counts as a candidate when it goes to a verified-linked converging wallet, is after the post, is inside the 72 h lookback, and is ≥ 0.001 ETH |
 | Qualifying transfer | A native Sepolia ETH transfer into a verified-linked wallet, from a campaign source, with `amountWei ≥ 1e15` (0.001 ETH), inside `[postTime − 72 h, postTime)` |
 | Linked voice | Converging voice with ≥ 1 qualifying transfer |
 
@@ -230,9 +230,9 @@ No performance claims beyond these. No P&L claims: RYO's rubric explicitly does 
 
 | Verdict | Condition | UI wording |
 |---|---|---|
-| `BLOCK` | ≥ 3 linked voices **and** none of them has disclosure detected | "Policy threshold met: 5 of 7 voices received linked transfers before posting, no disclosure detected. This is not a finding that any law was broken." |
+| `BLOCK` | ≥ 3 **undisclosed** linked voices (linked voices with no disclosure detected). Disclosed links are shown but do not count | "Policy threshold met: 5 of 7 voices received linked transfers before posting, no disclosure detected. This is not a finding that any law was broken." |
 | `REVIEW` | Any of: < 3 voices verified-linked in total; any provider call failed or was inconsistent; any converging post had `extraction_failed`; a campaign source is a known exchange or high-volume hot wallet | Names the reason code (§10.2) |
-| `ELIGIBLE` | All required data retrieved, < 3 linked voices, ≥ 3 voices verified-linked | "No qualifying transfer pattern observed in this window." Never "organic" or "safe". |
+| `ELIGIBLE` | All required data retrieved, < 3 undisclosed linked voices, ≥ 3 voices verified-linked, and not the `DISCLOSED_CAMPAIGN` case | "No qualifying transfer pattern observed in this window." Never "organic" or "safe". |
 
 **Disclosed links.** A linked voice *with* disclosure detected is shown as **"Disclosed connection"**. It does not count toward `BLOCK`. If ≥ 3 linked voices are all disclosed → `ELIGIBLE` with flag `DISCLOSED_CAMPAIGN`.
 
@@ -728,6 +728,7 @@ Days run in Lagos time. **Gate = stop and cut scope if it is not met.** Build st
 ---
 
 ## 17. Changelog
+- **0.6.2 (28 Oct):** Policy wording settled, no policy version change (`echt-policy@2`; nothing was written on-chain yet). `BLOCK` counts undisclosed linked voices only; disclosed links are shown and do not count (§6.6). A campaign source is a sender whose transfers reach ≥ 2 converging voices (§6.6). T2 uses its own personas 08–14 instead of waiting 84 h, so T1 and T2 read disjoint wallet sets. The 84 h rule in 0.6.1 is withdrawn.
 - **0.6.1 (28 Oct):** Scenario timing is measured, not assumed. Each synthetic post is dated 8–14 h after its persona's real payment block timestamp; all T1 posts fall in one 6 h window. `postBlock` is filled from RPC only once that time has passed, and a scenario whose posts are still in the future is refused. UI and demo copy show the gap measured from block timestamps, never a fixed "24–48 h". T2 is seeded at least 84 h after T1, because both read the same on-chain history (see DECISIONS.md, "Scenario timing"). Attestations are real `signed_challenge` signatures for all 7 personas, and each scenario chooses its verified set.
 - **0.6 (27 Oct):** No test token. Scenario payments are native Sepolia ETH; campaign sources are detected from the transfers (a wallet paying ≥ 2 converging voices); threshold 0.001 ETH instead of $50; `TEST_TOKEN_ADDRESS`, `AMBIGUOUS_TOKEN` and the contract's `address token` removed. Rule `echt-policy@2` redefined before any verdict was written. Added §11b: nothing is gated for testers.
 - **0.5 (27 Oct):** Default LLM `openai/gpt-oss-120b` on Groq (verified with JSON mode); `llama-3.3-70b-versatile` returned `model_not_found`. LLM made provider-agnostic. Anthropic SDK replaced by the `openai` SDK pointed at any OpenAI-compatible endpoint; default Groq free tier (no card). Env vars `LLM_BASE_URL`, `LLM_API_KEY`, `LLM_MODEL` replace `ANTHROPIC_API_KEY`. FR2.1 uses JSON mode + zod validation instead of provider-specific JSON schema.
