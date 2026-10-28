@@ -145,9 +145,17 @@ export function txlistUrl(
 }
 
 /** Returns the rows of a txlist answer. "No transactions found" is an empty answer; NOTOK is an error. */
+/** Rows Etherscan returns for one call (the `offset` in txlistUrl). */
+export const ETHERSCAN_PAGE_LIMIT = 10_000;
+
 export function parseTxlist(body: unknown): { ok: true; rows: TxlistRow[] } | { ok: false; error: string } {
   if (!isRecord(body)) return { ok: false, error: "etherscan answer is not an object" };
-  if (body.status === "1" && Array.isArray(body.result)) return { ok: true, rows: body.result as TxlistRow[] };
+  if (body.status === "1" && Array.isArray(body.result)) {
+    // Etherscan returns at most one page (offset 10,000). A full page may be cut short, so it is a provider failure,
+    // never a complete history (PRD §10.2: more rows than one call can take -> REVIEW).
+    if (body.result.length >= ETHERSCAN_PAGE_LIMIT) return { ok: false, error: "etherscan page limit reached; history may be incomplete" };
+    return { ok: true, rows: body.result as TxlistRow[] };
+  }
   if (body.message === "No transactions found") return { ok: true, rows: [] };
   return { ok: false, error: `etherscan: ${String(body.message)}` };
 }

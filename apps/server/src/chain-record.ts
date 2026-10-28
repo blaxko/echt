@@ -35,7 +35,11 @@ const readJson = async <T>(path: string): Promise<T> => JSON.parse((await readFi
 export async function countSourceTxs(source: string, startBlock: number, endBlock: number, apiKey: string): Promise<number> {
   const url = `${ETHERSCAN}?chainid=11155111&module=account&action=txlist&address=${source}&startblock=${startBlock}&endblock=${endBlock}&page=1&offset=10000&sort=asc&apikey=${encodeURIComponent(apiKey)}`;
   const body = (await (await fetch(url)).json()) as { status: string; message: string; result: unknown };
-  if (body.status === "1" && Array.isArray(body.result)) return body.result.length;
+  if (body.status === "1" && Array.isArray(body.result)) {
+    // Same rule as the workflow: a full page may be incomplete, and the workflow treats it as a failure.
+    if (body.result.length >= 10_000) throw new Error("etherscan page limit reached; the source count cannot be reproduced");
+    return body.result.length;
+  }
   if (body.message === "No transactions found") return 0;
   throw new Error(`etherscan source count failed: ${body.message}`);
 }

@@ -21,7 +21,8 @@ const publicBuild: Plugin = {
       for (const [name, asset] of Object.entries(bundle)) {
         if (!name.endsWith(".css") || asset.type !== "asset") continue;
         const css = String(asset.source);
-        out = out.replace(new RegExp(`<link[^>]*href="\.?/?assets/${name.split("/").pop()}"[^>]*>`), `<style>${css}</style>`);
+        const tag = out.match(/<link[^>]*rel="stylesheet"[^>]*>/)?.[0];
+        if (tag && tag.includes(name)) out = out.replace(tag, `<style>${css}</style>`);
         delete bundle[name];
       }
       return out;

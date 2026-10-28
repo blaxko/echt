@@ -1,6 +1,6 @@
 {
   "id": "T2",
-  "title": "Unrelated convergence: 7 verified, 1 linked",
+  "title": "Unrelated convergence: 7 verified, 1 payment, 0 linked (one payment is not a campaign source, D6)",
   "provenance": "SYNTHETIC unit fixture. Personas and posts are synthetic. Transfer hashes are not on-chain; provenance is SYNTHETIC here, TESTNET only in the seeded scenarios.",
   "input": {
     "runId": "test-run",

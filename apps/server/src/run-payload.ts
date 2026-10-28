@@ -42,12 +42,32 @@ export interface RunPayload {
   }[];
 }
 
+/** What the extraction (F2) found, keyed by persona, because the extraction files and the scenario files use different post ids. */
+export interface ExtractionFacts {
+  /** Personas whose post (any of their posts) read as disclosed. */
+  disclosedPersonas: ReadonlySet<string>;
+  /** Personas whose post failed extraction after the retry. */
+  failedPersonas: ReadonlySet<string>;
+}
+
+const NO_FACTS: ExtractionFacts = { disclosedPersonas: new Set(), failedPersonas: new Set() };
+
 /**
- * `disclosed` holds the persona IDs whose post the extraction read as disclosed (F2). A disclosed voice is
- * still shown, but it does not count toward BLOCK (D5).
+ * One voice can post more than once. The voice's time is its earliest post, because convergence counts a
+ * persona once at its earliest bullish post (packages/policy convergence.ts). Using the last post instead would
+ * move the voice's time and its post block.
  */
-export function buildRunPayload(scenario: ScenarioFile, pinnedToBlock: number, nowMs: number, disclosed: ReadonlySet<string> = new Set()): RunPayload {
-  const postByPersona = new Map(scenario.input.posts.map((p) => [p.personaId, p]));
+export function earliestPostByPersona(posts: readonly ScenarioPost[]): Map<string, ScenarioPost> {
+  const earliest = new Map<string, ScenarioPost>();
+  for (const post of posts) {
+    const current = earliest.get(post.personaId);
+    if (!current || Date.parse(post.postedAt) < Date.parse(current.postedAt)) earliest.set(post.personaId, post);
+  }
+  return earliest;
+}
+
+export function buildRunPayload(scenario: ScenarioFile, pinnedToBlock: number, nowMs: number, facts: ExtractionFacts = NO_FACTS): RunPayload {
+  const postByPersona = earliestPostByPersona(scenario.input.posts);
   const voices = scenario.input.voices.map((voice) => {
     const post = postByPersona.get(voice.personaId);
     if (!post) throw new Error(`${scenario.id}: ${voice.personaId} has no post`);
@@ -64,9 +84,13 @@ export function buildRunPayload(scenario: ScenarioFile, pinnedToBlock: number, n
       verified: voice.attestation.method === "signed_challenge",
       postBlock: post.postBlock,
       postedAtMs,
-      disclosedByPostId: disclosed.has(voice.personaId) ? post.id : null,
+      // The payload cites the post that carries the disclosure (PRD §10.2).
+      disclosedByPostId: facts.disclosedPersonas.has(voice.personaId) ? post.id : null,
     };
   });
+
+  // A failed extraction on any converging voice makes the run REVIEW (PRD §10.2), never ELIGIBLE.
+  const extractionFailed = scenario.input.voices.some((v) => facts.failedPersonas.has(v.personaId));
 
   const latestPostBlock = Math.max(...voices.map((v) => v.postBlock));
   if (pinnedToBlock < latestPostBlock) throw new Error(`${scenario.id}: pinned block ${pinnedToBlock} is before the posts`);
@@ -75,7 +99,7 @@ export function buildRunPayload(scenario: ScenarioFile, pinnedToBlock: number, n
     runId: scenario.input.runId,
     symbol: scenario.input.tokenSymbol,
     pinnedToBlock,
-    extractionFailed: false,
+    extractionFailed,
     knownExchanges: [],
     voices,
   };
