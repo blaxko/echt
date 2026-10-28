@@ -1,5 +1,5 @@
 {
-  "key": "659a9d40f061e1fdfe446e0981139cdf14866c21cbd0c1127f7472250702fd24",
+  "sha256": "659a9d40f061e1fdfe446e0981139cdf14866c21cbd0c1127f7472250702fd24",
   "model": "openai/gpt-oss-120b",
   "promptVersion": "extract-v1",
   "label": "MODEL",

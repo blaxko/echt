@@ -8,7 +8,6 @@
       "postId": "post_t2_01",
       "personaId": "persona_08",
       "text": "Quiet day for ETH, but the trend structure still looks constructive to me.",
-      "cacheKey": "7c57e9953769f90a493cf8b8444ae1960588511e3d954a0fa8da72669648cc21",
       "label": "MODEL",
       "status": "ok",
       "cached": false,
@@ -20,13 +19,13 @@
         "disclosure_detected": false,
         "disclosure_evidence": null
       },
-      "error": null
+      "error": null,
+      "sha256": "7c57e9953769f90a493cf8b8444ae1960588511e3d954a0fa8da72669648cc21"
     },
     {
       "postId": "post_t2_02",
       "personaId": "persona_09",
       "text": "Thinking about ETH over the long term. I like the fundamentals more than the short term noise.",
-      "cacheKey": "83abdd62571e668f6ce3911322d2e14801c4beb87642c5d2f88ca433409fb4ea",
       "label": "MODEL",
       "status": "ok",
       "cached": false,
@@ -38,13 +37,13 @@
         "disclosure_detected": false,
         "disclosure_evidence": null
       },
-      "error": null
+      "error": null,
+      "sha256": "83abdd62571e668f6ce3911322d2e14801c4beb87642c5d2f88ca433409fb4ea"
     },
     {
       "postId": "post_t2_03",
       "personaId": "persona_10",
       "text": "ETH is consolidating. Not much to say today, just watching the range.",
-      "cacheKey": "bc0a0c2004323ff0302754dcfd758d4be03924ca748e3a549dedb5d2d583f6c7",
       "label": "MODEL",
       "status": "ok",
       "cached": false,
@@ -56,13 +55,13 @@
         "disclosure_detected": false,
         "disclosure_evidence": null
       },
-      "error": null
+      "error": null,
+      "sha256": "bc0a0c2004323ff0302754dcfd758d4be03924ca748e3a549dedb5d2d583f6c7"
     },
     {
       "postId": "post_t2_04",
       "personaId": "persona_11",
       "text": "Interesting ETH upgrade discussion on the forum. Curious how it plays out.",
-      "cacheKey": "8c723f22d7f61bfbb7a364534aa8901e45ae5f83b982eceb24322c1aa2505c04",
       "label": "MODEL",
       "status": "ok",
       "cached": false,
@@ -74,13 +73,13 @@
         "disclosure_detected": false,
         "disclosure_evidence": null
       },
-      "error": null
+      "error": null,
+      "sha256": "8c723f22d7f61bfbb7a364534aa8901e45ae5f83b982eceb24322c1aa2505c04"
     },
     {
       "postId": "post_t2_05",
       "personaId": "persona_12",
       "text": "Good week for ETH developers. Nothing I would trade on yet, just a view.",
-      "cacheKey": "b705fd1cd293b8460c9b0474e6cc7bc1ce1ccf74fa1950b498c434161ca55c4a",
       "label": "MODEL",
       "status": "ok",
       "cached": false,
@@ -92,13 +91,13 @@
         "disclosure_detected": false,
         "disclosure_evidence": null
       },
-      "error": null
+      "error": null,
+      "sha256": "b705fd1cd293b8460c9b0474e6cc7bc1ce1ccf74fa1950b498c434161ca55c4a"
     },
     {
       "postId": "post_t2_06",
       "personaId": "persona_13",
       "text": "Mild bullish lean on ETH after the weekend volume. We will see on Monday.",
-      "cacheKey": "0227f74715fdabb65c06df07da24d77b50f78ffb9724e51bee4312444284f385",
       "label": "MODEL",
       "status": "ok",
       "cached": false,
@@ -110,13 +109,13 @@
         "disclosure_detected": false,
         "disclosure_evidence": null
       },
-      "error": null
+      "error": null,
+      "sha256": "0227f74715fdabb65c06df07da24d77b50f78ffb9724e51bee4312444284f385"
     },
     {
       "postId": "post_t2_07",
       "personaId": "persona_14",
       "text": "ETH chart is boring but healthy. Would not chase it here.",
-      "cacheKey": "904a5074df022d4e458048feca372bda919f8387d56d06befe82407ae54d728b",
       "label": "MODEL",
       "status": "ok",
       "cached": false,
@@ -128,7 +127,8 @@
         "disclosure_detected": false,
         "disclosure_evidence": null
       },
-      "error": null
+      "error": null,
+      "sha256": "904a5074df022d4e458048feca372bda919f8387d56d06befe82407ae54d728b"
     }
   ]
 }

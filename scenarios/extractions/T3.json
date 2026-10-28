@@ -8,7 +8,6 @@
       "postId": "post_t3_01",
       "personaId": "persona_01",
       "text": "#ad ETH is a sponsored pick this week, paid by the project team. Bullish, but this is an advert.",
-      "cacheKey": "288471cc82f6efd709d3f513d6b2829af18906a971796771d6134df142ab1209",
       "label": "MODEL",
       "status": "ok",
       "cached": false,
@@ -20,13 +19,13 @@
         "disclosure_detected": true,
         "disclosure_evidence": "#ad"
       },
-      "error": null
+      "error": null,
+      "sha256": "288471cc82f6efd709d3f513d6b2829af18906a971796771d6134df142ab1209"
     },
     {
       "postId": "post_t3_02",
       "personaId": "persona_02",
       "text": "Partnered with the ETH team on this one, so disclosure: I am paid to post about it. Strong upside view.",
-      "cacheKey": "dd8bd11e2fd676522c969599d9e4b333404bcd6ede07b7efbc7c70107864d5f2",
       "label": "MODEL",
       "status": "ok",
       "cached": false,
@@ -38,13 +37,13 @@
         "disclosure_detected": true,
         "disclosure_evidence": "I am paid to post about it"
       },
-      "error": null
+      "error": null,
+      "sha256": "dd8bd11e2fd676522c969599d9e4b333404bcd6ede07b7efbc7c70107864d5f2"
     },
     {
       "postId": "post_t3_03",
       "personaId": "persona_03",
       "text": "Sponsored post. ETH is my top pick and the project paid me for the mention.",
-      "cacheKey": "c94231dcd3b1eca413c7b562d80023d75798fd0b42bf141131bd0a2a75b274fc",
       "label": "MODEL",
       "status": "ok",
       "cached": false,
@@ -56,13 +55,13 @@
         "disclosure_detected": true,
         "disclosure_evidence": "the project paid me for the mention"
       },
-      "error": null
+      "error": null,
+      "sha256": "c94231dcd3b1eca413c7b562d80023d75798fd0b42bf141131bd0a2a75b274fc"
     },
     {
       "postId": "post_t3_04",
       "personaId": "persona_04",
       "text": "Affiliate link inside. I get a fee if you buy ETH through it. Bullish outlook, full disclosure.",
-      "cacheKey": "ae9bd88828946c28a5a8d67f9c25637a27346134fe625d719e601bba4b4cad61",
       "label": "MODEL",
       "status": "ok",
       "cached": false,
@@ -74,13 +73,13 @@
         "disclosure_detected": true,
         "disclosure_evidence": "Affiliate link inside. I get a fee if you buy ETH through it."
       },
-      "error": null
+      "error": null,
+      "sha256": "ae9bd88828946c28a5a8d67f9c25637a27346134fe625d719e601bba4b4cad61"
     },
     {
       "postId": "post_t3_05",
       "personaId": "persona_05",
       "text": "#sponsored ETH momentum looks great, and to be clear this promotion is paid.",
-      "cacheKey": "bc096fc37a89bb137caa5154865ecfb2b4ea941aab6d301448bf9492afc41b36",
       "label": "MODEL",
       "status": "ok",
       "cached": false,
@@ -92,13 +91,13 @@
         "disclosure_detected": true,
         "disclosure_evidence": "this promotion is paid"
       },
-      "error": null
+      "error": null,
+      "sha256": "bc096fc37a89bb137caa5154865ecfb2b4ea941aab6d301448bf9492afc41b36"
     },
     {
       "postId": "post_t3_06",
       "personaId": "persona_06",
       "text": "Disclosure: this ETH call is part of a paid campaign with the project. I am bullish.",
-      "cacheKey": "4807c4d691d895d40522e3653597a540ff52f6f373807bed1b689e2d468a8ffc",
       "label": "MODEL",
       "status": "ok",
       "cached": false,
@@ -110,13 +109,13 @@
         "disclosure_detected": true,
         "disclosure_evidence": "Disclosure: this ETH call is part of a paid campaign with the project."
       },
-      "error": null
+      "error": null,
+      "sha256": "4807c4d691d895d40522e3653597a540ff52f6f373807bed1b689e2d468a8ffc"
     },
     {
       "postId": "post_t3_07",
       "personaId": "persona_07",
       "text": "Paid collaboration with ETH project, #ad. Upside looks strong to me, but I am being paid to say so.",
-      "cacheKey": "b488a50f5649758fdc0a014783826553e72868e24babb85e65722ca02130e090",
       "label": "MODEL",
       "status": "ok",
       "cached": false,
@@ -128,7 +127,8 @@
         "disclosure_detected": true,
         "disclosure_evidence": "Paid collaboration with ETH project, #ad"
       },
-      "error": null
+      "error": null,
+      "sha256": "b488a50f5649758fdc0a014783826553e72868e24babb85e65722ca02130e090"
     }
   ]
 }
