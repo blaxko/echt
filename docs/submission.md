@@ -6,7 +6,8 @@ Echt checks whether a wave of "independent" crypto voices was paid from one sour
 
 ## For a judge in 30 seconds
 
-- **Live demo:** https://blaxko.github.io/echt/ (read-only, runs in the browser)
+- **Live demo:** https://echt-sepia.vercel.app/ (landing), dashboard at https://echt-sepia.vercel.app/#/app (read-only, runs in the browser)
+- **Backup:** https://blaxko.github.io/echt/ (dashboard at https://blaxko.github.io/echt/#/app)
 - **What to look at:** the T1 tab. Five of seven voices were paid from one wallet before they posted. The verdict is BLOCK, and its transaction is on Sepolia: https://sepolia.etherscan.io/tx/0xc0141cba6a540fce98f3ea414e9523d44c1a1a7ff4d2276aa0032497fc01a7be
 - **The control case:** T2. One payment is not a pattern, so the verdict is ELIGIBLE with no linked voices: https://sepolia.etherscan.io/tx/0x97d2b04e85dca1e5aa02664795019b73b50af954dc720065bc7347c5868d5c63
 - **Trust the result:** every verdict was read back from the contract with `getVerdict` before it was recorded. The first broadcast failed silently, and the fix is shown in the demo.
@@ -41,7 +42,7 @@ Honest label: the CRE step is a local simulation that writes to Sepolia, not a d
 ## Links
 
 - Repository: https://github.com/blaxko/echt
-- Live demo: https://blaxko.github.io/echt/
+- Live demo: https://echt-sepia.vercel.app/ (backup: https://blaxko.github.io/echt/)
 - `EchtVerdicts` (Ethereum Sepolia): https://sepolia.etherscan.io/address/0x2bc4819848efd784995ff6eab33be28b2b85bf8f
 - T1 verdict (BLOCK): https://sepolia.etherscan.io/tx/0xc0141cba6a540fce98f3ea414e9523d44c1a1a7ff4d2276aa0032497fc01a7be
 - T2 verdict (ELIGIBLE): https://sepolia.etherscan.io/tx/0x97d2b04e85dca1e5aa02664795019b73b50af954dc720065bc7347c5868d5c63

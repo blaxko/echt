@@ -4,18 +4,32 @@ import { fetchRecord, PUBLIC_DEMO, startRun } from "./api.ts";
 import type { ReplayResult } from "./replay.ts";
 import { Banner, Brief, Market, PaymentGraph, Proof, Proposal, ReplayDialog, RunDrawer, SCENARIOS, type RunPhase } from "./components.tsx";
 import { recordOf, screenFor, shownFor, type LoadState } from "./state.ts";
+import { canonicalHash, parseRoute, type Route } from "./route.ts";
+import { Lockup, SitePages } from "./site.tsx";
 
-// The Brief route names its scenario in the hash, so the dashboard and the Brief share one URL scheme.
-const briefScenario = (): string | null => {
-  const m = window.location.hash.match(/^#\/brief\/(T\d)$/);
-  return m ? m[1]! : null;
-};
-
+// One hash router for the whole site. Landing and section pages are static; the dashboard and the Brief share its state.
 export function App() {
+  const [route, setRoute] = useState<Route>(() => parseRoute(window.location.hash));
+
+  useEffect(() => {
+    const onHash = () => {
+      const legacy = canonicalHash(window.location.hash);
+      if (legacy) window.location.replace(legacy);
+      setRoute(parseRoute(window.location.hash));
+    };
+    onHash();
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
+  if (route.kind === "site") return <SitePages page={route.page} />;
+  return <Dashboard brief={route.kind === "brief" ? route.scenario : null} />;
+}
+
+function Dashboard({ brief }: { brief: string | null }) {
   // The scenario on screen is the Brief route's when one is open, otherwise the tab the reader picked.
   const [pick, setPick] = useState<string>("T1");
   const [load, setLoad] = useState<LoadState>({ status: "loading", scenario: "T1" });
-  const [brief, setBrief] = useState<string | null>(briefScenario());
   const [attempt, setAttempt] = useState(0);
   const scenario = brief ?? pick;
   const shown = shownFor(load, scenario);
@@ -25,12 +39,6 @@ export function App() {
   const [replayResult, setReplayResult] = useState<ReplayResult | null>(null);
   const record = recordOf(shown);
   const screen = screenFor(shown);
-
-  useEffect(() => {
-    const onHash = () => setBrief(briefScenario());
-    window.addEventListener("hashchange", onHash);
-    return () => window.removeEventListener("hashchange", onHash);
-  }, []);
 
   // Loading is the state until this request settles. An answer for a scenario the reader has left is dropped.
   useEffect(() => {
@@ -116,7 +124,7 @@ export function App() {
     <>
       <a className="skip" href="#main">Skip to decision</a>
       <header className="top">
-        <h1 className="brand">Echt</h1>
+        <h1 className="brand"><a className="home-link" href="#/" aria-label="Echt home"><Lockup /></a></h1>
         <nav aria-label="Scenarios">
           <ul className="tabs">
             {SCENARIOS.map((s) => (
