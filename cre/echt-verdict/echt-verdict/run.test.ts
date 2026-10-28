@@ -7,6 +7,7 @@ import {
   encodeVerdict,
   parseRunRequest,
   parseTxlist,
+  ETHERSCAN_PAGE_LIMIT,
   lookbackStart,
   sourceMetaFrom,
   toTransfers,
@@ -164,5 +165,14 @@ describe("verdict encoding", () => {
     expect(verdict.linkedCount).toBe(5);
     expect(verdict.pinnedToBlock).toBe(12_100_000n);
     expect(verdict.personaIdHashes).toHaveLength(5);
+  });
+});
+
+describe("provider page limit", () => {
+  it("treats a full Etherscan page as a failure, never as a complete history", () => {
+    const row = { hash: "0x1", blockNumber: "1", transactionIndex: "0", from: "0xA", to: "0xB", value: "1", timeStamp: "1", isError: "0" };
+    const full = Array.from({ length: ETHERSCAN_PAGE_LIMIT }, () => row);
+    expect(parseTxlist({ status: "1", message: "OK", result: full })).toEqual({ ok: false, error: "etherscan page limit reached; history may be incomplete" });
+    expect(parseTxlist({ status: "1", message: "OK", result: full.slice(1) })).toMatchObject({ ok: true });
   });
 });

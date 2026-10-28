@@ -96,7 +96,7 @@ function build(): void {
         runId: spec.runId,
         tokenSymbol: "ETH", // placeholder until RYO returns a symbol with status ok (DECISIONS.md)
         campaignSource: addresses.campaignSource,
-        voices: voices.map(({ postedAt: _unused, ...v }) => v),
+        voices: voices.map((v) => ({ personaId: v.personaId, handle: v.handle, wallet: v.wallet, attestation: v.attestation, provenance: v.provenance })),
         posts: voices.map((v) => ({
           id: `post_${v.personaId}`,
           personaId: v.personaId,

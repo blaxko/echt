@@ -22,12 +22,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
       - run: corepack enable
       - run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm lint
       - name: Typecheck
         run: pnpm typecheck
       - name: Tests (policy, server, scripts, web, contracts)
@@ -36,7 +38,7 @@ jobs:
         run: pnpm audit --audit-level=high
       - name: Public build
         run: pnpm --filter @echt/web build:public
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: public-site
           path: apps/web/dist-public
@@ -45,14 +47,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: "1.4.4"
-      - name: CRE workflow helpers (Bun)
+      - name: CRE workflow helpers (Bun): typecheck and tests
         working-directory: cre/echt-verdict/echt-verdict
         run: |
           bun install --frozen-lockfile
+          bun run typecheck:check
           bun test
 
   deploy:
@@ -68,15 +71,15 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
       - run: corepack enable
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @echt/web build:public
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: apps/web/dist-public
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

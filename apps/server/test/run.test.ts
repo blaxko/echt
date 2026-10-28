@@ -157,7 +157,7 @@ describe("server API", () => {
 describe("disclosure from extraction", () => {
   it("marks a disclosed voice with its post id, and leaves the others unmarked", () => {
     const s = scenario();
-    const payload = buildRunPayload(s, 12_009_980, AFTER_POST, new Set(["persona_01"]));
+    const payload = buildRunPayload(s, 12_009_980, AFTER_POST, { disclosedPersonas: new Set(["persona_01"]), failedPersonas: new Set() });
     expect(payload.voices[0]!.disclosedByPostId).toBe("post_persona_01");
     expect(buildRunPayload(s, 12_009_980, AFTER_POST).voices[0]!.disclosedByPostId).toBeNull();
   });

@@ -29,6 +29,16 @@ Contract: [`EchtVerdicts`](https://sepolia.etherscan.io/address/0x2bc4819848efd7
 
 Honest labels: the personas and posts are synthetic, the payments are Sepolia testnet transfers, and the CRE step is a local simulation, not a deployed DON. Echt reports patterns and whether disclosure was detected. It does not make legal findings. See [docs/LIMITATIONS.md](docs/LIMITATIONS.md).
 
+## Deploy the public site (Vercel or GitHub Pages)
+
+Both targets build the same static site from `pnpm --filter @echt/web build:public`. It reads only committed files, so it needs **no secrets and no environment variables**.
+
+**Vercel.** Import the repository. `vercel.json` sets the install command, the build command, the output folder (`apps/web/dist-public`) and the security headers, so no dashboard overrides are needed. Two settings matter:
+- Environment variable `ENABLE_EXPERIMENTAL_COREPACK=1` (all environments). Vercel then uses the pnpm version in `packageManager` (10.34.9). Without it, Vercel falls back to its default pnpm.
+- Node.js version 24.x.
+
+**GitHub Pages.** `.github/workflows/pages.yml` deploys on every push to `main` (Settings → Pages → Source: GitHub Actions).
+
 ## Run it locally
 
 The public demo needs nothing. Running new checks needs the setup below.

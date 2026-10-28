@@ -4,7 +4,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Hono } from "hono";
 import { evidenceBytes, POLICY_VERSION, type JsonValue } from "@echt/policy";
-import { buildRunPayload, type ScenarioFile } from "./run-payload.ts";
+import { buildRunPayload, type ExtractionFacts, type ScenarioFile } from "./run-payload.ts";
 import { runCreSimulation, type SimulationOptions, type SimulationOutcome } from "./cre-run.ts";
 import { makeRealPersistence } from "./chain-record.ts";
 import type { PersistOutcome } from "./run-record.ts";
@@ -22,8 +22,8 @@ export interface RunDeps {
   latestBlock: () => Promise<number>;
   simulate: (options: SimulationOptions) => Promise<SimulationOutcome>;
   now: () => number;
-  /** Persona IDs the extraction read as disclosed for this scenario. */
-  loadDisclosed?: (name: string) => Promise<ReadonlySet<string>>;
+  /** What the extraction found for this scenario's personas. */
+  loadExtraction?: (name: string, personas: readonly string[]) => Promise<ExtractionFacts>;
   /** Called after a broadcast run finishes. Writes scenarios/runs/<scenario>.json only if the chain agrees. */
   persist?: (scenario: string, payload: RunPayload, result: Record<string, unknown>) => Promise<PersistOutcome>;
 }
@@ -72,8 +72,9 @@ export function createApp(deps: RunDeps) {
     const pinnedToBlock = (await deps.latestBlock()) - PIN_DEPTH;
     let payload: ReturnType<typeof buildRunPayload>;
     try {
-      const disclosed = deps.loadDisclosed ? await deps.loadDisclosed(name) : new Set<string>();
-      payload = buildRunPayload(scenario, pinnedToBlock, deps.now(), disclosed);
+      const personas = scenario.input.voices.map((v) => v.personaId);
+      const facts = deps.loadExtraction ? await deps.loadExtraction(name, personas) : undefined;
+      payload = buildRunPayload(scenario, pinnedToBlock, deps.now(), facts);
     } catch (error) {
       return c.json({ error: (error as Error).message }, 409);
     }
@@ -158,19 +159,28 @@ async function loadScenario(name: string): Promise<ScenarioFile | null> {
   return JSON.parse(await readFile(join(REPO_ROOT, "scenarios", file), "utf8")) as ScenarioFile;
 }
 
-async function loadDisclosed(name: string): Promise<ReadonlySet<string>> {
+/**
+ * What the saved extraction says about each persona. Missing or unreadable extraction is missing data, and
+ * missing data is REVIEW (PRD \u00A710.2), so every persona of the scenario counts as failed in that case.
+ */
+async function loadExtractionFacts(name: string, personas: readonly string[]): Promise<ExtractionFacts> {
   try {
-    const file = JSON.parse((await readFile(join(REPO_ROOT, "scenarios", "extractions", `${name}.json`), "utf8")).replace(/^﻿/, "")) as { results: { personaId: string; extraction: { disclosure_detected: boolean } | null }[] };
-    return new Set(file.results.filter((r) => r.extraction?.disclosure_detected).map((r) => r.personaId));
+    const file = JSON.parse((await readFile(join(REPO_ROOT, "scenarios", "extractions", `${name}.json`), "utf8")).replace(/^\uFEFF/, "")) as {
+      results: { personaId: string; status: string; extraction: { disclosure_detected: boolean } | null }[];
+    };
+    return {
+      disclosedPersonas: new Set(file.results.filter((r) => r.extraction?.disclosure_detected).map((r) => r.personaId)),
+      failedPersonas: new Set(file.results.filter((r) => r.status !== "ok").map((r) => r.personaId)),
+    };
   } catch {
-    return new Set();
+    return { disclosedPersonas: new Set(), failedPersonas: new Set(personas) };
   }
 }
 
 async function loadRecord(name: string): Promise<Record<string, unknown> | null> {
   if (!/^T\d$/.test(name)) return null;
   try {
-    return JSON.parse((await readFile(join(REPO_ROOT, "scenarios", "runs", `${name}.json`), "utf8")).replace(/^﻿/, "")) as Record<string, unknown>;
+    return JSON.parse((await readFile(join(REPO_ROOT, "scenarios", "runs", `${name}.json`), "utf8")).replace(/^\uFEFF/, "")) as Record<string, unknown>;
   } catch {
     return null;
   }
@@ -192,7 +202,7 @@ export const app = createApp({
   repoRoot: REPO_ROOT,
   loadScenario,
   loadRecord,
-  loadDisclosed,
+  loadExtraction: loadExtractionFacts,
   latestBlock,
   simulate: runCreSimulation,
   now: () => Date.now(),

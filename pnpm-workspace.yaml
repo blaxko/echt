@@ -4,5 +4,6 @@ packages:
   - packages/*
   - contracts
   - scripts
+  - tools/*
 allowBuilds:
   esbuild: true

@@ -20,6 +20,14 @@ const verdictAbi = [
   },
 ] as const;
 
+// Hardhat's generated contract types are not produced for this repo, so the test states the shape it uses.
+type Echt = {
+  address: `0x${string}`;
+  abi: readonly unknown[];
+  read: { getVerdict: (args: readonly [Hex]) => Promise<unknown> };
+  write: { onReport: (args: readonly [Hex, Hex], options: { account: unknown }) => Promise<Hex> };
+};
+
 const RUN_ID = keccak256(stringToHex("run-1"));
 const EVIDENCE = keccak256(stringToHex("evidence"));
 const POLICY = keccak256(stringToHex("echt-policy@2"));
@@ -47,7 +55,7 @@ describe("EchtVerdicts", async () => {
 
   async function deploy() {
     const deployed = await viem.deployContract("EchtVerdicts", [forwarder!.account.address]);
-    return viem.getContractAt("EchtVerdicts", deployed.address);
+    return (await viem.getContractAt("EchtVerdicts", deployed.address)) as unknown as Echt;
   }
 
   it("accepts a report from the forwarder and stores it", async () => {
@@ -73,8 +81,9 @@ describe("EchtVerdicts", async () => {
       toBlock: receipt.blockNumber,
     });
     assert.equal(logs.length, 1);
-    assert.equal(logs[0]!.args.runId, RUN_ID);
-    assert.equal(logs[0]!.args.paymentVerdict, 2);
+    const ev = logs[0] as unknown as { args: { runId: Hex; paymentVerdict: number } };
+    assert.equal(ev.args.runId, RUN_ID);
+    assert.equal(ev.args.paymentVerdict, 2);
   });
 
   it("rejects a report from any address other than the forwarder", async () => {

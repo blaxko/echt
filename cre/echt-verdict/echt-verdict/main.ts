@@ -47,7 +47,7 @@ const ETHERSCAN_PACING_MS = 400;
 // Runs on every node. The result is a JSON string so consensus can compare nodes byte for byte.
 // Errors are returned as data, not thrown, so a failed lookup becomes REVIEW instead of a silent gap.
 const fetchVoice = (nodeRuntime: NodeRuntime<Config>, url: string): string => {
-  nodeRuntime.sleep(ETHERSCAN_PACING_MS);
+  sleep(ETHERSCAN_PACING_MS); // the CRE host's global sleep (SDK host bindings)
   const response = new HTTPClient().sendRequest(nodeRuntime, { url, method: "GET" }).result();
   if (response.statusCode !== 200) return JSON.stringify({ ok: false, error: `etherscan HTTP ${response.statusCode}` });
   const rows = parseTxlist(decodeJson(response.body));
@@ -56,7 +56,7 @@ const fetchVoice = (nodeRuntime: NodeRuntime<Config>, url: string): string => {
 };
 
 const fetchSource = (nodeRuntime: NodeRuntime<Config>, url: string): string => {
-  nodeRuntime.sleep(ETHERSCAN_PACING_MS);
+  sleep(ETHERSCAN_PACING_MS); // the CRE host's global sleep (SDK host bindings)
   const response = new HTTPClient().sendRequest(nodeRuntime, { url, method: "GET" }).result();
   if (response.statusCode !== 200) return JSON.stringify({ ok: false, error: `etherscan HTTP ${response.statusCode}` });
   const rows = parseTxlist(decodeJson(response.body));

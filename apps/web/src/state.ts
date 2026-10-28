@@ -19,10 +19,21 @@ export function finalState(record: RunRecord | null): FinalState {
   return "ELIGIBLE_NO_POSITION";
 }
 
-/** What the page has loaded. Nothing is decided before the record request settles. */
-export type LoadState = { status: "loading" } | { status: "ready"; record: RunRecord | null } | { status: "error"; message: string };
+/**
+ * What the page has loaded, tagged with the scenario it was requested for. A result is only ever shown for
+ * the scenario it belongs to: switching tabs never shows the previous scenario's record, even for one frame.
+ */
+export type LoadState =
+  | { status: "loading"; scenario: string }
+  | { status: "ready"; scenario: string; record: RunRecord | null }
+  | { status: "error"; scenario: string; message: string };
 
 export type Screen = "loading" | "error" | "empty" | "record";
+
+/** The load state as it applies to the scenario on screen. Anything for another scenario counts as loading. */
+export function shownFor(load: LoadState, scenario: string): LoadState {
+  return load.scenario === scenario ? load : { status: "loading", scenario };
+}
 
 /** Loading never shows IDLE or a verdict. "empty" means the request settled and no record exists. */
 export function screenFor(load: LoadState): Screen {

@@ -4,7 +4,7 @@
 // written on-chain. Real verdicts replace these files after the post times pass.
 // Transfers are the six payments in scenarios/addresses.json, the same rows Etherscan returned on 28 Oct.
 
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { decideRun, type RunInput, type Transfer } from "../packages/policy/src/index.ts";
@@ -12,15 +12,20 @@ import { decideRun, type RunInput, type Transfer } from "../packages/policy/src/
 const ROOT = join(fileURLToPath(new URL(".", import.meta.url)), "..");
 const SCEN = join(ROOT, "scenarios");
 // Some fixtures were written by PowerShell with a byte-order mark, so strip it before parsing.
-const read = <T>(p: string): T => JSON.parse(readFileSync(p, "utf8").replace(/^﻿/, "")) as T;
+// The scenario files are checked by scripts/scenario-posts.ts; these types describe the fields this script reads.
+interface ScenarioVoice { personaId: string; wallet: string; handle: string; attestation: { method: string } }
+interface ScenarioPost { personaId: string; postedAt: string }
+interface ScenarioJson { id?: string; input: { runId: string; voices: ScenarioVoice[]; posts: ScenarioPost[] } }
+
+const read = <T>(p: string): T => JSON.parse(readFileSync(p, "utf8").replace(/^\uFEFF/, "")) as T;
 
 const DRY_PIN = 12_009_848; // head − 20 at the 28 Oct 05:20 UTC dry simulation
 const TEST_POST_BLOCK = DRY_PIN - 1000;
 
 interface Payment { personaId: string; txHash: string; blockNumber: number; blockTimestamp: number; amountWei: string }
 const addresses = read<{ campaignSource: string; payments: Record<string, Payment[]> }>(join(SCEN, "addresses.json"));
-const t1 = read<any>(join(SCEN, "T1-coordinated.json"));
-const t2 = read<any>(join(SCEN, "T2-unrelated.json"));
+const t1 = read<ScenarioJson>(join(SCEN, "T1-coordinated.json"));
+const t2 = read<ScenarioJson>(join(SCEN, "T2-unrelated.json"));
 const ryo = read<{ code: string; message: string; trace_id: string; details: { tool: string } }>(
   join(SCEN, "fixtures", "ryo-analyze_token-ETH-error-retry-28oct.json"),
 );
@@ -28,7 +33,9 @@ const ryo = read<{ code: string; message: string; trace_id: string; details: { t
 const allPayments = [...addresses.payments.T1!, ...addresses.payments.T2!];
 const source = addresses.campaignSource.toLowerCase();
 const transfers: Transfer[] = allPayments.map((p, i) => {
-  const w = [...t1.input.voices, ...t2.input.voices].find((v: any) => v.personaId === p.personaId).wallet.toLowerCase();
+  const voice = [...t1.input.voices, ...t2.input.voices].find((v) => v.personaId === p.personaId);
+  if (!voice) throw new Error(`no voice for ${p.personaId}`);
+  const w = voice.wallet.toLowerCase();
   return {
     txHash: p.txHash as `0x${string}`,
     blockNumber: p.blockNumber,
@@ -41,13 +48,19 @@ const transfers: Transfer[] = allPayments.map((p, i) => {
   };
 });
 
-function build(scenario: any, paymentList: Payment[], opts: { id: string; label: string; providerFailed?: boolean; tamper?: boolean }) {
-  const postByPersona = new Map<string, string>(scenario.input.posts.map((p: any) => [p.personaId, p.postedAt]));
-  const voices = scenario.input.voices.map((v: any) => ({
+function build(scenario: ScenarioJson, paymentList: Payment[], opts: { id: string; label: string; providerFailed?: boolean; tamper?: boolean }) {
+  const postByPersona = new Map<string, string>(scenario.input.posts.map((p) => [p.personaId, p.postedAt]));
+  // A voice without a post has no time. Date.parse(undefined) is NaN, which would reach the evidence silently.
+  const postedAt = (personaId: string): string => {
+    const at = postByPersona.get(personaId);
+    if (at === undefined) throw new Error(`${scenario.id}: ${personaId} has no post`);
+    return at;
+  };
+  const voices = scenario.input.voices.map((v) => ({
     personaId: v.personaId,
     wallet: v.wallet.toLowerCase(),
     verified: v.attestation.method === "signed_challenge",
-    postedAtMs: Date.parse(postByPersona.get(v.personaId)),
+    postedAtMs: Date.parse(postedAt(v.personaId)),
     disclosed: false,
   }));
   const input: RunInput = {
@@ -86,15 +99,15 @@ function build(scenario: any, paymentList: Payment[], opts: { id: string; label:
     marketGate: "UNAVAILABLE",
     finalAction: "NO_POSITION",
     proposal: { side: "long", sizeUsd: 400, stopPct: 0.08, symbol: "ETH", rationale: "Seven voices turned bullish on ETH inside one 6 h window" },
-    voices: scenario.input.voices.map((v: any) => {
+    voices: scenario.input.voices.map((v) => {
       const pay = paid.get(v.personaId);
-      const postedAtMs = Date.parse(postByPersona.get(v.personaId));
+      const postedAtMs = Date.parse(postedAt(v.personaId));
       return {
         personaId: v.personaId,
         handle: v.handle,
         wallet: v.wallet,
         verified: v.attestation.method === "signed_challenge",
-        postedAt: postByPersona.get(v.personaId),
+        postedAt: postedAt(v.personaId),
         postBlock: TEST_POST_BLOCK,
         gapHours: pay ? Number(((postedAtMs - pay.blockTimestamp * 1000) / 3_600_000).toFixed(2)) : null,
         paymentTx: pay ? pay.txHash : null,
@@ -129,6 +142,12 @@ const records = {
   T6: build(t1, addresses.payments.T1!, { id: "T6", label: "SIMULATED · tampered snapshot (T6), nothing written on-chain", tamper: true }),
 };
 for (const [name, r] of Object.entries(records)) {
-  writeFileSync(join(SCEN, "runs", `${name}.json`), JSON.stringify(r, null, 2) + "\n");
+  // Never overwrite a real run. A record with dryRun false came from the chain read-back (server/chain-record.ts).
+  const path = join(SCEN, "runs", `${name}.json`);
+  if (existsSync(path) && (JSON.parse(readFileSync(path, "utf8").replace(/^\uFEFF/, "")) as { dryRun?: boolean }).dryRun === false) {
+    console.log(`${name}: kept the real record (dryRun false); not overwritten`);
+    continue;
+  }
+  writeFileSync(path, JSON.stringify(r, null, 2) + "\n");
   console.log(`${name}: ${r.verdict} ${r.reasons.join(",")} linked=${r.linkedPersonaIds.length} hash=${r.evidenceHash.slice(0, 12)}…`);
 }

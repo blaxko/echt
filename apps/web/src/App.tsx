@@ -1,9 +1,9 @@
+import type { JsonValue } from "@echt/policy";
 import { useEffect, useState } from "react";
-import { canonicalJson, type JsonValue } from "@echt/policy";
-import { fetchRecord, PUBLIC_DEMO, startRun, type RunRecord } from "./api.ts";
-import { replay, type ReplayResult } from "./replay.ts";
+import { fetchRecord, PUBLIC_DEMO, startRun } from "./api.ts";
+import type { ReplayResult } from "./replay.ts";
 import { Banner, Brief, Market, PaymentGraph, Proof, Proposal, ReplayDialog, RunDrawer, SCENARIOS, type RunPhase } from "./components.tsx";
-import { recordOf, screenFor, type LoadState } from "./state.ts";
+import { recordOf, screenFor, shownFor, type LoadState } from "./state.ts";
 
 // The Brief route names its scenario in the hash, so the dashboard and the Brief share one URL scheme.
 const briefScenario = (): string | null => {
@@ -12,21 +12,19 @@ const briefScenario = (): string | null => {
 };
 
 export function App() {
-  const [scenario, setScenario] = useState<string>("T1");
-  const [load, setLoad] = useState<LoadState>({ status: "loading" });
+  // The scenario on screen is the Brief route's when one is open, otherwise the tab the reader picked.
+  const [pick, setPick] = useState<string>("T1");
+  const [load, setLoad] = useState<LoadState>({ status: "loading", scenario: "T1" });
+  const [brief, setBrief] = useState<string | null>(briefScenario());
   const [attempt, setAttempt] = useState(0);
+  const scenario = brief ?? pick;
+  const shown = shownFor(load, scenario);
   const [phase, setPhase] = useState<RunPhase>({ kind: "idle" });
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [log, setLog] = useState<string[]>([]);
   const [replayResult, setReplayResult] = useState<ReplayResult | null>(null);
-  const [brief, setBrief] = useState<string | null>(briefScenario());
-  const record = recordOf(load);
-  const screen = screenFor(load);
-
-  // The Brief route names its own scenario, so the record it shows must be that scenario too.
-  useEffect(() => {
-    if (brief && brief !== scenario) setScenario(brief);
-  }, [brief, scenario]);
+  const record = recordOf(shown);
+  const screen = screenFor(shown);
 
   useEffect(() => {
     const onHash = () => setBrief(briefScenario());
@@ -34,13 +32,12 @@ export function App() {
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
-  // Loading is the state until this request settles. A stale answer for an earlier tab is ignored.
+  // Loading is the state until this request settles. An answer for a scenario the reader has left is dropped.
   useEffect(() => {
     let current = true;
-    setLoad({ status: "loading" });
     fetchRecord(scenario)
-      .then((r) => current && setLoad({ status: "ready", record: r }))
-      .catch((e: Error) => current && setLoad({ status: "error", message: e.message }));
+      .then((r) => current && setLoad({ status: "ready", scenario, record: r }))
+      .catch((e: Error) => current && setLoad({ status: "error", scenario, message: e.message }));
     return () => {
       current = false;
     };
@@ -67,8 +64,11 @@ export function App() {
     else setPhase({ kind: "running", id: r.id });
   };
 
-  const runReplay = () => {
-    if (record) setReplayResult(replay(record));
+  // The policy code is loaded on first use, so the first paint does not pay for it.
+  const runReplay = async () => {
+    if (!record) return;
+    const { replay } = await import("./replay.ts");
+    setReplayResult(replay(record));
   };
 
   // Esc closes the run log when it is open, as the drawer pattern expects.
@@ -82,8 +82,10 @@ export function App() {
   // Keyboard: R replays, E opens the Evidence Brief. Ignored while typing or inside a dialog.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      const tag = (e.target as HTMLElement).tagName;
-      if (e.altKey || e.ctrlKey || e.metaKey || tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement).closest("dialog")) return;
+      // Key events from the page itself (document or window) have no element to inspect; ignore them.
+      if (!(e.target instanceof Element)) return;
+      const tag = e.target.tagName;
+      if (e.altKey || e.ctrlKey || e.metaKey || tag === "INPUT" || tag === "TEXTAREA" || e.target.closest("dialog")) return;
       if (e.key === "r" || e.key === "R") runReplay();
       if ((e.key === "e" || e.key === "E") && record) window.location.hash = `#/brief/${scenario}`;
     };
@@ -100,10 +102,11 @@ export function App() {
   }
 
   // The JSON download is the canonical evidence bytes, built in the browser with the same code as the server.
-  const exportJson = () => {
+  const exportJson = async () => {
     if (!record) return;
+    const { canonicalJson } = await import("@echt/policy");
     const a = document.createElement("a");
-    a.href = URL.createObjectURL(new Blob([canonicalJson(record.evidence as Record<string, JsonValue>)], { type: "application/json" }));
+    a.href = URL.createObjectURL(new Blob([canonicalJson(record.evidence as JsonValue)], { type: "application/json" }));
     a.download = `echt-${scenario}-evidence.json`;
     a.click();
     URL.revokeObjectURL(a.href);
@@ -118,7 +121,7 @@ export function App() {
           <ul className="tabs">
             {SCENARIOS.map((s) => (
               <li key={s.id}>
-                <button type="button" aria-pressed={scenario === s.id} onClick={() => { setScenario(s.id); setPhase({ kind: "idle" }); setReplayResult(null); }}>
+                <button type="button" aria-pressed={scenario === s.id} onClick={() => { setPick(s.id); setPhase({ kind: "idle" }); setReplayResult(null); }}>
                   {s.name}
                 </button>
               </li>
@@ -132,7 +135,7 @@ export function App() {
         {screen === "error" && load.status === "error" && (
           <div role="alert" className="loading">
             <p>Could not load the run record for {scenario}: {load.message}</p>
-            <button type="button" onClick={() => setAttempt((n) => n + 1)}>Try again</button>
+            <button type="button" onClick={() => { setLoad({ status: "loading", scenario }); setAttempt((n) => n + 1); }}>Try again</button>
           </div>
         )}
         {(screen === "record" || screen === "empty") && (
