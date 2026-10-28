@@ -10,6 +10,7 @@
   "dependencies": {
     "@echt/policy": "workspace:*",
     "@hono/node-server": "2.1.5",
-    "hono": "4.13.13"
+    "hono": "4.13.13",
+    "viem": "2.57.11"
   }
 }
