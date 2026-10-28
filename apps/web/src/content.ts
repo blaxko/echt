@@ -45,10 +45,10 @@ export const PROBLEM = {
 export const HOW = {
   title: "How it works",
   steps: [
-    { title: "Voices converge", text: "Seven watched voices turn bullish on one token within six hours." },
-    { title: "The agent proposes", text: "A practice long is proposed with its rationale. No real funds move." },
-    { title: "Chainlink CRE checks the trail", text: "At a pinned block, the workflow asks whether the voices' wallets were paid from one source before posting." },
-    { title: "The policy decides", text: "The result is BLOCK, REVIEW or ELIGIBLE. The verdict is written to Ethereum Sepolia." },
+    { title: "Catch a wave of agreement", text: "Seven watched voices turn bullish on one token within six hours." },
+    { title: "Propose a practice trade, with no real money", text: "A practice long is proposed with its rationale. No real funds move." },
+    { title: "Trace the payments behind the posts", text: "At a pinned block, the Chainlink CRE workflow asks whether the voices' wallets were paid from one source before posting." },
+    { title: "Get a verdict anyone can check", text: "The policy returns BLOCK, REVIEW or ELIGIBLE. The verdict is written to Ethereum Sepolia." },
   ],
   more: "how-it-works" as const,
   moreLabel: "how it works",

@@ -104,7 +104,8 @@ function Menu({ open, onClose, current }: { open: boolean; onClose: () => void; 
         <ul className="menu-list">
           {items.map((item) => (
             <li key={item.page}>
-              <a href={item.page === "home" ? "#/" : `#/${item.page}`} aria-current={current === item.page ? "page" : undefined} onClick={close}>
+              {/* Only a section page is highlighted. Home is the landing itself, not a section, so it never takes the lime. */}
+              <a href={item.page === "home" ? "#/" : `#/${item.page}`} aria-current={current !== "home" && current === item.page ? "page" : undefined} onClick={close}>
                 {item.label}
               </a>
             </li>
@@ -157,6 +158,8 @@ function SiteFooter({ inert }: { inert: boolean }) {
           Built for the BLI Legal Tech Hackathon 2
         </p>
         <p className="footer-line muted">Practice trades only. Testnet only (Ethereum Sepolia).</p>
+        {/* One dashboard button on mobile: the header holds it. The footer repeats it on desktop only. */}
+        <a className="btn btn-ghost footer-dashboard" href={DASHBOARD}>Open dashboard</a>
       </div>
     </footer>
   );
