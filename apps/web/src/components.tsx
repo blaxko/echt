@@ -271,7 +271,7 @@ export function Brief({ record, scenario }: { record: RunRecord; scenario: strin
       <p>{record.market.status === "UNAVAILABLE" ? "Market evidence from RYO. " : ""}{record.provider.status === "failed" ? record.provider.detail : "No provider data missing."}</p>
       <h2>Limitations</h2>
       <p>Personas and posts are synthetic. Transfers are testnet transfers on Ethereum Sepolia. The CRE step runs as a local simulation, not a deployed DON. Disclosure is a heuristic flag. Nothing here is a finding that any law was broken.</p>
-      <p><button type="button" className="no-print" onClick={() => window.print()}>Print</button>{" "}<button type="button" className="no-print" onClick={() => downloadCsv(record, scenario)}>Transfers CSV</button> <a className="no-print" href="#/">Back to dashboard</a></p>
+      <p><button type="button" className="no-print" onClick={() => window.print()}>Print</button>{" "}<button type="button" className="no-print" onClick={() => downloadCsv(record, scenario)}>Transfers CSV</button> <a className="no-print" href="#/app">Back to dashboard</a></p>
     </article>
   );
 }

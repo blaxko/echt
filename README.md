@@ -1,12 +1,13 @@
 # Echt
 
-**Live demo (read-only): https://blaxko.github.io/echt/**
+**Live demo (read-only): https://echt-sepia.vercel.app/** · dashboard: https://echt-sepia.vercel.app/#/app
+Backup (GitHub Pages): https://blaxko.github.io/echt/ · dashboard: https://blaxko.github.io/echt/#/app
 
 **In one sentence:** Echt checks whether a wave of "independent" crypto voices was paid from one source, before an AI agent trades on it, and writes the verdict to Ethereum Sepolia.
 
 ## What you can check in two minutes
 
-1. Open the [live demo](https://blaxko.github.io/echt/). Each tab is a scenario.
+1. Open the [live demo](https://echt-sepia.vercel.app/#/app). Each tab is a scenario. The landing page is at [the root](https://echt-sepia.vercel.app/).
 2. **T1** blocks the trade: 5 of 7 voices received payments from one source before they posted. Every payment is an [Etherscan link](https://sepolia.etherscan.io/tx/0xcbcb1806ae5953cca2279e0f185782707024e81b6d109bd86d34c65fd725a231), with its measured gap to the post.
 3. **T2** does not: one payment is not a pattern, so it is ELIGIBLE with no linked voices.
 4. Press **Replay**. T1 returns MATCH. T6, a tampered copy, returns HASH_MISMATCH.
