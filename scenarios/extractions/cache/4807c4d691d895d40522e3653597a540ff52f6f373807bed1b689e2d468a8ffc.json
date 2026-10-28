@@ -1,0 +1,14 @@
+{
+  "sha256": "4807c4d691d895d40522e3653597a540ff52f6f373807bed1b689e2d468a8ffc",
+  "model": "openai/gpt-oss-120b",
+  "promptVersion": "extract-v1",
+  "label": "MODEL",
+  "extraction": {
+    "token": "ETH",
+    "sentiment": "bullish",
+    "conviction": 0.8,
+    "urgency": 0,
+    "disclosure_detected": true,
+    "disclosure_evidence": "Disclosure: this ETH call is part of a paid campaign with the project."
+  }
+}

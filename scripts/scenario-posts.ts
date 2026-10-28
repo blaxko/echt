@@ -51,6 +51,14 @@ function readJson<T>(path: string): T {
   return JSON.parse(readFileSync(path, "utf8")) as T;
 }
 
+// Post text comes from scenarios/posts/<scenario>.json, the same texts the extraction reads.
+function postText(scenario: string, personaId: string): string {
+  const file = readJson<{ posts: { personaId: string; text: string }[] }>(join(SCENARIOS_DIR, "posts", `${scenario}.json`));
+  const post = file.posts.find((p) => p.personaId === personaId);
+  if (!post) throw new Error(`no post text for ${personaId} in ${scenario}`);
+  return post.text;
+}
+
 function build(): void {
   const addresses = readJson<{ campaignSource: Hex; payments: Record<string, Payment[]> }>(ADDRESSES_FILE);
   const { attestations } = readJson<{ attestations: Attestation[] }>(ATTESTATIONS_FILE);
@@ -92,7 +100,7 @@ function build(): void {
         posts: voices.map((v) => ({
           id: `post_${v.personaId}`,
           personaId: v.personaId,
-          text: "SYNTHETIC persona post: bullish on the token. No disclosure.",
+          text: postText(scenario, v.personaId),
           postedAt: v.postedAt,
           postBlock: null,
           provenance: "SYNTHETIC",

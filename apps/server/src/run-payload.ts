@@ -8,6 +8,7 @@ export interface ScenarioVoice {
 }
 
 export interface ScenarioPost {
+  id: string;
   personaId: string;
   postedAt: string;
   postBlock: number | null;
@@ -37,11 +38,15 @@ export interface RunPayload {
     verified: boolean;
     postBlock: number;
     postedAtMs: number;
-    disclosedByPostId: null;
+    disclosedByPostId: string | null;
   }[];
 }
 
-export function buildRunPayload(scenario: ScenarioFile, pinnedToBlock: number, nowMs: number): RunPayload {
+/**
+ * `disclosed` holds the persona IDs whose post the extraction read as disclosed (F2). A disclosed voice is
+ * still shown, but it does not count toward BLOCK (D5).
+ */
+export function buildRunPayload(scenario: ScenarioFile, pinnedToBlock: number, nowMs: number, disclosed: ReadonlySet<string> = new Set()): RunPayload {
   const postByPersona = new Map(scenario.input.posts.map((p) => [p.personaId, p]));
   const voices = scenario.input.voices.map((voice) => {
     const post = postByPersona.get(voice.personaId);
@@ -59,7 +64,7 @@ export function buildRunPayload(scenario: ScenarioFile, pinnedToBlock: number, n
       verified: voice.attestation.method === "signed_challenge",
       postBlock: post.postBlock,
       postedAtMs,
-      disclosedByPostId: null,
+      disclosedByPostId: disclosed.has(voice.personaId) ? post.id : null,
     };
   });
 

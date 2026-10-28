@@ -97,57 +97,57 @@
       {
         "id": "post_persona_08",
         "personaId": "persona_08",
-        "text": "SYNTHETIC persona post: bullish on the token. No disclosure.",
+        "text": "Quiet day for ETH, but the trend structure still looks constructive to me.",
         "postedAt": "2026-10-28T16:10:00.000Z",
-        "postBlock": null,
+        "postBlock": 12013420,
         "provenance": "SYNTHETIC"
       },
       {
         "id": "post_persona_09",
         "personaId": "persona_09",
-        "text": "SYNTHETIC persona post: bullish on the token. No disclosure.",
+        "text": "Thinking about ETH over the long term. I like the fundamentals more than the short term noise.",
         "postedAt": "2026-10-28T16:11:00.000Z",
-        "postBlock": null,
+        "postBlock": 12013425,
         "provenance": "SYNTHETIC"
       },
       {
         "id": "post_persona_10",
         "personaId": "persona_10",
-        "text": "SYNTHETIC persona post: bullish on the token. No disclosure.",
+        "text": "ETH is consolidating. Not much to say today, just watching the range.",
         "postedAt": "2026-10-28T16:12:00.000Z",
-        "postBlock": null,
+        "postBlock": 12013430,
         "provenance": "SYNTHETIC"
       },
       {
         "id": "post_persona_11",
         "personaId": "persona_11",
-        "text": "SYNTHETIC persona post: bullish on the token. No disclosure.",
+        "text": "Interesting ETH upgrade discussion on the forum. Curious how it plays out.",
         "postedAt": "2026-10-28T16:13:00.000Z",
-        "postBlock": null,
+        "postBlock": 12013435,
         "provenance": "SYNTHETIC"
       },
       {
         "id": "post_persona_12",
         "personaId": "persona_12",
-        "text": "SYNTHETIC persona post: bullish on the token. No disclosure.",
+        "text": "Good week for ETH developers. Nothing I would trade on yet, just a view.",
         "postedAt": "2026-10-28T16:14:00.000Z",
-        "postBlock": null,
+        "postBlock": 12013440,
         "provenance": "SYNTHETIC"
       },
       {
         "id": "post_persona_13",
         "personaId": "persona_13",
-        "text": "SYNTHETIC persona post: bullish on the token. No disclosure.",
+        "text": "Mild bullish lean on ETH after the weekend volume. We will see on Monday.",
         "postedAt": "2026-10-28T16:15:00.000Z",
-        "postBlock": null,
+        "postBlock": 12013445,
         "provenance": "SYNTHETIC"
       },
       {
         "id": "post_persona_14",
         "personaId": "persona_14",
-        "text": "SYNTHETIC persona post: bullish on the token. No disclosure.",
+        "text": "ETH chart is boring but healthy. Would not chase it here.",
         "postedAt": "2026-10-28T16:16:00.000Z",
-        "postBlock": null,
+        "postBlock": 12013450,
         "provenance": "SYNTHETIC"
       }
     ],

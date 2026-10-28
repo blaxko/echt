@@ -11,3 +11,4 @@ export { marketGate, type MarketFacts, type RyoFailure } from "./market.ts";
 export { providerOutcome, type ProviderEvent, type ProviderOutcome } from "./failures.ts";
 export { proposePosition, withinRiskLimits, DEFAULT_RISK_LIMITS, type Proposal, type RiskLimits } from "./proposal.ts";
 export { evaluate, severity, type EvaluationInput, type EvaluationResult, type Decided } from "./evaluate.ts";
+export { decideRun, evidenceBytes, EVIDENCE_SECTIONS, type RunInput, type RunDecision, type RunVoiceInput } from "./decide-run.ts";

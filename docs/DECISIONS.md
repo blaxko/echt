@@ -118,3 +118,29 @@ Dry simulation (no broadcast, 28 Oct 05:20 UTC) on the real T1 transfers, pinned
 - Deployer, CRE writer and campaign source each hold 0.05 ETH (28 Oct, read over RPC). Keys match the addresses above (`contracts/scripts/check-balances.ts`).
 - Standing approval (28 Oct, CLAUDE.md §11) covers Ethereum Sepolia spend within the caps: deployer ≤ 0.02 ETH, campaign source ≤ 0.02 ETH, CRE writer ≤ 0.01 ETH total; every wallet ≥ 0.005 ETH after each send.
 - Deploy done (EchtVerdicts, see table above). Seeding status is recorded in `scenarios/addresses.json`.
+
+## Day 3 decisions (28 Oct)
+
+| # | Decision | Why |
+|---|---|---|
+| D17 | A real run is written to `scenarios/runs/<scenario>.json` only when three things agree: the CRE result's evidence hash, the server's own recomputation with `decideRun`, and `EchtVerdicts.getVerdict` read back from the chain. Otherwise the old record stays and the run log says why | The record is evidence; it must not depend on one source |
+| D18 | The OPEN PRACTICE POSITION state needs `marketGate` PASS and a real envelope from `scenarios/fixtures/`. A test-only envelope never opens a position on screen | Market data is down; no ok envelope exists yet |
+| D19 | `viem` is not a dependency of `apps/server`. The chain read lives in `scripts/chain-read.ts`, where the pnpm links are intact | pnpm 12.3.4 left viem's `abitype` peer unlinked in the server package (see D10) |
+| D20 | T2 is expected ELIGIBLE with 0 linked voices. One payment is not a campaign source (D6). The dashboard labels that payment as a grey edge "not from a campaign source (paid only 1 voice)" | Confirmed by the owner, 28 Oct |
+
+### RYO analyze_token retry (28 Oct, 04:42 UTC)
+
+`scripts/ryo-retry.ts` retried BTC, ETH and SOL. All three returned HTTP 400 `VALIDATION_FAILED` ("couldn't analyze … right now"). Trace ids are in `scenarios/fixtures/ryo-analyze_token-*-error-2026-10-28-04-42.json`. No `ok` envelope exists, so no scenario symbol is set yet; the scenarios keep `ETH` as a placeholder. The retry is meant to run every 2 hours. Schedule it with the command below, or run it by hand.
+
+```bash
+. .\scripts\load-env.ps1 ; cd scripts ; npx tsx ryo-retry.ts
+```
+
+## Build fixes and extraction (28 Oct)
+
+| # | Decision | Why |
+|---|---|---|
+| D21 | `packageManager` pinned to pnpm 10.34.9 (latest 10.x). `viem` is a normal dependency of `apps/server` again, with `openai` and `zod`. The chain read moved back into the server. Earlier pnpm 12 link breakage (D10, D19) did not occur under pnpm 10 | Fixes the cause, not the symptom. Checked with a clean clone of origin/day3-build: `pnpm install`, `pnpm test` and `pnpm --filter web build` all exit 0 with no manual link fixes |
+| D22 | F2 extraction (PRD §6.2) runs through the `openai` SDK in JSON mode, against `LLM_BASE_URL` with `LLM_MODEL` (Groq, `openai/gpt-oss-120b`). The reply is validated with zod. One retry, then `extraction_failed`. Results are cached by sha256(text + model + promptVersion) in `scenarios/extractions/cache/`, labelled `MODEL`. Replay stays offline | PRD §6.2; CLAUDE.md §8 LLM rules |
+| D23 | Extracted `disclosure_detected` feeds the run payload (`disclosedByPostId`). A disclosed voice is shown and does not count toward BLOCK (D5) | Makes disclosure a real input, not a hard-coded flag |
+| D24 | Posts for extraction live in `scenarios/posts/T1|T2|T3.json`. T3 is the disclosed-campaign text (PRD T3). T3 has no on-chain run yet | Extraction test data; synthetic only |

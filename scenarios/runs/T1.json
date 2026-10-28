@@ -1,0 +1,388 @@
+{
+  "schemaVersion": 1,
+  "scenario": "T1",
+  "generatedAt": "2026-10-28T17:11:05.753Z",
+  "label": "TESTNET · CRE local simulation",
+  "provenance": "TESTNET",
+  "cre": "Chainlink CRE · local simulation",
+  "dryRun": false,
+  "verdictTx": "0xc0141cba6a540fce98f3ea414e9523d44c1a1a7ff4d2276aa0032497fc01a7be",
+  "runId": "t1-coordinated",
+  "pinnedToBlock": 12013685,
+  "pinNote": "pinned to head − 20 when the run started",
+  "policyVersion": "echt-policy@2",
+  "verdict": "BLOCK",
+  "reasons": [
+    "THRESHOLD_MET"
+  ],
+  "linkedPersonaIds": [
+    "persona_01",
+    "persona_02",
+    "persona_03",
+    "persona_04",
+    "persona_05"
+  ],
+  "marketGate": "UNAVAILABLE",
+  "finalAction": "NO_POSITION",
+  "proposal": {
+    "side": "long",
+    "sizeUsd": 400,
+    "stopPct": 0.08,
+    "symbol": "ETH",
+    "rationale": "Seven voices turned bullish on ETH inside one 6 h window"
+  },
+  "voices": [
+    {
+      "personaId": "persona_01",
+      "handle": "@echt_persona_01",
+      "wallet": "0x78a911c5eac77756a2aa52734c6491fa777f722e",
+      "verified": true,
+      "postedAt": "2026-10-28T16:00:00.000Z",
+      "postBlock": 12013370,
+      "gapHours": 11.87,
+      "paymentTx": "0xcbcb1806ae5953cca2279e0f185782707024e81b6d109bd86d34c65fd725a231",
+      "linked": true,
+      "disclosed": false,
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "personaId": "persona_02",
+      "handle": "@echt_persona_02",
+      "wallet": "0x069c3377fe98090e1bfc96e1a586c57ebf61643a",
+      "verified": true,
+      "postedAt": "2026-10-28T16:01:00.000Z",
+      "postBlock": 12013375,
+      "gapHours": 11.89,
+      "paymentTx": "0x93b918c3f737d31e485e8a1c7ef7d72ea74c8f0e053a0c4eb393c6c9818e724b",
+      "linked": true,
+      "disclosed": false,
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "personaId": "persona_03",
+      "handle": "@echt_persona_03",
+      "wallet": "0x23ac8a150d692dc817946afd29efe0cc586d5aee",
+      "verified": true,
+      "postedAt": "2026-10-28T16:02:00.000Z",
+      "postBlock": 12013380,
+      "gapHours": 11.9,
+      "paymentTx": "0x7b4e5aa61433ec7027f1a70fcc1e4fac408f14087765f3f3714da0270084ac83",
+      "linked": true,
+      "disclosed": false,
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "personaId": "persona_04",
+      "handle": "@echt_persona_04",
+      "wallet": "0x3664a4a5d5d7f8edf99415ecb54286f119bc3309",
+      "verified": true,
+      "postedAt": "2026-10-28T16:03:00.000Z",
+      "postBlock": 12013385,
+      "gapHours": 11.91,
+      "paymentTx": "0xc342a2f0c4bbe0292acaaa4b2ec97401193328628366a09d42b20ec9c2b4f4ce",
+      "linked": true,
+      "disclosed": false,
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "personaId": "persona_05",
+      "handle": "@echt_persona_05",
+      "wallet": "0x47063bf0bbd583adf430334e3ce16c5eda5aba45",
+      "verified": true,
+      "postedAt": "2026-10-28T16:04:00.000Z",
+      "postBlock": 12013390,
+      "gapHours": 11.93,
+      "paymentTx": "0x78986292395a4090702b765ebc00e880c8fd79d1ad280934fe277b7ee9f8ab1c",
+      "linked": true,
+      "disclosed": false,
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "personaId": "persona_06",
+      "handle": "@echt_persona_06",
+      "wallet": "0xf2adb0eff4cb5ec1ba10014684137ca8dc98c688",
+      "verified": true,
+      "postedAt": "2026-10-28T16:05:00.000Z",
+      "postBlock": 12013395,
+      "gapHours": null,
+      "paymentTx": null,
+      "linked": false,
+      "disclosed": false,
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "personaId": "persona_07",
+      "handle": "@echt_persona_07",
+      "wallet": "0xf97cc5449e4f6d58d310cc6480a6ff1643a18a30",
+      "verified": true,
+      "postedAt": "2026-10-28T16:06:00.000Z",
+      "postBlock": 12013400,
+      "gapHours": null,
+      "paymentTx": null,
+      "linked": false,
+      "disclosed": false,
+      "provenance": "SYNTHETIC"
+    }
+  ],
+  "market": {
+    "status": "UNAVAILABLE",
+    "tool": "analyze_token",
+    "symbol": "ETH",
+    "code": "VALIDATION_FAILED",
+    "message": "couldn't analyze ETH right now",
+    "traceId": "e9c9039008d74705ad8b480a32c317fb",
+    "source": "scenarios/fixtures/ryo-analyze_token-ETH-error-retry-28oct.json"
+  },
+  "provider": {
+    "status": "ok"
+  },
+  "inputs": {
+    "runId": "t1-coordinated",
+    "symbol": "ETH",
+    "pinnedToBlock": 12013685,
+    "extractionFailed": false,
+    "providerFailed": false,
+    "voices": [
+      {
+        "personaId": "persona_01",
+        "wallet": "0x78a911c5eac77756a2aa52734c6491fa777f722e",
+        "verified": true,
+        "postedAtMs": 1793203200000,
+        "disclosed": false
+      },
+      {
+        "personaId": "persona_02",
+        "wallet": "0x069c3377fe98090e1bfc96e1a586c57ebf61643a",
+        "verified": true,
+        "postedAtMs": 1793203260000,
+        "disclosed": false
+      },
+      {
+        "personaId": "persona_03",
+        "wallet": "0x23ac8a150d692dc817946afd29efe0cc586d5aee",
+        "verified": true,
+        "postedAtMs": 1793203320000,
+        "disclosed": false
+      },
+      {
+        "personaId": "persona_04",
+        "wallet": "0x3664a4a5d5d7f8edf99415ecb54286f119bc3309",
+        "verified": true,
+        "postedAtMs": 1793203380000,
+        "disclosed": false
+      },
+      {
+        "personaId": "persona_05",
+        "wallet": "0x47063bf0bbd583adf430334e3ce16c5eda5aba45",
+        "verified": true,
+        "postedAtMs": 1793203440000,
+        "disclosed": false
+      },
+      {
+        "personaId": "persona_06",
+        "wallet": "0xf2adb0eff4cb5ec1ba10014684137ca8dc98c688",
+        "verified": true,
+        "postedAtMs": 1793203500000,
+        "disclosed": false
+      },
+      {
+        "personaId": "persona_07",
+        "wallet": "0xf97cc5449e4f6d58d310cc6480a6ff1643a18a30",
+        "verified": true,
+        "postedAtMs": 1793203560000,
+        "disclosed": false
+      }
+    ],
+    "transfers": [
+      {
+        "txHash": "0xcbcb1806ae5953cca2279e0f185782707024e81b6d109bd86d34c65fd725a231",
+        "blockNumber": 12009817,
+        "transactionIndex": 0,
+        "from": "0xaa9fe8c47cbfd12e1d6109b7c825c5b478a7b25c",
+        "to": "0x78a911c5eac77756a2aa52734c6491fa777f722e",
+        "amountWei": "2000000000000000",
+        "timestamp": "2026-10-28T04:07:36.000Z",
+        "provenance": "TESTNET"
+      },
+      {
+        "txHash": "0x93b918c3f737d31e485e8a1c7ef7d72ea74c8f0e053a0c4eb393c6c9818e724b",
+        "blockNumber": 12009818,
+        "transactionIndex": 1,
+        "from": "0xaa9fe8c47cbfd12e1d6109b7c825c5b478a7b25c",
+        "to": "0x069c3377fe98090e1bfc96e1a586c57ebf61643a",
+        "amountWei": "2000000000000000",
+        "timestamp": "2026-10-28T04:07:48.000Z",
+        "provenance": "TESTNET"
+      },
+      {
+        "txHash": "0x7b4e5aa61433ec7027f1a70fcc1e4fac408f14087765f3f3714da0270084ac83",
+        "blockNumber": 12009819,
+        "transactionIndex": 2,
+        "from": "0xaa9fe8c47cbfd12e1d6109b7c825c5b478a7b25c",
+        "to": "0x23ac8a150d692dc817946afd29efe0cc586d5aee",
+        "amountWei": "2000000000000000",
+        "timestamp": "2026-10-28T04:08:00.000Z",
+        "provenance": "TESTNET"
+      },
+      {
+        "txHash": "0xc342a2f0c4bbe0292acaaa4b2ec97401193328628366a09d42b20ec9c2b4f4ce",
+        "blockNumber": 12009820,
+        "transactionIndex": 3,
+        "from": "0xaa9fe8c47cbfd12e1d6109b7c825c5b478a7b25c",
+        "to": "0x3664a4a5d5d7f8edf99415ecb54286f119bc3309",
+        "amountWei": "2000000000000000",
+        "timestamp": "2026-10-28T04:08:12.000Z",
+        "provenance": "TESTNET"
+      },
+      {
+        "txHash": "0x78986292395a4090702b765ebc00e880c8fd79d1ad280934fe277b7ee9f8ab1c",
+        "blockNumber": 12009821,
+        "transactionIndex": 4,
+        "from": "0xaa9fe8c47cbfd12e1d6109b7c825c5b478a7b25c",
+        "to": "0x47063bf0bbd583adf430334e3ce16c5eda5aba45",
+        "amountWei": "2000000000000000",
+        "timestamp": "2026-10-28T04:08:24.000Z",
+        "provenance": "TESTNET"
+      },
+      {
+        "txHash": "0xe8dc499fb0eed479e76589cdd9489c6725f82d3258a8059346041ffbfbbfcb33",
+        "blockNumber": 12009823,
+        "transactionIndex": 5,
+        "from": "0xaa9fe8c47cbfd12e1d6109b7c825c5b478a7b25c",
+        "to": "0xed93afeb4f42c9003254625e5b06b437f680c1f8",
+        "amountWei": "2000000000000000",
+        "timestamp": "2026-10-28T04:08:48.000Z",
+        "provenance": "TESTNET"
+      }
+    ],
+    "sourceMeta": {
+      "0xaa9fe8c47cbfd12e1d6109b7c825c5b478a7b25c": {
+        "txCount": 7,
+        "knownExchange": false
+      }
+    }
+  },
+  "evidence": {
+    "runId": "t1-coordinated",
+    "symbol": "ETH",
+    "pinnedToBlock": 12013685,
+    "policyVersion": "echt-policy@2",
+    "voices": [
+      {
+        "personaId": "persona_01",
+        "wallet": "0x78a911c5eac77756a2aa52734c6491fa777f722e",
+        "verified": true,
+        "postedAtMs": 1793203200000,
+        "disclosed": false
+      },
+      {
+        "personaId": "persona_02",
+        "wallet": "0x069c3377fe98090e1bfc96e1a586c57ebf61643a",
+        "verified": true,
+        "postedAtMs": 1793203260000,
+        "disclosed": false
+      },
+      {
+        "personaId": "persona_03",
+        "wallet": "0x23ac8a150d692dc817946afd29efe0cc586d5aee",
+        "verified": true,
+        "postedAtMs": 1793203320000,
+        "disclosed": false
+      },
+      {
+        "personaId": "persona_04",
+        "wallet": "0x3664a4a5d5d7f8edf99415ecb54286f119bc3309",
+        "verified": true,
+        "postedAtMs": 1793203380000,
+        "disclosed": false
+      },
+      {
+        "personaId": "persona_05",
+        "wallet": "0x47063bf0bbd583adf430334e3ce16c5eda5aba45",
+        "verified": true,
+        "postedAtMs": 1793203440000,
+        "disclosed": false
+      },
+      {
+        "personaId": "persona_06",
+        "wallet": "0xf2adb0eff4cb5ec1ba10014684137ca8dc98c688",
+        "verified": true,
+        "postedAtMs": 1793203500000,
+        "disclosed": false
+      },
+      {
+        "personaId": "persona_07",
+        "wallet": "0xf97cc5449e4f6d58d310cc6480a6ff1643a18a30",
+        "verified": true,
+        "postedAtMs": 1793203560000,
+        "disclosed": false
+      }
+    ],
+    "campaignSources": [
+      "0xaa9fe8c47cbfd12e1d6109b7c825c5b478a7b25c"
+    ],
+    "sourceMeta": {
+      "0xaa9fe8c47cbfd12e1d6109b7c825c5b478a7b25c": {
+        "txCount": 7,
+        "knownExchange": false
+      }
+    },
+    "transfers": [
+      {
+        "txHash": "0x78986292395a4090702b765ebc00e880c8fd79d1ad280934fe277b7ee9f8ab1c",
+        "from": "0xaa9fe8c47cbfd12e1d6109b7c825c5b478a7b25c",
+        "personaId": "persona_05",
+        "amountWei": "2000000000000000"
+      },
+      {
+        "txHash": "0x7b4e5aa61433ec7027f1a70fcc1e4fac408f14087765f3f3714da0270084ac83",
+        "from": "0xaa9fe8c47cbfd12e1d6109b7c825c5b478a7b25c",
+        "personaId": "persona_03",
+        "amountWei": "2000000000000000"
+      },
+      {
+        "txHash": "0x93b918c3f737d31e485e8a1c7ef7d72ea74c8f0e053a0c4eb393c6c9818e724b",
+        "from": "0xaa9fe8c47cbfd12e1d6109b7c825c5b478a7b25c",
+        "personaId": "persona_02",
+        "amountWei": "2000000000000000"
+      },
+      {
+        "txHash": "0xc342a2f0c4bbe0292acaaa4b2ec97401193328628366a09d42b20ec9c2b4f4ce",
+        "from": "0xaa9fe8c47cbfd12e1d6109b7c825c5b478a7b25c",
+        "personaId": "persona_04",
+        "amountWei": "2000000000000000"
+      },
+      {
+        "txHash": "0xcbcb1806ae5953cca2279e0f185782707024e81b6d109bd86d34c65fd725a231",
+        "from": "0xaa9fe8c47cbfd12e1d6109b7c825c5b478a7b25c",
+        "personaId": "persona_01",
+        "amountWei": "2000000000000000"
+      }
+    ],
+    "linkedPersonaIds": [
+      "persona_01",
+      "persona_02",
+      "persona_03",
+      "persona_04",
+      "persona_05"
+    ],
+    "verdict": "BLOCK",
+    "reasons": [
+      "THRESHOLD_MET"
+    ]
+  },
+  "evidenceHash": "0x83953d258191a53b3e274751d6cc014f5da6951bdb0c75912c17fa1e344d010e",
+  "sectionHashes": {
+    "voices": "0xb71f384cab11eb3dad9b97dd3502792606898bf427e139635ef394ea813cc52d",
+    "campaign": "0xb7bc2ea84350ccb848c1a9de66ae44047cd3bd49594f4c44a3f7fdc0c1b4574d",
+    "transfers": "0xf31b5bf57d6875a2496efe1ea1559b2dcf4c164656828b8bfd27154bce470802",
+    "verdict": "0x5dde45d01966aee20f5b98067e5bdea65e71bdda9ba39fa7aaec62f0d7a135d8"
+  },
+  "readback": {
+    "source": "EchtVerdicts.getVerdict",
+    "evidenceHash": "0x83953d258191a53b3e274751d6cc014f5da6951bdb0c75912c17fa1e344d010e",
+    "paymentVerdict": 2,
+    "pinnedToBlock": 12013685,
+    "linkedCount": 5
+  }
+}

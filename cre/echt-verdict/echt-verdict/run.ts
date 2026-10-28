@@ -4,8 +4,7 @@
 
 import {
   analyzePayments,
-  hashCanonical,
-  judgePayment,
+  decideRun,
   POLICY_CONFIG,
   POLICY_VERSION,
   type PaymentAnalysis,
@@ -205,44 +204,35 @@ export interface Decision {
   evidenceHash: Hex;
 }
 
-/** The payment decision for one run. Provider failure in any voice lookup forces REVIEW through the policy. */
+/** The payment decision for one run. The policy package does the work; this adapts the request shape. */
 export function decide(
   request: RunRequest,
   transfers: readonly Transfer[],
   meta: Readonly<Record<string, SourceMeta>>,
   providerFailed: boolean,
 ): Decision {
-  const analysis = analyzePayments(toVoiceWallets(request.voices), transfers, meta);
-  const provider: ProviderOutcome = providerFailed ? "failed" : "ok";
-  const linked = analysis.linkedPersonaIds.map((personaId) => ({
-    personaId,
-    disclosed: request.voices.some((v) => v.personaId === personaId && v.disclosedByPostId !== null),
-  }));
-  const judged = judgePayment({
-    extractionFailed: request.extractionFailed,
-    provider,
-    analysis,
-    linked,
-    minVerifiedVoices: POLICY_CONFIG.minVerifiedVoices,
-  });
-  const evidence = {
+  const decision = decideRun({
     runId: request.runId,
     symbol: request.symbol,
     pinnedToBlock: request.pinnedToBlock,
-    policyVersion: POLICY_VERSION,
-    voices: request.voices.map((v) => ({ personaId: v.personaId, wallet: v.wallet, verified: v.verified, postedAtMs: v.postedAtMs })),
-    campaignSources: analysis.campaignSources,
-    qualifyingTxHashes: analysis.qualifying.map((q) => q.txHash).sort(),
-    linkedPersonaIds: analysis.linkedPersonaIds,
-    verdict: judged.verdict,
-    reasons: judged.reasons,
-  };
+    extractionFailed: request.extractionFailed,
+    providerFailed,
+    voices: request.voices.map((v) => ({
+      personaId: v.personaId,
+      wallet: v.wallet,
+      verified: v.verified,
+      postedAtMs: v.postedAtMs,
+      disclosed: v.disclosedByPostId !== null,
+    })),
+    transfers,
+    sourceMeta: meta,
+  });
   return {
-    verdict: judged.verdict,
-    reasons: judged.reasons,
-    analysis,
-    linkedPersonaIds: analysis.linkedPersonaIds,
-    evidenceHash: hashCanonical(evidence),
+    verdict: decision.verdict,
+    reasons: decision.reasons,
+    analysis: decision.analysis,
+    linkedPersonaIds: decision.linkedPersonaIds,
+    evidenceHash: decision.evidenceHash,
   };
 }
 

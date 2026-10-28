@@ -1,0 +1,14 @@
+{
+  "sha256": "c94231dcd3b1eca413c7b562d80023d75798fd0b42bf141131bd0a2a75b274fc",
+  "model": "openai/gpt-oss-120b",
+  "promptVersion": "extract-v1",
+  "label": "MODEL",
+  "extraction": {
+    "token": "ETH",
+    "sentiment": "bullish",
+    "conviction": 0.9,
+    "urgency": 0.2,
+    "disclosure_detected": true,
+    "disclosure_evidence": "the project paid me for the mention"
+  }
+}
