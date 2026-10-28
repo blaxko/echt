@@ -3,7 +3,7 @@
 
 import { readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
-import { readVerdictOnChain } from "../../../scripts/chain-read.ts";
+import { readVerdictOnChain } from "./chain-read.ts";
 
 type Address = `0x${string}`;
 import type { Transfer } from "@echt/policy";
