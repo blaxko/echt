@@ -1,0 +1,11 @@
+{
+  "verdicts": {
+    "chainId": 11155111,
+    "address": "0x2bc4819848efd784995ff6eab33be28b2b85bf8f",
+    "forwarder": "0x15fC6ae953E024d975e77382eEeC56A9101f9F88",
+    "deployTx": "0xd7b21891714f5d98b47fd469e0db235b37b9d315b6b3765d6e8f75d6a0facb05",
+    "blockNumber": 12009812,
+    "gasWei": "3467303000000000",
+    "provenance": "TESTNET"
+  }
+}

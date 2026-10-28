@@ -70,6 +70,76 @@
       "signature": "0xfb9c5d79d5923f672c772ac1e294a5c145df3bd800d5b928c35981969eccf35a105acd40781262c60f4f38e09d5163e14d5486e7ec7ba9449ae7b677bb91b7d31c",
       "challengePostId": "challenge_persona_07",
       "provenance": "SYNTHETIC"
+    },
+    {
+      "personaId": "persona_08",
+      "handle": "@echt_persona_08",
+      "wallet": "0xeD93aFEb4f42C9003254625E5b06B437f680c1f8",
+      "method": "signed_challenge",
+      "nonce": "d4d7b1aec1c72c06",
+      "signature": "0xacce6b6e85a8fae7575311d4d0154c7e76378ac17c25b276af30b02be178c50e2073c9227e3b94124d57a5d90ab5701fd78e8fa6733807bbba86de238fdf9c2a1b",
+      "challengePostId": "challenge_persona_08",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "personaId": "persona_09",
+      "handle": "@echt_persona_09",
+      "wallet": "0xd240F020a15363d754B521A0A19795A95E373802",
+      "method": "signed_challenge",
+      "nonce": "83486fb98748a10f",
+      "signature": "0x81302fd3abdbb40b67d962eaca31d6cd774f87d5728582da778367f1a66883294f9b9263886af4361ff9ef0f7612cf6dab67b0612f66aecd23a760259389bd171c",
+      "challengePostId": "challenge_persona_09",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "personaId": "persona_10",
+      "handle": "@echt_persona_10",
+      "wallet": "0xFa012D0f2B4eF7C72D76971F523D010D9CBB40F5",
+      "method": "signed_challenge",
+      "nonce": "1824bfb4b76f02fd",
+      "signature": "0xb3749e75330cdb59875596a988f26b6bd97bef0de9aebdf0b07067023688853718eb5709fe55e7702fc77be0af102153963629c464a891ef184bfcb4382948bf1c",
+      "challengePostId": "challenge_persona_10",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "personaId": "persona_11",
+      "handle": "@echt_persona_11",
+      "wallet": "0x45B6F697884f9eE104F5Af434438Dd13312D3853",
+      "method": "signed_challenge",
+      "nonce": "953404aa381e2399",
+      "signature": "0x2663b875a8f2fee9784c43d92f0f463bc063ee7a07789a6c72a484b822e9f9c20d285ae9270d92637e3212423be86c7ea9773ca8ceff197206c313fd3601ad761b",
+      "challengePostId": "challenge_persona_11",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "personaId": "persona_12",
+      "handle": "@echt_persona_12",
+      "wallet": "0x0A747E9bD021FaCc8AecFFf3BEd8A89464Db552b",
+      "method": "signed_challenge",
+      "nonce": "e0d832206c3ab9a5",
+      "signature": "0xa26ea6cdb8ae6a3e961da0594899c324fc6a6cd5cc6bb5079251d6bb1e056bb32c5c36f7252520bab873451dcb4a3b3d85d3a65606a07edf71de2ebb87d8d1cc1c",
+      "challengePostId": "challenge_persona_12",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "personaId": "persona_13",
+      "handle": "@echt_persona_13",
+      "wallet": "0xF1912B54cE46b0D0D93819CaEDa14723c88d6d62",
+      "method": "signed_challenge",
+      "nonce": "f334db870d0596b0",
+      "signature": "0xfc6bd76071dd65e4b227cd7b5d26b0d5cd45b5255af52b6ebc93fbbe99a3ba0e5e63a7061f6f14863e082be7dac8c38e7c39925b19cdd97fe1891ca326c1fdc61c",
+      "challengePostId": "challenge_persona_13",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "personaId": "persona_14",
+      "handle": "@echt_persona_14",
+      "wallet": "0x0aba7660E773b7da111A04C0Ed990ce28B859AFB",
+      "method": "signed_challenge",
+      "nonce": "7468ff5cde150a86",
+      "signature": "0xf0adeec5ec5dccc240eabcb7737f69719643f835746ca4f4cc52f31a37885e766963b69af8c9ea8656b2c67a422a525cf3ef2d65c4c466e29c04bf65c6819e831c",
+      "challengePostId": "challenge_persona_14",
+      "provenance": "SYNTHETIC"
     }
   ]
 }
