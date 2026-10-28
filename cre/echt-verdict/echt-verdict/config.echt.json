@@ -1,4 +1,7 @@
 {
   "chainId": 11155111,
-  "etherscanBaseUrl": "https://api.etherscan.io/v2/api"
+  "chainSelectorName": "ethereum-testnet-sepolia",
+  "etherscanBaseUrl": "https://api.etherscan.io/v2/api",
+  "verdictsAddress": "0x2bc4819848efd784995ff6eab33be28b2b85bf8f",
+  "gasLimit": "500000"
 }
