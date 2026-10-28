@@ -18,3 +18,19 @@ export function finalState(record: RunRecord | null): FinalState {
   if (record.marketGate === "PASS" && isRealEnvelope(record.market)) return "OPEN_PRACTICE_POSITION";
   return "ELIGIBLE_NO_POSITION";
 }
+
+/** What the page has loaded. Nothing is decided before the record request settles. */
+export type LoadState = { status: "loading" } | { status: "ready"; record: RunRecord | null } | { status: "error"; message: string };
+
+export type Screen = "loading" | "error" | "empty" | "record";
+
+/** Loading never shows IDLE or a verdict. "empty" means the request settled and no record exists. */
+export function screenFor(load: LoadState): Screen {
+  if (load.status === "loading") return "loading";
+  if (load.status === "error") return "error";
+  return load.record ? "record" : "empty";
+}
+
+export function recordOf(load: LoadState): RunRecord | null {
+  return load.status === "ready" ? load.record : null;
+}

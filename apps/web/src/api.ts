@@ -1,4 +1,6 @@
-// Types for the stored run record and the small API the dashboard uses. Everything the page shows comes from here.
+// The stored run record and the small API the dashboard uses. Two modes:
+//  - local: the API server on :8787 (proxied by Vite). Runs can be started.
+//  - public: VITE_PUBLIC_DEMO=1. Records are copied into the build, so there is no server and no key.
 export interface Voice {
   personaId: string;
   handle: string;
@@ -48,11 +50,33 @@ export interface RunRecord {
   cre: string;
 }
 
-export async function fetchRecord(scenario: string): Promise<RunRecord | null> {
-  const res = await fetch(`/api/runs/${scenario}/record`);
-  if (res.status === 404) return null;
-  if (!res.ok) throw new Error(`record ${scenario}: HTTP ${res.status}`);
-  return (await res.json()) as RunRecord;
+export const PUBLIC_DEMO = import.meta.env.VITE_PUBLIC_DEMO === "1";
+
+type Fetcher = (url: string) => Promise<Response>;
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * Loads one run record. A missing record is a JSON 404 from the API (or a missing demo file), and that
+ * returns null. Anything else (a proxy error, a non-JSON body, a network failure) is retried, and only
+ * then reported as an error. This keeps a slow API from looking like "no run recorded".
+ */
+export async function fetchRecord(scenario: string, fetcher: Fetcher = (u) => fetch(u), attempts = 3, pause = 300): Promise<RunRecord | null> {
+  const url = PUBLIC_DEMO ? `${import.meta.env.BASE_URL}demo/runs/${scenario}.json` : `/api/runs/${scenario}/record`;
+  let lastError = "";
+  for (let i = 0; i < attempts; i++) {
+    try {
+      const res = await fetcher(url);
+      const type = res.headers.get("content-type") ?? "";
+      if (res.status === 404 && (PUBLIC_DEMO || type.includes("application/json"))) return null;
+      if (res.ok && type.includes("json")) return (await res.json()) as RunRecord;
+      lastError = `record ${scenario}: HTTP ${res.status}${type.includes("json") ? "" : " (not JSON)"}`;
+    } catch (error) {
+      lastError = `record ${scenario}: ${(error as Error).message}`;
+    }
+    if (i < attempts - 1) await sleep(pause * (i + 1));
+  }
+  throw new Error(lastError);
 }
 
 export async function startRun(scenario: string): Promise<{ id: string } | { error: string }> {

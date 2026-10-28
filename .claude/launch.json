@@ -4,14 +4,41 @@
     {
       "name": "api",
       "runtimeExecutable": "node",
-      "runtimeArgs": ["--env-file=.env", "apps/server/src/index.ts"],
+      "runtimeArgs": [
+        "--env-file=.env",
+        "apps/server/src/index.ts"
+      ],
       "port": 8787
     },
     {
       "name": "web",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["--filter", "@echt/web", "dev", "--port", "5173", "--strictPort"],
+      "runtimeArgs": [
+        "--filter",
+        "@echt/web",
+        "dev",
+        "--port",
+        "5173",
+        "--strictPort"
+      ],
       "port": 5173
+    },
+    {
+      "name": "public",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "@echt/web",
+        "exec",
+        "vite",
+        "preview",
+        "--outDir",
+        "dist-public",
+        "--port",
+        "4173",
+        "--strictPort"
+      ],
+      "port": 4173
     }
   ]
 }

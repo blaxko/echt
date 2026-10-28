@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test": "echo no web unit tests yet"
+    "test": "echo no web unit tests yet",
+    "build:public": "node scripts/build-public.mjs"
   },
   "dependencies": {
     "@echt/policy": "workspace:*",
