@@ -158,3 +158,12 @@ Dry simulation (no broadcast, 28 Oct 05:20 UTC) on the real T1 transfers, pinned
 - T2: [0xa893a158…d253](https://sepolia.etherscan.io/tx/0xa893a158d3fa42495a1fb5b9cc7cede342bb57a1a2910da718157956bbfad253). Same result: no `VerdictRecorded` event.
 
 The corrected broadcasts, with the 2,000,000 gas limit, produced the verdicts that are on chain: T1 [0xc0141cba…a7be](https://sepolia.etherscan.io/tx/0xc0141cba6a540fce98f3ea414e9523d44c1a1a7ff4d2276aa0032497fc01a7be) and T2 [0x97d2b04e…5c63](https://sepolia.etherscan.io/tx/0x97d2b04e85dca1e5aa02664795019b73b50af954dc720065bc7347c5868d5c63). Both `getVerdict` read-backs match the workflow results.
+
+## Hardening (day4-hardening)
+
+| # | Decision | Why |
+|---|---|---|
+| D28 | Lint uses ESLint 9 flat config with `@typescript-eslint/parser` and the React Hooks plugin, in a separate workspace package `tools/lint` that pins TypeScript 6 for the parser. The umbrella `typescript-eslint` and the parser both refuse to load under TypeScript 7.0 (version check in the package). The repo itself stays on TypeScript 7.0.2 | The repo pins TypeScript 7.0.2 (CLAUDE.md §2). Scoping the older TypeScript to the lint tooling keeps the pin |
+| D29 | The CRE workflow typechecks with its own config, `cre/echt-verdict/echt-verdict/tsconfig.check.json`, which allows `.ts` import suffixes and loads `bun-types`. It runs in CI (`typecheck:check`) | The generated `tsconfig.json` (cre init) is not hand-edited (CLAUDE.md §9) |
+| D11 (status) | `cre workflow simulate --skip-type-checks` is still needed. The CLI typechecks with the generated `tsconfig.json`, which rejects the `.ts` suffixes the policy package uses for the Node server. Removing those suffixes would break the server's Node runtime, which needs them. The same code is now typechecked by D29, so the flag skips only the CLI's own pass | Verified 28 Oct: without the flag the CLI fails on the policy package's `.ts` imports and nothing else |
+| D30 | The public site's CSP is one definition (`apps/web/csp.ts`) used by the `<meta>` tag and by `vercel.json`. A test fails if the two drift | Pages cannot send headers; Vercel can, and must match |

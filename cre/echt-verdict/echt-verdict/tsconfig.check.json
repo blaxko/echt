@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "types": [
+      "bun-types"
+    ]
+  },
+  "include": [
+    "./*.ts",
+    "../../../packages/policy/src/**/*.ts"
+  ]
+}

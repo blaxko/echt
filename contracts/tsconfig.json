@@ -17,6 +17,7 @@
     "hardhat.config.ts",
     "scripts",
     "artifacts/artifacts.d.ts",
-    "artifacts/contracts/**/artifacts.d.ts"
+    "artifacts/contracts/**/artifacts.d.ts",
+    "test"
   ]
 }

@@ -4,13 +4,16 @@
   "main": "dist/main.js",
   "private": true,
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "typecheck:check": "tsc -p tsconfig.check.json",
+    "test": "bun test"
   },
   "license": "UNLICENSED",
   "dependencies": {
     "@chainlink/cre-sdk": "1.23.0"
   },
   "devDependencies": {
+    "bun-types": "1.2.23",
     "typescript": "5.9.3"
   }
 }

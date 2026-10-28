@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "scenario": "T6",
-  "generatedAt": "2026-10-28T18:25:33.611Z",
+  "generatedAt": "2026-10-28T18:42:37.790Z",
   "label": "SIMULATED · tampered snapshot (T6), nothing written on-chain",
   "provenance": "SIMULATED",
   "cre": "Chainlink CRE · local simulation",

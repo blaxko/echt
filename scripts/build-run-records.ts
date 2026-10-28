@@ -33,7 +33,9 @@ const ryo = read<{ code: string; message: string; trace_id: string; details: { t
 const allPayments = [...addresses.payments.T1!, ...addresses.payments.T2!];
 const source = addresses.campaignSource.toLowerCase();
 const transfers: Transfer[] = allPayments.map((p, i) => {
-  const w = [...t1.input.voices, ...t2.input.voices].find((v) => v.personaId === p.personaId).wallet.toLowerCase();
+  const voice = [...t1.input.voices, ...t2.input.voices].find((v) => v.personaId === p.personaId);
+  if (!voice) throw new Error(`no voice for ${p.personaId}`);
+  const w = voice.wallet.toLowerCase();
   return {
     txHash: p.txHash as `0x${string}`,
     blockNumber: p.blockNumber,
@@ -48,11 +50,17 @@ const transfers: Transfer[] = allPayments.map((p, i) => {
 
 function build(scenario: ScenarioJson, paymentList: Payment[], opts: { id: string; label: string; providerFailed?: boolean; tamper?: boolean }) {
   const postByPersona = new Map<string, string>(scenario.input.posts.map((p) => [p.personaId, p.postedAt]));
+  // A voice without a post has no time. Date.parse(undefined) is NaN, which would reach the evidence silently.
+  const postedAt = (personaId: string): string => {
+    const at = postByPersona.get(personaId);
+    if (at === undefined) throw new Error(`${scenario.id}: ${personaId} has no post`);
+    return at;
+  };
   const voices = scenario.input.voices.map((v) => ({
     personaId: v.personaId,
     wallet: v.wallet.toLowerCase(),
     verified: v.attestation.method === "signed_challenge",
-    postedAtMs: Date.parse(postByPersona.get(v.personaId)),
+    postedAtMs: Date.parse(postedAt(v.personaId)),
     disclosed: false,
   }));
   const input: RunInput = {
@@ -93,13 +101,13 @@ function build(scenario: ScenarioJson, paymentList: Payment[], opts: { id: strin
     proposal: { side: "long", sizeUsd: 400, stopPct: 0.08, symbol: "ETH", rationale: "Seven voices turned bullish on ETH inside one 6 h window" },
     voices: scenario.input.voices.map((v) => {
       const pay = paid.get(v.personaId);
-      const postedAtMs = Date.parse(postByPersona.get(v.personaId));
+      const postedAtMs = Date.parse(postedAt(v.personaId));
       return {
         personaId: v.personaId,
         handle: v.handle,
         wallet: v.wallet,
         verified: v.attestation.method === "signed_challenge",
-        postedAt: postByPersona.get(v.personaId),
+        postedAt: postedAt(v.personaId),
         postBlock: TEST_POST_BLOCK,
         gapHours: pay ? Number(((postedAtMs - pay.blockTimestamp * 1000) / 3_600_000).toFixed(2)) : null,
         paymentTx: pay ? pay.txHash : null,

@@ -58,7 +58,7 @@ describe("scenario persona sets", () => {
   });
 
   it("refuses a payment to a persona that is not a voice of the scenario", () => {
-    const saved = PAID_SETS.T2;
+    const saved = PAID_SETS.T2 as readonly number[];
     try {
       PAID_SETS.T2 = [1]; // persona_01 belongs to T1
       expect(() => paidNumbers("T2")).toThrow("not one of its voices");

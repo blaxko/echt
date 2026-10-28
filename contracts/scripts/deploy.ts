@@ -2,7 +2,9 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { artifacts, network } from "hardhat";
-import { encodeDeployData, formatEther } from "viem";
+import { createWalletClient, encodeDeployData, formatEther, http, type Abi } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
+import { sepolia } from "viem/chains";
 
 // CRE mock forwarder for local `cre workflow simulate` (DECISIONS.md). Never hardcode it elsewhere.
 const MOCK_FORWARDER = "0x15fC6ae953E024d975e77382eEeC56A9101f9F88";
@@ -50,7 +52,16 @@ if (balance - cost < FLOOR_WEI) {
 if (!broadcast) {
   console.log("dry run only. Nothing was sent. Set ECHT_BROADCAST=1 to broadcast.");
 } else {
-  const hash = await deployer.deployContract({ abi: artifact.abi, bytecode: artifact.bytecode as `0x${string}`, args: [MOCK_FORWARDER] });
+  const key = process.env.DEPLOYER_PRIVATE_KEY!.trim();
+  const wallet = createWalletClient({
+    account: privateKeyToAccount(key.startsWith("0x") ? (key as `0x${string}`) : (`0x${key}` as `0x${string}`)),
+    chain: sepolia,
+    transport: http(process.env.SEPOLIA_RPC_URL),
+  });
+  // viem types a contract creation as an EIP-1559 or EIP-4844 transaction and asks for blob fields that a deploy never uses.
+  // The call is narrowed to the one shape it needs. The chain-ID check above guards it at runtime.
+  type DeployCall = (p: { abi: Abi; bytecode: `0x${string}`; args: readonly unknown[]; chain: typeof sepolia }) => Promise<`0x${string}`>;
+  const hash = await (wallet.deployContract as unknown as DeployCall).call(wallet, { abi: artifact.abi as Abi, bytecode: artifact.bytecode as `0x${string}`, args: [MOCK_FORWARDER], chain: sepolia });
   const receipt = await publicClient.waitForTransactionReceipt({ hash });
   if (receipt.status !== "success" || !receipt.contractAddress) throw new Error(`deploy failed: ${hash}`);
   const address = receipt.contractAddress;
