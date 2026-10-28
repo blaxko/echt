@@ -1,5 +1,5 @@
-﻿// Echt payment check (PRD Â§6.6, F5). HTTP trigger â†’ transfer lookups at a pinned block â†’ consensus â†’
-// payment policy â†’ signed report â†’ EchtVerdicts. Helpers live in run.ts (the WASM build rejects
+﻿// Echt payment check (PRD §6.6, F5). HTTP trigger → transfer lookups at a pinned block → consensus →
+// payment policy → signed report → EchtVerdicts. Helpers live in run.ts (the WASM build rejects
 // exported functions with parameters, so main.ts exports only main()).
 
 import {

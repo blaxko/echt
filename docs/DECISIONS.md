@@ -101,6 +101,8 @@ Every scenario reads the same chain history, so a transfer to one scenario's wal
 | D14 | Unrecoverable lookups are returned as data (`ok: false`), not thrown. The policy turns them into REVIEW (`PROVIDER_FAILED`), so a gap never reads as ELIGIBLE | CLAUDE.md §9 |
 | D15 | The workflow's report is the ABI-encoded `Verdict` struct. Persona IDs are hashed (`keccak256`) on-chain. `evidenceHash` is `hashCanonical` of the evidence object | CLAUDE.md §8 and §9 |
 
+| D16 | The server starts a run with `POST /api/runs/:scenario`. It is a simulation by default, and writes on Sepolia only with `?broadcast=true`. It refuses a scenario whose `postBlock` is null (409) or whose posts are still in the future (409) before any CRE call. Only one read-only RPC call (head block) runs first. The pinned block is head − 20 | CLAUDE.md §8 (pin depth) and §9 (never present a simulation as live) |
+
 Dry simulation (no broadcast, 28 Oct 05:20 UTC) on the real T1 transfers, pinned 12,009,848: `BLOCK`, `THRESHOLD_MET`, linked persona_01–05. This was a pipeline check with a test `postBlock`, not a T1 run. No verdict was written on-chain.
 
 ## Post schedule and scenario files (28 Oct)

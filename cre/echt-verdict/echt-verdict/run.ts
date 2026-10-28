@@ -19,7 +19,7 @@ import { encodeAbiParameters, keccak256, stringToHex, type Hex } from "viem";
 // Blocks behind the post that the transfer lookup starts from. 72 h at about 12 s per Sepolia block.
 // The policy still applies the exact 72 h rule by timestamp.
 export const LOOKBACK_BLOCKS = 21_600;
-// Etherscan calls per execution: one per voice, plus one per campaign source. CRE allows 15; we stay â‰¤ 12.
+// Etherscan calls per execution: one per voice, plus one per campaign source. CRE allows 15; we stay ≤ 12.
 export const MAX_VOICES = 7;
 export const MAX_SOURCE_LOOKUPS = 5;
 
