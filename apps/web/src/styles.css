@@ -93,7 +93,8 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0; }
 .chip { border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; font-size: 0.9rem; }
 
-.columns { display: grid; grid-template-columns: 2fr 1fr; gap: var(--gap); }
+.columns { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: var(--gap); }
+.columns > *, .side > *, .zone, .banner { min-width: 0; }
 .side { display: grid; gap: var(--gap); align-content: start; }
 .graph { width: 100%; height: auto; }
 .graph .node { fill: var(--surface); stroke: var(--line); }
@@ -137,7 +138,7 @@ dialog.replay::backdrop { background: rgba(0, 0, 0, 0.4); }
 }
 
 @media (max-width: 760px) {
-  .columns { grid-template-columns: 1fr; }
+  .columns { grid-template-columns: minmax(0, 1fr); }
   .legend { margin-left: 0; }
   .proof-list div { grid-template-columns: 1fr; }
 }
