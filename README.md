@@ -50,6 +50,7 @@ The public demo needs nothing. Running new checks needs the setup below.
 corepack enable
 pnpm install
 pnpm test
+pnpm test:scenarios   # offline replay of T1 to T6; T3 and T4 show PENDING until the RYO phase
 . .\scripts\load-env.ps1
 pnpm --filter @echt/server start
 ```

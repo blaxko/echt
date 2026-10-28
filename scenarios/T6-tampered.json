@@ -1,0 +1,7 @@
+{
+  "id": "T6",
+  "title": "Tampered snapshot: one transfer amount edited after the run",
+  "provenance": "SIMULATED",
+  "expected": { "replay": "HASH_MISMATCH", "section": "transfers" },
+  "source": "CLAUDE.md §6: replay of a tampered copy gives HASH_MISMATCH. Inputs: scenarios/runs/T6.json"
+}

@@ -1,0 +1,7 @@
+{
+  "id": "T5",
+  "title": "Transfer provider down: one voice lookup returns no answer",
+  "provenance": "SIMULATED",
+  "expected": { "paymentVerdict": "REVIEW", "reason": "PROVIDER_FAILED" },
+  "source": "CLAUDE.md §6: provider down gives REVIEW with the reason named. Inputs: scenarios/runs/T5.json"
+}

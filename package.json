@@ -14,7 +14,8 @@
     "sign:attestations": "pnpm --filter @echt/scripts sign",
     "scenarios:build": "pnpm --filter @echt/scripts scenarios build",
     "scenarios:fill": "pnpm --filter @echt/scripts scenarios fill",
-    "lint": "eslint --config tools/lint/eslint.config.js ."
+    "lint": "eslint --config tools/lint/eslint.config.js .",
+    "test:scenarios": "pnpm --filter @echt/scripts exec tsx test-scenarios.ts"
   },
   "devDependencies": {
     "@types/node": "^24.19.2",
