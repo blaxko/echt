@@ -20,6 +20,13 @@ export default defineConfig({
       },
       {
         test: {
+          name: "web",
+          include: ["apps/web/test/**/*.test.ts"],
+          environment: "node",
+        },
+      },
+      {
+        test: {
           name: "scripts",
           include: ["scripts/test/**/*.test.ts"],
           environment: "node",
