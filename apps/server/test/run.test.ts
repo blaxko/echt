@@ -1,4 +1,4 @@
-﻿import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { createApp, type RunDeps } from "../src/app.ts";
 import { buildRunPayload, type ScenarioFile } from "../src/run-payload.ts";
 import { parseSimulationOutput } from "../src/cre-run.ts";
@@ -73,16 +73,34 @@ describe("parseSimulationOutput", () => {
   });
 });
 
-describe("POST /api/runs/:scenario", () => {
+const RECORD = {
+  evidence: { runId: "t1", verdict: "BLOCK" },
+  evidenceHash: "0x00",
+};
+
+describe("server API", () => {
   function deps(overrides: Partial<RunDeps> = {}): RunDeps {
     return {
       repoRoot: "/unused",
       loadScenario: async (name) => (name === "T1" ? scenario() : null),
+      loadRecord: async (name) => (name === "T1" ? RECORD : null),
       latestBlock: async () => 12_010_000,
-      simulate: async () => ({ logs: ["run t1: payment verdict BLOCK"], result: { verdict: "BLOCK" }, exitCode: 0 }),
+      simulate: async (o) => {
+        o.onLine?.("2026-10-28T05:20:33Z [USER LOG] run t1: payment verdict BLOCK");
+        return { logs: [], result: { verdict: "BLOCK" }, exitCode: 0 };
+      },
       now: () => AFTER_POST,
       ...overrides,
     };
+  }
+
+  async function waitDone(app: ReturnType<typeof createApp>, id: string) {
+    for (let i = 0; i < 50; i++) {
+      const body = (await (await app.request(`/api/runs/${id}`)).json()) as { status: string; result: unknown };
+      if (body.status !== "running") return body;
+      await new Promise((r) => setTimeout(r, 10));
+    }
+    throw new Error("run did not finish");
   }
 
   it("404s on an unknown scenario", async () => {
@@ -98,23 +116,40 @@ describe("POST /api/runs/:scenario", () => {
     expect(called).toBe(false);
   });
 
-  it("simulates without broadcasting by default, and labels the result as a local simulation", async () => {
-    let seen: { broadcast: boolean; pinned: number } | null = null;
-    const app = createApp(deps({ simulate: async (o) => { seen = { broadcast: o.broadcast, pinned: 0 }; return { logs: [], result: { verdict: "BLOCK" }, exitCode: 0 }; } }));
+  it("starts a simulation-only run, streams its log, and reports the result", async () => {
+    let broadcast: boolean | null = null;
+    const app = createApp(deps({ simulate: async (o) => { broadcast = o.broadcast; o.onLine?.("[USER LOG] hi"); return { logs: [], result: { verdict: "BLOCK" }, exitCode: 0 }; } }));
     const res = await app.request("/api/runs/T1", { method: "POST" });
-    const body = (await res.json()) as { label: string; pinnedToBlock: number; broadcast: boolean; result: { verdict: string } };
-    expect(res.status).toBe(200);
-    expect(seen).toEqual({ broadcast: false, pinned: 0 });
-    expect(body.label).toBe("Chainlink CRE · local simulation");
-    expect(body.pinnedToBlock).toBe(12_009_980);
-    expect(body.result.verdict).toBe("BLOCK");
+    const started = (await res.json()) as { id: string; pinnedToBlock: number; label: string };
+    expect(res.status).toBe(202);
+    expect(started.pinnedToBlock).toBe(12_009_980);
+    expect(started.label).toBe("Chainlink CRE · local simulation");
+    const done = await waitDone(app, started.id);
+    expect(done.status).toBe("done");
+    expect(broadcast).toBe(false);
   });
 
   it("broadcasts only when asked", async () => {
     let broadcast = false;
     const app = createApp(deps({ simulate: async (o) => { broadcast = o.broadcast; return { logs: [], result: {}, exitCode: 0 }; } }));
-    await app.request("/api/runs/T1?broadcast=true", { method: "POST" });
+    const started = (await (await app.request("/api/runs/T1?broadcast=true", { method: "POST" })).json()) as { id: string };
+    await waitDone(app, started.id);
     expect(broadcast).toBe(true);
   });
-});
 
+  it("serves the stored record and its canonical evidence bytes", async () => {
+    const app = createApp(deps());
+    expect(((await (await app.request("/api/runs/T1/record")).json()) as { evidenceHash: string }).evidenceHash).toBe("0x00");
+    const bytes = await (await app.request("/api/runs/T1/evidence.json")).text();
+    expect(bytes).toBe('{"runId":"t1","verdict":"BLOCK"}');
+    expect((await app.request("/api/runs/T2/record")).status).toBe(404);
+  });
+
+  it("streams run events as server-sent events", async () => {
+    const app = createApp(deps());
+    const started = (await (await app.request("/api/runs/T1", { method: "POST" })).json()) as { id: string };
+    const text = await (await app.request(`/api/runs/${started.id}/events`)).text();
+    expect(text).toContain("event: log");
+    expect(text).toContain("event: done");
+  });
+});

@@ -33,6 +33,8 @@ export interface SimulationOptions {
   repoRoot: string;
   payloadPath: string;
   broadcast: boolean;
+  /** Called with each output line as the CLI prints it, so the run log can stream. */
+  onLine?: (line: string) => void;
 }
 
 /**
@@ -56,8 +58,17 @@ export function runCreSimulation(options: SimulationOptions): Promise<Simulation
   return new Promise((resolvePromise, reject) => {
     const child = spawn("cre", args, { cwd, shell: process.platform === "win32" });
     let stdout = "";
-    child.stdout.on("data", (chunk: Buffer) => (stdout += chunk.toString()));
-    child.stderr.on("data", (chunk: Buffer) => (stdout += chunk.toString()));
+    let pending = "";
+    const collect = (chunk: Buffer) => {
+      const text = chunk.toString();
+      stdout += text;
+      pending += text;
+      const lines = pending.split(/\r?\n/);
+      pending = lines.pop() ?? "";
+      for (const line of lines) options.onLine?.(line);
+    };
+    child.stdout.on("data", collect);
+    child.stderr.on("data", collect);
     child.on("error", reject);
     child.on("close", (exitCode) => {
       resolvePromise({ ...parseSimulationOutput(stdout), exitCode });
