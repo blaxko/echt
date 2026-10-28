@@ -1,0 +1,14 @@
+{
+  "key": "904a5074df022d4e458048feca372bda919f8387d56d06befe82407ae54d728b",
+  "model": "openai/gpt-oss-120b",
+  "promptVersion": "extract-v1",
+  "label": "MODEL",
+  "extraction": {
+    "token": "ETH",
+    "sentiment": "neutral",
+    "conviction": 0.5,
+    "urgency": 0,
+    "disclosure_detected": false,
+    "disclosure_evidence": null
+  }
+}

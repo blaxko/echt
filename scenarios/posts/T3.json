@@ -1,0 +1,48 @@
+{
+  "scenario": "T3",
+  "note": "Synthetic disclosed-campaign posts (PRD T3). Used only to test disclosure detection. Uses T1 payments.",
+  "posts": [
+    {
+      "id": "post_t3_01",
+      "personaId": "persona_01",
+      "text": "#ad ETH is a sponsored pick this week, paid by the project team. Bullish, but this is an advert.",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "id": "post_t3_02",
+      "personaId": "persona_02",
+      "text": "Partnered with the ETH team on this one, so disclosure: I am paid to post about it. Strong upside view.",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "id": "post_t3_03",
+      "personaId": "persona_03",
+      "text": "Sponsored post. ETH is my top pick and the project paid me for the mention.",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "id": "post_t3_04",
+      "personaId": "persona_04",
+      "text": "Affiliate link inside. I get a fee if you buy ETH through it. Bullish outlook, full disclosure.",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "id": "post_t3_05",
+      "personaId": "persona_05",
+      "text": "#sponsored ETH momentum looks great, and to be clear this promotion is paid.",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "id": "post_t3_06",
+      "personaId": "persona_06",
+      "text": "Disclosure: this ETH call is part of a paid campaign with the project. I am bullish.",
+      "provenance": "SYNTHETIC"
+    },
+    {
+      "id": "post_t3_07",
+      "personaId": "persona_07",
+      "text": "Paid collaboration with ETH project, #ad. Upside looks strong to me, but I am being paid to say so.",
+      "provenance": "SYNTHETIC"
+    }
+  ]
+}
