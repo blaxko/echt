@@ -1,0 +1,9 @@
+# Echt gitleaks configuration. The default rules stay on.
+[extend]
+useDefault = true
+
+# The extraction cache stores SHA-256 hashes of synthetic post text as file names and JSON values.
+# Gitleaks reads them as generic API keys. They are hashes, not credentials, so this path is allowlisted.
+[[allowlists]]
+description = "SHA-256 cache keys of extraction results (hashes of synthetic posts, not secrets)"
+paths = ['''scenarios/extractions/''']
