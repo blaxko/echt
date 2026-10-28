@@ -1,42 +1,55 @@
-import { describe, expect } from "bun:test";
-import { newTestRuntime, test } from "@chainlink/cre-sdk/test";
-import { onCronTrigger, initWorkflow } from "./main";
-import type { Config } from "./main";
+import { describe, expect, it } from "bun:test";
+import { parsePingRequest, summarizeTxlist } from "./ping.ts";
 
-describe("onCronTrigger", () => {
-  test("logs message and returns greeting", async () => {
-    const config: Config = { schedule: "*/5 * * * *" };
-    const runtime = newTestRuntime();
-    runtime.config = config;
+const ADDRESS = "0xaA9FE8c47cBFD12E1D6109b7c825c5b478A7B25c";
 
-    const result = onCronTrigger(runtime);
+describe("parsePingRequest", () => {
+  it("accepts a valid request and lowercases the address", () => {
+    expect(parsePingRequest({ runId: "r1", address: ADDRESS, startBlock: 0, endBlock: 10 })).toEqual({
+      runId: "r1",
+      address: ADDRESS.toLowerCase(),
+      startBlock: 0,
+      endBlock: 10,
+    });
+  });
 
-    expect(result).toBe("Hello world!");
-    const logs = runtime.getLogs();
-    expect(logs).toContain("Hello world! Workflow triggered.");
+  it("rejects a malformed address", () => {
+    expect(() => parsePingRequest({ runId: "r1", address: "0x1234", startBlock: 0, endBlock: 1 })).toThrow("address");
+  });
+
+  it("rejects an endBlock before startBlock", () => {
+    expect(() => parsePingRequest({ runId: "r1", address: ADDRESS, startBlock: 5, endBlock: 4 })).toThrow("startBlock");
+  });
+
+  it("rejects a non-integer block", () => {
+    expect(() => parsePingRequest({ runId: "r1", address: ADDRESS, startBlock: 0.5, endBlock: 1 })).toThrow("integers");
+  });
+
+  it("rejects a non-object payload", () => {
+    expect(() => parsePingRequest("nope")).toThrow("JSON object");
   });
 });
 
-describe("initWorkflow", () => {
-  test("returns one handler with correct cron schedule", async () => {
-    const testSchedule = "0 0 * * *";
-    const config: Config = { schedule: testSchedule };
-
-    const handlers = initWorkflow(config);
-
-    expect(handlers).toBeArray();
-    expect(handlers).toHaveLength(1);
-    expect(handlers[0].trigger.config.schedule).toBe(testSchedule);
+describe("summarizeTxlist", () => {
+  it("summarises rows to hashes sorted, with a count", () => {
+    const summary = summarizeTxlist({
+      status: "1",
+      message: "OK",
+      result: [{ hash: "0xb" }, { hash: "0xa" }],
+    });
+    expect(summary).toEqual({ status: "1", message: "OK", count: 2, hashes: ["0xa", "0xb"] });
   });
 
-  test("handler executes onCronTrigger and returns result", async () => {
-    const config: Config = { schedule: "*/5 * * * *" };
-    const runtime = newTestRuntime();
-    runtime.config = config;
-    const handlers = initWorkflow(config);
+  it("treats 'No transactions found' as a valid empty answer", () => {
+    expect(summarizeTxlist({ status: "0", message: "No transactions found", result: [] })).toEqual({
+      status: "0",
+      message: "No transactions found",
+      count: 0,
+      hashes: [],
+    });
+  });
 
-    const result = handlers[0].fn(runtime, {});
-
-    expect(result).toBe(onCronTrigger(runtime));
+  it("throws on NOTOK so a failed call is never read as an empty history", () => {
+    expect(() => summarizeTxlist({ status: "0", message: "NOTOK", result: "Invalid API Key" })).toThrow("NOTOK");
   });
 });

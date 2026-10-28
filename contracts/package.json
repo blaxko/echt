@@ -1,0 +1,19 @@
+{
+  "name": "@echt/contracts",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox-viem": "5.0.7",
+    "@nomicfoundation/hardhat-viem": "3.0.4",
+    "hardhat": "3.21.0",
+    "viem": "2.57.11"
+  },
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test nodejs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "deploy:sepolia": "hardhat run scripts/deploy.ts --network sepolia",
+    "check:balances": "hardhat run scripts/check-balances.ts --network sepolia"
+  }
+}

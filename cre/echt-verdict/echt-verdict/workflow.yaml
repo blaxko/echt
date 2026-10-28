@@ -21,8 +21,8 @@ staging-settings:
     deployment-registry: "private"
   workflow-artifacts:
     workflow-path: "./main.ts"
-    config-path: "./config.staging.json"
-    secrets-path: ""
+    config-path: "./config.echt.json"
+    secrets-path: "../secrets.yaml"
 
 
 # ==========================================================================
@@ -32,5 +32,5 @@ production-settings:
     deployment-registry: "private"
   workflow-artifacts:
     workflow-path: "./main.ts"
-    config-path: "./config.production.json"
-    secrets-path: ""
+    config-path: "./config.echt.json"
+    secrets-path: "../secrets.yaml"

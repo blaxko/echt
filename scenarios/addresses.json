@@ -1,0 +1,79 @@
+{
+  "verdicts": {
+    "chainId": 11155111,
+    "address": "0x2bc4819848efd784995ff6eab33be28b2b85bf8f",
+    "forwarder": "0x15fC6ae953E024d975e77382eEeC56A9101f9F88",
+    "deployTx": "0xd7b21891714f5d98b47fd469e0db235b37b9d315b6b3765d6e8f75d6a0facb05",
+    "blockNumber": 12009812,
+    "gasWei": "3467303000000000",
+    "provenance": "TESTNET"
+  },
+  "chainId": 11155111,
+  "campaignSource": "0xaA9FE8c47cBFD12E1D6109b7c825c5b478A7B25c",
+  "payments": {
+    "T1": [
+      {
+        "personaId": "persona_01",
+        "to": "0x78A911C5EAc77756A2AA52734c6491fa777F722E",
+        "amountWei": "2000000000000000",
+        "gasWei": "3273600",
+        "txHash": "0xcbcb1806ae5953cca2279e0f185782707024e81b6d109bd86d34c65fd725a231",
+        "blockNumber": 12009817,
+        "blockTimestamp": 1793160456,
+        "status": "success"
+      },
+      {
+        "personaId": "persona_02",
+        "to": "0x069c3377FE98090e1bfC96E1a586c57EBF61643A",
+        "amountWei": "2000000000000000",
+        "gasWei": "3273600",
+        "txHash": "0x93b918c3f737d31e485e8a1c7ef7d72ea74c8f0e053a0c4eb393c6c9818e724b",
+        "blockNumber": 12009818,
+        "blockTimestamp": 1793160468,
+        "status": "success"
+      },
+      {
+        "personaId": "persona_03",
+        "to": "0x23aC8a150D692dc817946afd29eFe0Cc586D5AEe",
+        "amountWei": "2000000000000000",
+        "gasWei": "3273600",
+        "txHash": "0x7b4e5aa61433ec7027f1a70fcc1e4fac408f14087765f3f3714da0270084ac83",
+        "blockNumber": 12009819,
+        "blockTimestamp": 1793160480,
+        "status": "success"
+      },
+      {
+        "personaId": "persona_04",
+        "to": "0x3664A4a5d5D7f8eDF99415Ecb54286f119BC3309",
+        "amountWei": "2000000000000000",
+        "gasWei": "3273600",
+        "txHash": "0xc342a2f0c4bbe0292acaaa4b2ec97401193328628366a09d42b20ec9c2b4f4ce",
+        "blockNumber": 12009820,
+        "blockTimestamp": 1793160492,
+        "status": "success"
+      },
+      {
+        "personaId": "persona_05",
+        "to": "0x47063bF0BBD583ADF430334e3Ce16c5Eda5AbA45",
+        "amountWei": "2000000000000000",
+        "gasWei": "3273600",
+        "txHash": "0x78986292395a4090702b765ebc00e880c8fd79d1ad280934fe277b7ee9f8ab1c",
+        "blockNumber": 12009821,
+        "blockTimestamp": 1793160504,
+        "status": "success"
+      }
+    ],
+    "T2": [
+      {
+        "personaId": "persona_08",
+        "to": "0xeD93aFEb4f42C9003254625E5b06B437f680c1f8",
+        "amountWei": "2000000000000000",
+        "gasWei": "3273600",
+        "txHash": "0xe8dc499fb0eed479e76589cdd9489c6725f82d3258a8059346041ffbfbbfcb33",
+        "blockNumber": 12009823,
+        "blockTimestamp": 1793160528,
+        "status": "success"
+      }
+    ]
+  }
+}
