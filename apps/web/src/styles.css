@@ -129,6 +129,13 @@ dialog.replay::backdrop { background: rgba(0, 0, 0, 0.4); }
 .brief { background: #fff; color: #111; max-width: 780px; margin: 0 auto; padding: 24px; }
 .brief table th, .brief table td { border-color: #bbb; }
 
+/* Wide tables scroll inside their own box, never the page. */
+.table-alt, .brief { overflow-x: auto; }
+
+@media (max-width: 600px) {
+  .graph { display: none; }
+}
+
 @media (max-width: 760px) {
   .columns { grid-template-columns: 1fr; }
   .legend { margin-left: 0; }

@@ -1,24 +1,26 @@
-# Builds the read-only public demo and deploys it to GitHub Pages on every push to main.
+# Quality gates, then the read-only public demo to GitHub Pages on every push to main.
 # The build reads only committed files (scenarios/runs and fixtures). It has no server and no secrets.
+# Rollback: revert the bad commit on main and push. The next run redeploys the previous state.
 name: pages
 
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  test:
+  gates:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -26,11 +28,45 @@ jobs:
           node-version: 24
       - run: corepack enable
       - run: pnpm install --frozen-lockfile
-      - run: pnpm test
+      - name: Typecheck
+        run: pnpm typecheck
+      - name: Tests (policy, server, scripts, web, contracts)
+        run: pnpm test
+      - name: Dependency audit (high and critical)
+        run: pnpm audit --audit-level=high
+      - name: Public build
+        run: pnpm --filter @echt/web build:public
+      - uses: actions/upload-artifact@v4
+        with:
+          name: public-site
+          path: apps/web/dist-public
 
-  build:
-    needs: test
+  cre-tests:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.4.4"
+      - name: CRE workflow helpers (Bun)
+        working-directory: cre/echt-verdict/echt-verdict
+        run: |
+          bun install --frozen-lockfile
+          bun test
+
+  deploy:
+    needs: [gates, cre-tests]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -42,13 +78,5 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: apps/web/dist-public
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
       - id: deployment
         uses: actions/deploy-pages@v4
