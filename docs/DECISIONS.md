@@ -135,3 +135,12 @@ Dry simulation (no broadcast, 28 Oct 05:20 UTC) on the real T1 transfers, pinned
 ```bash
 . .\scripts\load-env.ps1 ; cd scripts ; npx tsx ryo-retry.ts
 ```
+
+## Build fixes and extraction (28 Oct)
+
+| # | Decision | Why |
+|---|---|---|
+| D21 | `packageManager` pinned to pnpm 10.34.9 (latest 10.x). `viem` is a normal dependency of `apps/server` again, with `openai` and `zod`. The chain read moved back into the server. Earlier pnpm 12 link breakage (D10, D19) did not occur under pnpm 10 | Fixes the cause, not the symptom. Checked with a clean clone of origin/day3-build: `pnpm install`, `pnpm test` and `pnpm --filter web build` all exit 0 with no manual link fixes |
+| D22 | F2 extraction (PRD §6.2) runs through the `openai` SDK in JSON mode, against `LLM_BASE_URL` with `LLM_MODEL` (Groq, `openai/gpt-oss-120b`). The reply is validated with zod. One retry, then `extraction_failed`. Results are cached by sha256(text + model + promptVersion) in `scenarios/extractions/cache/`, labelled `MODEL`. Replay stays offline | PRD §6.2; CLAUDE.md §8 LLM rules |
+| D23 | Extracted `disclosure_detected` feeds the run payload (`disclosedByPostId`). A disclosed voice is shown and does not count toward BLOCK (D5) | Makes disclosure a real input, not a hard-coded flag |
+| D24 | Posts for extraction live in `scenarios/posts/T1|T2|T3.json`. T3 is the disclosed-campaign text (PRD T3). T3 has no on-chain run yet | Extraction test data; synthetic only |

@@ -37,7 +37,7 @@ Echt reports patterns in transfers and whether disclosure was detected. It does 
 - The lookback is 72 hours before each post. A transfer outside that window is not considered.
 - The policy reads native Sepolia ETH transfers only. Token transfers, contract calls and internal transactions are not read.
 - Convergence (seven bullish voices on one token in six hours) is computed by the server from the posts, not by the workflow. The workflow trusts the converging voices it is given and checks their payments.
-- This build has no live post extraction. Converging posts and their disclosure flags come from the synthetic scenario files, not from a model reading the posts. The LLM step in the design is not built.
+- Post extraction (F2) runs a real model call on the synthetic posts. The model reads each post into token, sentiment, conviction, urgency and disclosure. The results are cached and labelled `MODEL`. Its reading is only as good as the model, and it was run on posts written for the test, so nothing it reports is a finding about a real account.
 
 ## Replay
 
@@ -45,8 +45,8 @@ Echt reports patterns in transfers and whether disclosure was detected. It does 
 
 ## Build and tooling
 
-- pnpm 12.3.4 leaves some peer links broken in this repo (viem's `abitype` peer in one package). The chain code therefore lives in the `scripts` package, where the links are intact. The server does not depend on `viem` directly for that reason. A clone with the same pnpm version may see the same broken link; `pnpm install` plus the scripts package still works (DECISIONS.md, D10).
-- The test suite covers the policy, the server, the web state logic, the contract and the CRE helpers. It does not cover the full browser flow end to end.
+- The repo pins pnpm 10.34.9 in `packageManager`. pnpm 12.3.4 leaves some peer links broken, so use the pinned version (DECISIONS.md, D21).
+- The test suite covers the policy, the server, the web state logic, the contract, the CRE helpers and the extraction. It does not cover the full browser flow end to end.
 
 ## What would change the answer
 
