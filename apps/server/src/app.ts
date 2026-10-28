@@ -22,6 +22,8 @@ export interface RunDeps {
   latestBlock: () => Promise<number>;
   simulate: (options: SimulationOptions) => Promise<SimulationOutcome>;
   now: () => number;
+  /** Persona IDs the extraction read as disclosed for this scenario. */
+  loadDisclosed?: (name: string) => Promise<ReadonlySet<string>>;
   /** Called after a broadcast run finishes. Writes scenarios/runs/<scenario>.json only if the chain agrees. */
   persist?: (scenario: string, payload: RunPayload, result: Record<string, unknown>) => Promise<PersistOutcome>;
 }
@@ -70,7 +72,8 @@ export function createApp(deps: RunDeps) {
     const pinnedToBlock = (await deps.latestBlock()) - PIN_DEPTH;
     let payload: ReturnType<typeof buildRunPayload>;
     try {
-      payload = buildRunPayload(scenario, pinnedToBlock, deps.now());
+      const disclosed = deps.loadDisclosed ? await deps.loadDisclosed(name) : new Set<string>();
+      payload = buildRunPayload(scenario, pinnedToBlock, deps.now(), disclosed);
     } catch (error) {
       return c.json({ error: (error as Error).message }, 409);
     }
@@ -155,6 +158,15 @@ async function loadScenario(name: string): Promise<ScenarioFile | null> {
   return JSON.parse(await readFile(join(REPO_ROOT, "scenarios", file), "utf8")) as ScenarioFile;
 }
 
+async function loadDisclosed(name: string): Promise<ReadonlySet<string>> {
+  try {
+    const file = JSON.parse((await readFile(join(REPO_ROOT, "scenarios", "extractions", `${name}.json`), "utf8")).replace(/^﻿/, "")) as { results: { personaId: string; extraction: { disclosure_detected: boolean } | null }[] };
+    return new Set(file.results.filter((r) => r.extraction?.disclosure_detected).map((r) => r.personaId));
+  } catch {
+    return new Set();
+  }
+}
+
 async function loadRecord(name: string): Promise<Record<string, unknown> | null> {
   if (!/^T\d$/.test(name)) return null;
   try {
@@ -180,6 +192,7 @@ export const app = createApp({
   repoRoot: REPO_ROOT,
   loadScenario,
   loadRecord,
+  loadDisclosed,
   latestBlock,
   simulate: runCreSimulation,
   now: () => Date.now(),

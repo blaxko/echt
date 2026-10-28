@@ -14,7 +14,7 @@ function scenario(overrides: { postBlock?: number | null; postedAt?: string } = 
       tokenSymbol: "ETH",
       campaignSource: "0xaA9FE8c47cBFD12E1D6109b7c825c5b478A7B25c",
       voices: [{ personaId: "persona_01", wallet: ADDRESS, attestation: { method: "signed_challenge" } }],
-      posts: [{ personaId: "persona_01", postedAt: overrides.postedAt ?? "2026-10-28T16:00:00Z", postBlock: overrides.postBlock === undefined ? 12_009_900 : overrides.postBlock }],
+      posts: [{ id: "post_persona_01", personaId: "persona_01", postedAt: overrides.postedAt ?? "2026-10-28T16:00:00Z", postBlock: overrides.postBlock === undefined ? 12_009_900 : overrides.postBlock }],
     },
   };
 }
@@ -151,5 +151,14 @@ describe("server API", () => {
     const text = await (await app.request(`/api/runs/${started.id}/events`)).text();
     expect(text).toContain("event: log");
     expect(text).toContain("event: done");
+  });
+});
+
+describe("disclosure from extraction", () => {
+  it("marks a disclosed voice with its post id, and leaves the others unmarked", () => {
+    const s = scenario();
+    const payload = buildRunPayload(s, 12_009_980, AFTER_POST, new Set(["persona_01"]));
+    expect(payload.voices[0]!.disclosedByPostId).toBe("post_persona_01");
+    expect(buildRunPayload(s, 12_009_980, AFTER_POST).voices[0]!.disclosedByPostId).toBeNull();
   });
 });
