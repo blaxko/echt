@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "test": "echo no web unit tests yet"
   },
   "dependencies": {
+    "@echt/policy": "workspace:*",
     "react": "19.3.1",
     "react-dom": "19.3.1"
   },
