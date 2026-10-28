@@ -91,6 +91,14 @@ Every scenario reads the same chain history, so a transfer to one scenario's wal
 - T3, T4, T5 and T6 reuse T1's on-chain transfers and differ only in posts, attestations or provider state.
 - `scripts/scenario-plan.ts` holds the sets. `scripts/test/scenario-plan.test.ts` proves T1 and T2 read disjoint wallet addresses. The 84 h guard was removed.
 
+## Post schedule and scenario files (28 Oct)
+
+- Payments (real, TESTNET): T1 personas 01–05 paid 04:07:36–04:08:24 UTC; T2 persona 08 paid 04:08:48 UTC (block timestamps in `scenarios/addresses.json`).
+- Posts (SYNTHETIC): T1 voices 01–07 post 16:00–16:06 UTC; T2 voices 08–14 post 16:10–16:16 UTC. Each paid persona's post is 11.9 h (T1) and 11.4 h (T2) after its payment, inside the 8–14 h rule. `scripts/scenario-plan.ts` `checkPostTiming` enforces the rule and the 6 h window at build time.
+- `postBlock` is `null` until the post time passes. `pnpm scenarios:fill` then sets it to the last block at or before the post time. It refuses nothing, but it skips any post that is not yet due.
+- Scenario symbol: `ETH` is a placeholder until RYO returns `status: ok` for a symbol (see the RYO retry entry below).
+- Scenario files: `scenarios/T1-coordinated.json`, `scenarios/T2-unrelated.json` (built by `pnpm scenarios:build`).
+
 ## Wallet state
 
 - Deployer, CRE writer and campaign source each hold 0.05 ETH (28 Oct, read over RPC). Keys match the addresses above (`contracts/scripts/check-balances.ts`).

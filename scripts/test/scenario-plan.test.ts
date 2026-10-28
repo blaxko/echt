@@ -1,7 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { keccak256, toHex } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
-import { PAID_SETS, PERSONA_COUNT, paidNumbers, personaId, scenarioWallets, voiceNumbers } from "../scenario-plan.ts";
+import {
+  checkPostTiming,
+  PAID_SETS,
+  PERSONA_COUNT,
+  paidNumbers,
+  personaId,
+  scenarioWallets,
+  voiceNumbers,
+} from "../scenario-plan.ts";
 
 // Test-only wallets: keys derived from fixed labels, never used for any transfer.
 const testWallets = Array.from({ length: PERSONA_COUNT }, (_, i) => {
@@ -57,5 +65,39 @@ describe("scenario persona sets", () => {
     } finally {
       PAID_SETS.T2 = saved;
     }
+  });
+});
+
+describe("post timing", () => {
+  const H = 3_600_000;
+  const pay = (personaId: string, hours: number) => ({ personaId, blockTimestampMs: Date.parse("2026-10-28T04:00:00Z") + hours * H });
+  const post = (personaId: string, ms: number) => ({ personaId, postedAtMs: ms });
+  const at = (iso: string) => Date.parse(iso);
+
+  it("accepts posts 8–14 h after payment, all inside one 6 h window", () => {
+    const payments = [pay("persona_01", 0), pay("persona_02", 0.1)];
+    const posts = [post("persona_01", at("2026-10-28T12:00:00Z")), post("persona_02", at("2026-10-28T12:30:00Z"))];
+    expect(checkPostTiming(payments, posts)).toEqual([]);
+  });
+
+  it("rejects a post less than 8 h after its payment", () => {
+    const errors = checkPostTiming([pay("persona_01", 0)], [post("persona_01", at("2026-10-28T06:00:00Z"))]);
+    expect(errors).toHaveLength(1);
+    expect(errors[0]).toContain("must be 8–14 h");
+  });
+
+  it("rejects a post more than 14 h after its payment", () => {
+    const errors = checkPostTiming([pay("persona_01", 0)], [post("persona_01", at("2026-10-28T19:00:00Z"))]);
+    expect(errors[0]).toContain("must be 8–14 h");
+  });
+
+  it("rejects posts spread over more than 6 h", () => {
+    const posts = [post("persona_06", at("2026-10-28T10:00:00Z")), post("persona_07", at("2026-10-28T16:30:00Z"))];
+    expect(checkPostTiming([], posts)).toEqual([expect.stringContaining("must fit inside 6 h")]);
+  });
+
+  it("treats a 6 h span as valid (boundary)", () => {
+    const posts = [post("persona_06", at("2026-10-28T10:00:00Z")), post("persona_07", at("2026-10-28T16:00:00Z"))];
+    expect(checkPostTiming([], posts)).toEqual([]);
   });
 });

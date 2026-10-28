@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "seed": "tsx seed-testnet.ts",
-    "sign": "tsx sign-attestations.ts"
+    "sign": "tsx sign-attestations.ts",
+    "scenarios": "tsx scenario-posts.ts"
   },
   "dependencies": {
     "viem": "2.57.11"

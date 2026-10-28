@@ -1,0 +1,193 @@
+{
+  "id": "T1",
+  "title": "Coordinated linked transfers: 5 of 7 voices paid from one source, no disclosure",
+  "provenance": "TESTNET",
+  "chainId": 11155111,
+  "input": {
+    "runId": "t1-coordinated",
+    "tokenSymbol": "ETH",
+    "campaignSource": "0xaA9FE8c47cBFD12E1D6109b7c825c5b478A7B25c",
+    "voices": [
+      {
+        "personaId": "persona_01",
+        "handle": "@echt_persona_01",
+        "wallet": "0x78A911C5EAc77756A2AA52734c6491fa777F722E",
+        "attestation": {
+          "method": "signed_challenge",
+          "nonce": "eb7408605de83972",
+          "signature": "0xb04be4418e38d5ef53462847453635439c81e03bf2deec226ec79afd5486491b701150c056b5aaaccfb4b60bb851ab3ea6f6ff0d4b5221ebbef634b722cb80e31b",
+          "challengePostId": "challenge_persona_01"
+        },
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "personaId": "persona_02",
+        "handle": "@echt_persona_02",
+        "wallet": "0x069c3377FE98090e1bfC96E1a586c57EBF61643A",
+        "attestation": {
+          "method": "signed_challenge",
+          "nonce": "39351de40877c6cb",
+          "signature": "0x0401928161c8cb6f806c07ff1b18b1e85c35590706327ad37fac65809e4cc9bb061e50744c1b54fc85c4040da2c8a36f5c6ca1ad464c3f9163969936dcbec7961b",
+          "challengePostId": "challenge_persona_02"
+        },
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "personaId": "persona_03",
+        "handle": "@echt_persona_03",
+        "wallet": "0x23aC8a150D692dc817946afd29eFe0Cc586D5AEe",
+        "attestation": {
+          "method": "signed_challenge",
+          "nonce": "ec4f23b28d04ac01",
+          "signature": "0xb37f186f3278bb155c56bcf62ec14e3354e2710b04f5ef5471ededed28763dea4d7c226f2e438694b634f28424ebc20132b06e19bcd36fa16271f7474c5d21ac1c",
+          "challengePostId": "challenge_persona_03"
+        },
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "personaId": "persona_04",
+        "handle": "@echt_persona_04",
+        "wallet": "0x3664A4a5d5D7f8eDF99415Ecb54286f119BC3309",
+        "attestation": {
+          "method": "signed_challenge",
+          "nonce": "56b3c3c5f038686a",
+          "signature": "0x8deaf2e33697f9ca12b3fe45b9235b09489c59de3a233961b58e0082b58b70ef05bac84cfca45fd7bf1c56c8932859e76ce04f590da15c47e3697351b9cbf8c51b",
+          "challengePostId": "challenge_persona_04"
+        },
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "personaId": "persona_05",
+        "handle": "@echt_persona_05",
+        "wallet": "0x47063bF0BBD583ADF430334e3Ce16c5Eda5AbA45",
+        "attestation": {
+          "method": "signed_challenge",
+          "nonce": "5185a9a165f698f2",
+          "signature": "0xce50b23a1653d5596a788ac65cc353cf073f6211ef10beccc7f0d0c9bf88a39d22695b3db42f11799bbaf477babe44b4b8ac1c79d3b46cd64ad2943194272f931c",
+          "challengePostId": "challenge_persona_05"
+        },
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "personaId": "persona_06",
+        "handle": "@echt_persona_06",
+        "wallet": "0xF2aDb0EfF4cB5Ec1BA10014684137ca8DC98C688",
+        "attestation": {
+          "method": "signed_challenge",
+          "nonce": "09840328872f2c14",
+          "signature": "0xbdd6c93a5092892b25a445edf0b3ff5902de513153fd90f78f9df56db32112d356193e3277c3ccc478a029b31ac18d0ef06c23c7bd623e206499457c64c70dc81c",
+          "challengePostId": "challenge_persona_06"
+        },
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "personaId": "persona_07",
+        "handle": "@echt_persona_07",
+        "wallet": "0xF97Cc5449E4f6d58d310cc6480A6FF1643A18A30",
+        "attestation": {
+          "method": "signed_challenge",
+          "nonce": "1d29d93b2134fd6c",
+          "signature": "0xfb9c5d79d5923f672c772ac1e294a5c145df3bd800d5b928c35981969eccf35a105acd40781262c60f4f38e09d5163e14d5486e7ec7ba9449ae7b677bb91b7d31c",
+          "challengePostId": "challenge_persona_07"
+        },
+        "provenance": "SYNTHETIC"
+      }
+    ],
+    "posts": [
+      {
+        "id": "post_persona_01",
+        "personaId": "persona_01",
+        "text": "SYNTHETIC persona post: bullish on the token. No disclosure.",
+        "postedAt": "2026-10-28T16:00:00.000Z",
+        "postBlock": null,
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "id": "post_persona_02",
+        "personaId": "persona_02",
+        "text": "SYNTHETIC persona post: bullish on the token. No disclosure.",
+        "postedAt": "2026-10-28T16:01:00.000Z",
+        "postBlock": null,
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "id": "post_persona_03",
+        "personaId": "persona_03",
+        "text": "SYNTHETIC persona post: bullish on the token. No disclosure.",
+        "postedAt": "2026-10-28T16:02:00.000Z",
+        "postBlock": null,
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "id": "post_persona_04",
+        "personaId": "persona_04",
+        "text": "SYNTHETIC persona post: bullish on the token. No disclosure.",
+        "postedAt": "2026-10-28T16:03:00.000Z",
+        "postBlock": null,
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "id": "post_persona_05",
+        "personaId": "persona_05",
+        "text": "SYNTHETIC persona post: bullish on the token. No disclosure.",
+        "postedAt": "2026-10-28T16:04:00.000Z",
+        "postBlock": null,
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "id": "post_persona_06",
+        "personaId": "persona_06",
+        "text": "SYNTHETIC persona post: bullish on the token. No disclosure.",
+        "postedAt": "2026-10-28T16:05:00.000Z",
+        "postBlock": null,
+        "provenance": "SYNTHETIC"
+      },
+      {
+        "id": "post_persona_07",
+        "personaId": "persona_07",
+        "text": "SYNTHETIC persona post: bullish on the token. No disclosure.",
+        "postedAt": "2026-10-28T16:06:00.000Z",
+        "postBlock": null,
+        "provenance": "SYNTHETIC"
+      }
+    ],
+    "payments": [
+      {
+        "personaId": "persona_01",
+        "txHash": "0xcbcb1806ae5953cca2279e0f185782707024e81b6d109bd86d34c65fd725a231",
+        "blockNumber": 12009817,
+        "blockTimestamp": 1793160456
+      },
+      {
+        "personaId": "persona_02",
+        "txHash": "0x93b918c3f737d31e485e8a1c7ef7d72ea74c8f0e053a0c4eb393c6c9818e724b",
+        "blockNumber": 12009818,
+        "blockTimestamp": 1793160468
+      },
+      {
+        "personaId": "persona_03",
+        "txHash": "0x7b4e5aa61433ec7027f1a70fcc1e4fac408f14087765f3f3714da0270084ac83",
+        "blockNumber": 12009819,
+        "blockTimestamp": 1793160480
+      },
+      {
+        "personaId": "persona_04",
+        "txHash": "0xc342a2f0c4bbe0292acaaa4b2ec97401193328628366a09d42b20ec9c2b4f4ce",
+        "blockNumber": 12009820,
+        "blockTimestamp": 1793160492
+      },
+      {
+        "personaId": "persona_05",
+        "txHash": "0x78986292395a4090702b765ebc00e880c8fd79d1ad280934fe277b7ee9f8ab1c",
+        "blockNumber": 12009821,
+        "blockTimestamp": 1793160504
+      }
+    ]
+  },
+  "expected": {
+    "paymentVerdict": "BLOCK",
+    "reason": "THRESHOLD_MET",
+    "convergingCount": 7,
+    "linkedCount": 5
+  }
+}

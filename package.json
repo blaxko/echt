@@ -11,7 +11,9 @@
     "test": "vitest run && pnpm --filter @echt/contracts test",
     "typecheck": "tsc -p tsconfig.json",
     "seed:testnet": "pnpm --filter @echt/scripts seed",
-    "sign:attestations": "pnpm --filter @echt/scripts sign"
+    "sign:attestations": "pnpm --filter @echt/scripts sign",
+    "scenarios:build": "pnpm --filter @echt/scripts scenarios build",
+    "scenarios:fill": "pnpm --filter @echt/scripts scenarios fill"
   },
   "devDependencies": {
     "@types/node": "^24.19.2",

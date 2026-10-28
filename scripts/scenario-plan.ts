@@ -45,3 +45,37 @@ export function scenarioWallets<T extends { id: string }>(scenario: string, wall
   const ids = new Set(voiceNumbers(scenario).map(personaId));
   return wallets.filter((w) => ids.has(w.id));
 }
+
+const HOUR_MS = 3_600_000;
+export const POST_GAP_MIN_MS = 8 * HOUR_MS; // a post comes 8–14 h after its persona's payment (PRD v0.6.1)
+export const POST_GAP_MAX_MS = 14 * HOUR_MS;
+export const POST_WINDOW_MS = 6 * HOUR_MS; // all posts of one scenario fall inside one 6 h window
+
+export interface PaymentTime {
+  personaId: string;
+  blockTimestampMs: number;
+}
+
+export interface PostTime {
+  personaId: string;
+  postedAtMs: number;
+}
+
+/** Returns the timing rule violations for one scenario. An empty list means the schedule is valid. */
+export function checkPostTiming(payments: readonly PaymentTime[], posts: readonly PostTime[]): string[] {
+  const errors: string[] = [];
+  for (const post of posts) {
+    const payment = payments.find((p) => p.personaId === post.personaId);
+    if (!payment) continue; // unpaid voices carry no payment gap, but still sit in the window below
+    const gap = post.postedAtMs - payment.blockTimestampMs;
+    if (gap < POST_GAP_MIN_MS || gap > POST_GAP_MAX_MS) {
+      errors.push(`${post.personaId}: post is ${(gap / HOUR_MS).toFixed(2)} h after its payment; must be 8–14 h`);
+    }
+  }
+  if (posts.length > 0) {
+    const times = posts.map((p) => p.postedAtMs);
+    const span = Math.max(...times) - Math.min(...times);
+    if (span > POST_WINDOW_MS) errors.push(`posts span ${(span / HOUR_MS).toFixed(2)} h; must fit inside 6 h`);
+  }
+  return errors;
+}
