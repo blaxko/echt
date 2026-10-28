@@ -13,6 +13,17 @@ Follows CLAUDE.md §6. Every chain link is a real Sepolia transaction. Label any
 | 1:40–1:45 | T5 tab | Injected provider fault: **NO POSITION · REVIEW**, with the reason "a provider lookup failed". Label reads "SIMULATED · injected provider fault" | — |
 | 1:45–2:00 | Proof strip and Evidence Brief | Press **E**: the one-page brief with the evidence hash, the verdict transaction, the converging posts with gaps, and the limitations line. Press **R**: Replay returns **MATCH**. Then T6 (tampered snapshot): **HASH_MISMATCH · section changed: transfers** | Evidence hash and verdict tx from the record |
 
+## Opening: the run that failed, then the fix (real transactions)
+
+1. **The first broadcast.** The workflow ran and printed BLOCK for T1. The write gas limit was 500,000. The transaction was mined and succeeded at the forwarder: [0x1fe3a333…](https://sepolia.etherscan.io/tx/0x1fe3a333a2a7900b0884b81664fa3beaa0223bc0b789737a2b4435df1115a75d).
+2. **The read-back is empty.** `getVerdict` for the T1 run id reverts with `UnknownRun`. The forwarder's call to the receiver had run out of gas, and the revert was swallowed. The explorer shows the forwarder's own event and no `VerdictRecorded` from the contract. T2 failed the same way: [0xa893a158…](https://sepolia.etherscan.io/tx/0xa893a158d3fa42495a1fb5b9cc7cede342bb57a1a2910da718157956bbfad253).
+3. **The fix.** The receiver needs about 1.36M gas, so the limit was raised to 2,000,000 (DECISIONS D25).
+4. **The real verdict.** Broadcast again. `getVerdict` now returns BLOCK with 5 linked voices: [0xc0141cba…](https://sepolia.etherscan.io/tx/0xc0141cba6a540fce98f3ea414e9523d44c1a1a7ff4d2276aa0032497fc01a7be). T2 returns ELIGIBLE with 0 linked voices: [0x97d2b04e…](https://sepolia.etherscan.io/tx/0x97d2b04e85dca1e5aa02664795019b73b50af954dc720065bc7347c5868d5c63).
+
+Say the failure out loud. It is the best evidence that the read-back is real and that nothing here is a screenshot.
+
+---
+
 ## Closing line
 
 "Echt reports a pattern in transfers and a policy result. It does not make a legal finding, and every number here links to the chain."

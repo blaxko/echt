@@ -11,3 +11,6 @@ coverage/
 *.tsbuildinfo
 .cre_build_tmp.*
 !scenarios/extractions/cache/
+apps/web/public/demo/
+dist-public/
+apps/web/dist-public/

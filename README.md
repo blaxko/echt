@@ -1,8 +1,12 @@
+**Live read-only demo: https://blaxko.github.io/echt/** (GitHub Pages, built from `main`. Read-only: it shows the committed records and replays them in your browser. Running a new check needs the local setup below.)
+
 # Echt
 
 Echt stops an AI trading agent from following coordinated crypto hype before it places a practice trade. When seven watched voices turn bullish on one token, a Chainlink CRE workflow checks, at a pinned block, whether the voices' verified wallets received transfers from the same campaign source before they posted. A deterministic policy returns `BLOCK`, `REVIEW` or `ELIGIBLE`, the verdict is written to Ethereum Sepolia, and the dashboard shows every transfer, the cancelled trade and an Evidence Brief anyone can replay. Echt reports patterns in transfers. It does not make legal findings.
 
-## Run it
+## Run it locally
+
+The public demo needs nothing. To run checks yourself, follow these steps.
 
 The repo pins pnpm 10.34.9 in `packageManager`. With `corepack enable`, that version is used automatically.
 

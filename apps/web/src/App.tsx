@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { fetchRecord, type RunRecord } from "./api.ts";
+import { canonicalJson, type JsonValue } from "@echt/policy";
+import { fetchRecord, PUBLIC_DEMO, startRun, type RunRecord } from "./api.ts";
 import { replay, type ReplayResult } from "./replay.ts";
-import { Banner, Brief, downloadCsv, Market, PaymentGraph, Proof, Proposal, ReplayDialog, RunDrawer, SCENARIOS, type RunPhase } from "./components.tsx";
-import { startRun } from "./api.ts";
+import { Banner, Brief, Market, PaymentGraph, Proof, Proposal, ReplayDialog, RunDrawer, SCENARIOS, type RunPhase } from "./components.tsx";
+import { recordOf, screenFor, type LoadState } from "./state.ts";
 
-// Scenario choice lives in the hash so the Evidence Brief and the dashboard share one URL scheme.
+// The Brief route names its scenario in the hash, so the dashboard and the Brief share one URL scheme.
 const briefScenario = (): string | null => {
   const m = window.location.hash.match(/^#\/brief\/(T\d)$/);
   return m ? m[1]! : null;
@@ -12,13 +13,15 @@ const briefScenario = (): string | null => {
 
 export function App() {
   const [scenario, setScenario] = useState<string>("T1");
-  const [record, setRecord] = useState<RunRecord | null>(null);
-  const [loadError, setLoadError] = useState<string | null>(null);
+  const [load, setLoad] = useState<LoadState>({ status: "loading" });
+  const [attempt, setAttempt] = useState(0);
   const [phase, setPhase] = useState<RunPhase>({ kind: "idle" });
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [log, setLog] = useState<string[]>([]);
   const [replayResult, setReplayResult] = useState<ReplayResult | null>(null);
   const [brief, setBrief] = useState<string | null>(briefScenario());
+  const record = recordOf(load);
+  const screen = screenFor(load);
 
   // The Brief route names its own scenario, so the record it shows must be that scenario too.
   useEffect(() => {
@@ -31,14 +34,21 @@ export function App() {
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
 
+  // Loading is the state until this request settles. A stale answer for an earlier tab is ignored.
   useEffect(() => {
-    setLoadError(null);
-    fetchRecord(scenario).then(setRecord).catch((e: Error) => setLoadError(e.message));
-  }, [scenario]);
+    let current = true;
+    setLoad({ status: "loading" });
+    fetchRecord(scenario)
+      .then((r) => current && setLoad({ status: "ready", record: r }))
+      .catch((e: Error) => current && setLoad({ status: "error", message: e.message }));
+    return () => {
+      current = false;
+    };
+  }, [scenario, attempt]);
 
-  // Run log: stream the server's SSE for the run this session started.
+  // Run log: stream the server's SSE for the run this session started (local mode only).
   useEffect(() => {
-    if (phase.kind !== "running") return;
+    if (phase.kind !== "running" || PUBLIC_DEMO) return;
     const es = new EventSource(`/api/runs/${phase.id}/events`);
     es.addEventListener("log", (e) => setLog((l) => [...l, JSON.parse((e as MessageEvent).data) as string]));
     es.addEventListener("done", () => {
@@ -49,7 +59,6 @@ export function App() {
     return () => es.close();
   }, [phase]);
 
-  // One start path for the proof-strip button. The drawer opens so the log is visible.
   const startCheck = async () => {
     setLog([]);
     setDrawerOpen(true);
@@ -62,7 +71,6 @@ export function App() {
     if (record) setReplayResult(replay(record));
   };
 
-  // Keyboard: R replays, E opens the Evidence Brief. Ignored while typing or inside a dialog.
   // Esc closes the run log when it is open, as the drawer pattern expects.
   useEffect(() => {
     if (!drawerOpen) return;
@@ -71,6 +79,7 @@ export function App() {
     return () => window.removeEventListener("keydown", onEsc);
   }, [drawerOpen]);
 
+  // Keyboard: R replays, E opens the Evidence Brief. Ignored while typing or inside a dialog.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement).tagName;
@@ -90,11 +99,14 @@ export function App() {
     );
   }
 
+  // The JSON download is the canonical evidence bytes, built in the browser with the same code as the server.
   const exportJson = () => {
+    if (!record) return;
     const a = document.createElement("a");
-    a.href = `/api/runs/${scenario}/evidence.json`;
+    a.href = URL.createObjectURL(new Blob([canonicalJson(record.evidence as Record<string, JsonValue>)], { type: "application/json" }));
     a.download = `echt-${scenario}-evidence.json`;
     a.click();
+    URL.revokeObjectURL(a.href);
   };
 
   return (
@@ -116,17 +128,35 @@ export function App() {
         <p className="legend" aria-label="Provenance legend">SYNTHETIC personas · TESTNET transfers · SIMULATED verdict run</p>
       </header>
       <main id="main" className="screen">
-        {loadError && <p role="alert">Could not load the run record: {loadError}</p>}
-        <Banner record={record} phase={phase} />
-        <div className="columns">
-          <div className="reveal"><PaymentGraph record={record} /></div>
-          <div className="side">
-            <Proposal record={record} />
-            <Market record={record} />
+        {screen === "loading" && <p role="status" className="loading">Loading the run record for {scenario}…</p>}
+        {screen === "error" && load.status === "error" && (
+          <div role="alert" className="loading">
+            <p>Could not load the run record for {scenario}: {load.message}</p>
+            <button type="button" onClick={() => setAttempt((n) => n + 1)}>Try again</button>
           </div>
-        </div>
-        <Proof record={record} scenario={scenario} phase={phase} onRun={startCheck} onBrief={() => { if (record) window.location.hash = `#/brief/${scenario}`; }} onReplay={runReplay} onExport={exportJson} />
-        <RunDrawer open={drawerOpen} setOpen={setDrawerOpen} phase={phase} log={log} />
+        )}
+        {(screen === "record" || screen === "empty") && (
+          <>
+            <Banner record={record} phase={phase} />
+            <div className="columns">
+              <div className="reveal"><PaymentGraph record={record} /></div>
+              <div className="side">
+                <Proposal record={record} />
+                <Market record={record} />
+              </div>
+            </div>
+            <Proof
+              record={record}
+              scenario={scenario}
+              phase={phase}
+              onRun={startCheck}
+              onBrief={() => { if (record) window.location.hash = `#/brief/${scenario}`; }}
+              onReplay={runReplay}
+              onExport={exportJson}
+            />
+            {!PUBLIC_DEMO && <RunDrawer open={drawerOpen} setOpen={setDrawerOpen} phase={phase} log={log} />}
+          </>
+        )}
       </main>
       {replayResult && <ReplayDialog result={replayResult} scenario={scenario} onClose={() => setReplayResult(null)} />}
     </>

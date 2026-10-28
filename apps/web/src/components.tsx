@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { startRun, type RunRecord, type Transfer, type Voice } from "./api.ts";
+import { PUBLIC_DEMO, startRun, type RunRecord, type Transfer, type Voice } from "./api.ts";
 import { ethFrom, hours, reasonText, short, txLink } from "./format.ts";
 import type { ReplayResult } from "./replay.ts";
 import { finalState } from "./state.ts";
@@ -33,7 +33,7 @@ export function Banner({ record, phase }: { record: RunRecord | null; phase: Run
     <section aria-labelledby="zone-banner" className={`banner tone-${h.tone}`}>
       <h2 id="zone-banner" className="sr-only">Decision</h2>
       <p className="banner-title"><span aria-hidden="true">{h.icon}</span> <span>{h.title}</span></p>
-      {record && phase.kind !== "running" && <p className="banner-reason">{reasonText(record.verdict, record.reasons, linked, total)}</p>}
+      {record && phase.kind !== "running" && <p className="banner-reason">{reasonText(record.verdict, record.reasons, linked, total, record.market.status)}</p>}
       {phase.kind === "refused" && <p className="banner-reason" role="status">Run refused: {phase.message}</p>}
       {record && (
         <ul className="chips" aria-label="Status chips">
@@ -154,7 +154,9 @@ export function Proof({ record, scenario, phase, onRun, onBrief, onReplay, onExp
         </dl>
       ) : <p>Nothing to prove yet. Run a check to create a record, or choose another scenario.</p>}
       <div className="actions">
-        <button type="button" onClick={onRun} disabled={phase.kind === "running"}>Run check for {scenario}</button>
+        {PUBLIC_DEMO
+          ? <p className="muted">Runs require local setup. See README.</p>
+          : <button type="button" onClick={onRun} disabled={phase.kind === "running"}>Run check for {scenario}</button>}
         <button type="button" onClick={onBrief} disabled={!record}>Evidence Brief (E)</button>
         <button type="button" onClick={onExport} disabled={!record}>JSON</button>
         <button type="button" onClick={onReplay} disabled={!record}>Replay (R)</button>
