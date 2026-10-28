@@ -36,7 +36,7 @@ jobs:
         run: pnpm audit --audit-level=high
       - name: Public build
         run: pnpm --filter @echt/web build:public
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: public-site
           path: apps/web/dist-public
