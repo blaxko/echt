@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { CONTRACT, DASHBOARD, ETHERSCAN, HERO, T1_FACTS, T1_TX } from "./content.ts";
+import { CONTRACT, DASHBOARD, ETHERSCAN, HERO, PAGES, T1_FACTS, T1_TX } from "./content.ts";
 
 // The landing page. Copy stays short and every fact comes from README.md or docs/PRD.md; the T1 numbers are checked
 // against the recorded run by apps/web/test/landing-facts.test.ts.
@@ -10,7 +10,6 @@ function FloatingCards() {
   return (
     <div className="float-layer" aria-hidden="true">
       <div className="glass float-card card-post">
-        <span className="kicker">Post</span>
         <p>@echt_persona_03 · bullish ETH</p>
       </div>
       <div className="glass float-card card-chip">
@@ -121,7 +120,7 @@ function ProblemFixResult() {
         <ol className="pfr">
           {PFR.map((p) => (
             <li key={p.label} className="glass pfr-item">
-              <span className="kicker">{p.label}</span>
+              <h3>{p.label}</h3>
               <p>{p.text}</p>
             </li>
           ))}
@@ -138,7 +137,6 @@ function DashboardPreview() {
       <div className="site-wrap reveal">
         <h2 id="preview-title">The dashboard, from the recorded run</h2>
         <div className="glass preview">
-          <span className="kicker">T1 · recorded</span>
           <p className="preview-verdict">{T1_FACTS.verdict}</p>
           <ul className="preview-row">
             <li>{T1_FACTS.linked} of {T1_FACTS.voices} voices linked</li>
@@ -148,6 +146,26 @@ function DashboardPreview() {
           <p className="muted small">Evidence hash {short(T1_FACTS.evidenceHash)}</p>
           <a className="tile-link" href="#/brief/T1">Read the Evidence Brief</a>
         </div>
+      </div>
+    </section>
+  );
+}
+
+// Objection handling: the first three questions from the FAQ page, unchanged. The rest live on #/faq.
+function Questions() {
+  return (
+    <section className="section" aria-labelledby="faq-title">
+      <div className="site-wrap reveal">
+        <h2 id="faq-title">Questions</h2>
+        <dl className="qa">
+          {PAGES.faq.qa.slice(0, 3).map((item) => (
+            <div key={item.q} className="qa-item">
+              <dt>{item.q}</dt>
+              <dd>{item.a}</dd>
+            </div>
+          ))}
+        </dl>
+        <p className="more"><a href="#/faq">All questions <span aria-hidden="true">→</span></a></p>
       </div>
     </section>
   );
@@ -178,6 +196,7 @@ export function Landing() {
       <Bento />
       <ProblemFixResult />
       <DashboardPreview />
+      <Questions />
       <CtaBand />
     </>
   );

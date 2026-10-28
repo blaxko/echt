@@ -1,0 +1,830 @@
+{
+  "T1-1440": {
+    "axe": [],
+    "metrics": {
+      "sw": 1440,
+      "cw": 1440,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        262,
+        151,
+        342,
+        371
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "T2-1440": {
+    "axe": [],
+    "metrics": {
+      "sw": 1440,
+      "cw": 1440,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "◇ NO POSITION · ELIGIBLE, market unavailable",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        328,
+        151,
+        342,
+        371
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "T5-1440": {
+    "axe": [],
+    "metrics": {
+      "sw": 1440,
+      "cw": 1440,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "▲ NO POSITION · REVIEW",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        262,
+        151,
+        342,
+        399
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "T6-1440": {
+    "axe": [],
+    "metrics": {
+      "sw": 1440,
+      "cw": 1440,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        262,
+        151,
+        342,
+        399
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "whatif-T1-1440": {
+    "axe": [],
+    "metrics": {
+      "sw": 1440,
+      "cw": 1440,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        262,
+        151,
+        342,
+        371
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "replay-MATCH-T1-1440": {
+    "axe": [],
+    "metrics": {
+      "sw": 1440,
+      "cw": 1440,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": "Replay T1\n\nRecomputed offline from the stored inputs. No model, RYO or provider calls.\n\nMATCH · hash and verdict match the stored record\n\nClose",
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        262,
+        151,
+        342,
+        371
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "replay-HASH_MISMATCH-T6-1440": {
+    "axe": [],
+    "metrics": {
+      "sw": 1440,
+      "cw": 1440,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": "Replay T6\n\nRecomputed offline from the stored inputs. No model, RYO or provider calls.\n\nHASH_MISMATCH · section changed: transfers\n\nClose",
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        262,
+        151,
+        342,
+        399
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "brief-T1-1440": {
+    "axe": [],
+    "metrics": {
+      "sw": 1440,
+      "cw": 1440,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": null,
+      "dialog": null,
+      "proofButtons": [],
+      "fontOk": true,
+      "zoneText": [],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "T1-1024": {
+    "axe": [],
+    "metrics": {
+      "sw": 1024,
+      "cw": 1024,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        262,
+        151,
+        342,
+        371
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "T2-1024": {
+    "axe": [],
+    "metrics": {
+      "sw": 1024,
+      "cw": 1024,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "◇ NO POSITION · ELIGIBLE, market unavailable",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        328,
+        151,
+        342,
+        371
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "T5-1024": {
+    "axe": [],
+    "metrics": {
+      "sw": 1024,
+      "cw": 1024,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "▲ NO POSITION · REVIEW",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        262,
+        151,
+        342,
+        399
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "T6-1024": {
+    "axe": [],
+    "metrics": {
+      "sw": 1024,
+      "cw": 1024,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        262,
+        151,
+        342,
+        399
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "whatif-T1-1024": {
+    "axe": [],
+    "metrics": {
+      "sw": 1024,
+      "cw": 1024,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        262,
+        151,
+        342,
+        371
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "replay-MATCH-T1-1024": {
+    "axe": [],
+    "metrics": {
+      "sw": 1024,
+      "cw": 1024,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": "Replay T1\n\nRecomputed offline from the stored inputs. No model, RYO or provider calls.\n\nMATCH · hash and verdict match the stored record\n\nClose",
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        262,
+        151,
+        342,
+        371
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "replay-HASH_MISMATCH-T6-1024": {
+    "axe": [],
+    "metrics": {
+      "sw": 1024,
+      "cw": 1024,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": "Replay T6\n\nRecomputed offline from the stored inputs. No model, RYO or provider calls.\n\nHASH_MISMATCH · section changed: transfers\n\nClose",
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        262,
+        151,
+        342,
+        399
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "brief-T1-1024": {
+    "axe": [],
+    "metrics": {
+      "sw": 1024,
+      "cw": 1024,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": null,
+      "dialog": null,
+      "proofButtons": [],
+      "fontOk": true,
+      "zoneText": [],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "T1-768": {
+    "axe": [],
+    "metrics": {
+      "sw": 768,
+      "cw": 768,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        262,
+        151,
+        342,
+        371
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "T2-768": {
+    "axe": [],
+    "metrics": {
+      "sw": 768,
+      "cw": 768,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "◇ NO POSITION · ELIGIBLE, market unavailable",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        328,
+        151,
+        342,
+        371
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "T5-768": {
+    "axe": [],
+    "metrics": {
+      "sw": 768,
+      "cw": 768,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "▲ NO POSITION · REVIEW",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        262,
+        151,
+        342,
+        399
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "T6-768": {
+    "axe": [],
+    "metrics": {
+      "sw": 768,
+      "cw": 768,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        262,
+        151,
+        342,
+        399
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "whatif-T1-768": {
+    "axe": [],
+    "metrics": {
+      "sw": 768,
+      "cw": 768,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        262,
+        151,
+        342,
+        371
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "replay-MATCH-T1-768": {
+    "axe": [],
+    "metrics": {
+      "sw": 768,
+      "cw": 768,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": "Replay T1\n\nRecomputed offline from the stored inputs. No model, RYO or provider calls.\n\nMATCH · hash and verdict match the stored record\n\nClose",
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        262,
+        151,
+        342,
+        371
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "replay-HASH_MISMATCH-T6-768": {
+    "axe": [],
+    "metrics": {
+      "sw": 768,
+      "cw": 768,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": "Replay T6\n\nRecomputed offline from the stored inputs. No model, RYO or provider calls.\n\nHASH_MISMATCH · section changed: transfers\n\nClose",
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        262,
+        151,
+        342,
+        399
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "brief-T1-768": {
+    "axe": [],
+    "metrics": {
+      "sw": 768,
+      "cw": 768,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": null,
+      "dialog": null,
+      "proofButtons": [],
+      "fontOk": true,
+      "zoneText": [],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "T1-375": {
+    "axe": [],
+    "metrics": {
+      "sw": 375,
+      "cw": 375,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        635,
+        151,
+        342,
+        371
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "T2-375": {
+    "axe": [],
+    "metrics": {
+      "sw": 375,
+      "cw": 375,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "◇ NO POSITION · ELIGIBLE, market unavailable",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        505,
+        151,
+        342,
+        371
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "T5-375": {
+    "axe": [],
+    "metrics": {
+      "sw": 375,
+      "cw": 375,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "▲ NO POSITION · REVIEW",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        635,
+        151,
+        342,
+        399
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "T6-375": {
+    "axe": [],
+    "metrics": {
+      "sw": 375,
+      "cw": 375,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        635,
+        151,
+        342,
+        399
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "whatif-T1-375": {
+    "axe": [],
+    "metrics": {
+      "sw": 375,
+      "cw": 375,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        635,
+        151,
+        342,
+        371
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "replay-MATCH-T1-375": {
+    "axe": [],
+    "metrics": {
+      "sw": 375,
+      "cw": 375,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": "Replay T1\n\nRecomputed offline from the stored inputs. No model, RYO or provider calls.\n\nMATCH · hash and verdict match the stored record\n\nClose",
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        635,
+        151,
+        342,
+        371
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "replay-HASH_MISMATCH-T6-375": {
+    "axe": [],
+    "metrics": {
+      "sw": 375,
+      "cw": 375,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": "Replay T6\n\nRecomputed offline from the stored inputs. No model, RYO or provider calls.\n\nHASH_MISMATCH · section changed: transfers\n\nClose",
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        635,
+        151,
+        342,
+        399
+      ],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "brief-T1-375": {
+    "axe": [],
+    "metrics": {
+      "sw": 375,
+      "cw": 375,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": null,
+      "dialog": null,
+      "proofButtons": [],
+      "fontOk": true,
+      "zoneText": [],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  }
+}
