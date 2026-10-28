@@ -5,6 +5,9 @@ import type { ReplayResult } from "./replay.ts";
 import { Banner, Brief, Market, PaymentGraph, Proof, Proposal, ReplayDialog, RunDrawer, SCENARIOS, type RunPhase } from "./components.tsx";
 import { recordOf, screenFor, shownFor, type LoadState } from "./state.ts";
 import { Lockup } from "./site.tsx";
+import { baseWhatIf, viewRecord, type WhatIf } from "./whatif.ts";
+import { WhatIfPanel } from "./whatif-panel.tsx";
+import type { RunInput } from "@echt/policy";
 
 // The decision dashboard and the Evidence Brief. It is loaded on demand (see App.tsx), so the landing page does not pay for it.
 export function Dashboard({ brief }: { brief: string | null }) {
@@ -20,6 +23,12 @@ export function Dashboard({ brief }: { brief: string | null }) {
   const [replayResult, setReplayResult] = useState<ReplayResult | null>(null);
   const record = recordOf(shown);
   const screen = screenFor(shown);
+  // The what-if starts from the recorded run and resets when the reader moves to another scenario.
+  // Keyed by scenario, so a what-if left on one scenario is simply not shown on another.
+  const [whatifEdit, setWhatifEdit] = useState<{ scenario: string; w: WhatIf } | null>(null);
+  const whatif = whatifEdit && whatifEdit.scenario === scenario ? whatifEdit.w : null;
+  const setWhatif = (w: WhatIf | null) => setWhatifEdit(w && { scenario, w });
+  const whatifBase = record ? baseWhatIf(record.inputs as RunInput) : null;
 
   // Loading is the state until this request settles. An answer for a scenario the reader has left is dropped.
   useEffect(() => {
@@ -131,7 +140,7 @@ export function Dashboard({ brief }: { brief: string | null }) {
           <>
             <Banner record={record} phase={phase} />
             <div className="columns">
-              <div><PaymentGraph record={record} /></div>
+              <div><PaymentGraph record={record && whatif ? viewRecord(record, whatif) : record} /></div>
               <div className="side">
                 <Proposal record={record} />
                 <Market record={record} />
@@ -146,6 +155,9 @@ export function Dashboard({ brief }: { brief: string | null }) {
               onReplay={runReplay}
               onExport={exportJson}
             />
+            {record && whatifBase && (
+              <WhatIfPanel record={record} w={whatif ?? whatifBase} setW={setWhatif} onReset={() => setWhatif(null)} />
+            )}
             {!PUBLIC_DEMO && <RunDrawer open={drawerOpen} setOpen={setDrawerOpen} phase={phase} log={log} />}
           </>
         )}

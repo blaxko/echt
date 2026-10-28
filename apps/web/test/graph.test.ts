@@ -11,7 +11,7 @@ import type { RunRecord } from "../src/api.ts";
 const webRoot = new URL("../", import.meta.url);
 const css = readFileSync(new URL("src/styles.css", webRoot), "utf8");
 const record = JSON.parse(
-  readFileSync(new URL("../../../scenarios/runs/T1.json", import.meta.url), "utf8").replace(/^﻿/, ""),
+  readFileSync(new URL("../../../scenarios/runs/T1.json", import.meta.url), "utf8").trim(),
 ) as RunRecord;
 
 const tokenValue = (name: string): string => {

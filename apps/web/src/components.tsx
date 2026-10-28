@@ -64,8 +64,9 @@ function useNarrow(): boolean {
 
 export function PaymentGraph({ record }: { record: RunRecord | null }) {
   const narrow = useNarrow();
-  const [tableOpen, setTableOpen] = useState(narrow);
-  useEffect(() => { if (narrow) setTableOpen(true); }, [narrow]);
+  // The table is open on phones unless the reader has closed it; a reader's choice always wins.
+  const [choice, setChoice] = useState<boolean | null>(null);
+  const tableOpen = choice ?? narrow;
   if (!record) return <section aria-labelledby="zone-graph" className="zone"><h2 id="zone-graph">Payment graph</h2><p>No run recorded yet.</p></section>;
   const paid = record.voices.filter((v) => v.paymentTx);
   const source = (record.inputs as { transfers: Transfer[] }).transfers[0]?.from ?? "";
@@ -101,7 +102,7 @@ export function PaymentGraph({ record }: { record: RunRecord | null }) {
           );
         })}
       </svg>
-      <details className="table-alt" open={tableOpen} onToggle={(e) => setTableOpen(e.currentTarget.open)}>
+      <details className="table-alt" open={tableOpen} onToggle={(e) => setChoice(e.currentTarget.open)}>
         <summary>Table view of every voice, its payment and measured gap</summary>
         <table>
           <caption className="sr-only">Voices, payments from the campaign source, and measured gap to post</caption>
