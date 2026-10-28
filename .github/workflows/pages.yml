@@ -51,7 +51,7 @@ jobs:
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: "1.4.4"
-      - name: CRE workflow helpers (Bun): typecheck and tests
+      - name: "CRE workflow helpers (Bun): typecheck and tests"
         working-directory: cre/echt-verdict/echt-verdict
         run: |
           bun install --frozen-lockfile
