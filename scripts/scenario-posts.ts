@@ -106,7 +106,7 @@ function build(): void {
       },
       expected: scenario === "T1"
         ? { paymentVerdict: "BLOCK", reason: "THRESHOLD_MET", convergingCount: 7, linkedCount: 5 }
-        : { paymentVerdict: "ELIGIBLE", reason: "NO_QUALIFYING_PATTERN", convergingCount: 7, linkedCount: 1 },
+        : { paymentVerdict: "ELIGIBLE", reason: "NO_QUALIFYING_PATTERN", convergingCount: 7, linkedCount: 0 },
     };
     writeFileSync(join(SCENARIOS_DIR, spec.file), JSON.stringify(file, null, 2) + "\n");
     console.log(`wrote scenarios/${spec.file} (${voices.length} voices, ${payments.length} payments, postBlock null)`);
