@@ -144,3 +144,17 @@ Dry simulation (no broadcast, 28 Oct 05:20 UTC) on the real T1 transfers, pinned
 | D22 | F2 extraction (PRD §6.2) runs through the `openai` SDK in JSON mode, against `LLM_BASE_URL` with `LLM_MODEL` (Groq, `openai/gpt-oss-120b`). The reply is validated with zod. One retry, then `extraction_failed`. Results are cached by sha256(text + model + promptVersion) in `scenarios/extractions/cache/`, labelled `MODEL`. Replay stays offline | PRD §6.2; CLAUDE.md §8 LLM rules |
 | D23 | Extracted `disclosure_detected` feeds the run payload (`disclosedByPostId`). A disclosed voice is shown and does not count toward BLOCK (D5) | Makes disclosure a real input, not a hard-coded flag |
 | D24 | Posts for extraction live in `scenarios/posts/T1|T2|T3.json`. T3 is the disclosed-campaign text (PRD T3). T3 has no on-chain run yet | Extraction test data; synthetic only |
+
+## Broadcast fixes (28 Oct, 16:56–18:08 UTC)
+
+| # | Decision | Why |
+|---|---|---|
+| D25 | The write gas limit is 2,000,000 (`cre/echt-verdict/echt-verdict/config.echt.json`), up from 500,000. The receiver's `onReport` needs about 1.36M gas for a 5-voice verdict (`eth_estimateGas` on the same report, 28 Oct) | With 500,000 the forwarder's call to the receiver ran out of gas. The mock forwarder swallowed the revert, so the transaction succeeded but no verdict was stored |
+| D26 | The server counts the campaign source's transactions over the same window the workflow reads (from the earliest voice post minus 21,600 blocks, up to the pinned block). It looks a source up only if the policy finds it as a campaign source | The workflow puts the source's transaction count into the evidence. The campaign source also had a funding deposit (0.05 ETH, block 12007865) in that window. A server that counted only the six payments computed a different evidence hash, and the record was refused. The check did what it should |
+| D27 | `process.env.ECHT_VERDICTS_ADDRESS ?? addresses.verdicts.address` was a bug. The `.env` has `ECHT_VERDICTS_ADDRESS` set to an empty string, and `??` does not fall back on an empty string, so the read-back called the zero address. The fix uses `||` | Empty means unset. Found when the read-back failed with "Invalid parameters" |
+
+**Evidence: the failed broadcasts.** The first T1 and T2 broadcasts (with the 500,000 gas limit) were mined and succeeded at the mock forwarder, but neither stored a verdict:
+- T1: [0x1fe3a333…a75d](https://sepolia.etherscan.io/tx/0x1fe3a333a2a7900b0884b81664fa3beaa0223bc0b789737a2b4435df1115a75d). `getVerdict(keccak256("t1-coordinated"))` reverts with `UnknownRun`. Its only log is the forwarder's own event; the receiver emitted nothing.
+- T2: [0xa893a158…d253](https://sepolia.etherscan.io/tx/0xa893a158d3fa42495a1fb5b9cc7cede342bb57a1a2910da718157956bbfad253). Same result: no `VerdictRecorded` event.
+
+The corrected broadcasts, with the 2,000,000 gas limit, produced the verdicts that are on chain: T1 [0xc0141cba…a7be](https://sepolia.etherscan.io/tx/0xc0141cba6a540fce98f3ea414e9523d44c1a1a7ff4d2276aa0032497fc01a7be) and T2 [0x97d2b04e…5c63](https://sepolia.etherscan.io/tx/0x97d2b04e85dca1e5aa02664795019b73b50af954dc720065bc7347c5868d5c63). Both `getVerdict` read-backs match the workflow results.
