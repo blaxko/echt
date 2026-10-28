@@ -101,7 +101,8 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 .graph .node-sub { fill: var(--ink-muted); font-size: 12px; }
 .graph .edge { stroke-width: 3; }
 .graph .edge.linked { stroke: var(--block); }
-.graph .edge.unlinked { stroke: var(--line); stroke-dasharray: 4 4; }
+.graph .edge.not-campaign { stroke: var(--ink-muted); stroke-dasharray: 4 4; }
+.graph .edge-note { font-style: italic; }
 .graph a:focus-visible .edge, .graph a:focus-visible { outline: none; }
 .graph a:focus-visible .edge { stroke-width: 6; }
 .table-alt summary { cursor: pointer; margin-top: 8px; }

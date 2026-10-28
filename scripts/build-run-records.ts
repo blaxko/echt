@@ -70,6 +70,7 @@ function build(scenario: any, paymentList: Payment[], opts: { id: string; label:
   const record = {
     schemaVersion: 1,
     scenario: opts.id,
+    generatedAt: new Date().toISOString(),
     label: opts.label,
     provenance: "SIMULATED",
     cre: "Chainlink CRE · local simulation",

@@ -71,6 +71,7 @@ export function buildRecord(opts: BuildOptions): RunRecord {
   return {
     schemaVersion: 1,
     scenario: opts.scenario,
+    generatedAt: new Date().toISOString(),
     label: opts.label,
     provenance: opts.dryRun ? "SIMULATED" : "TESTNET",
     cre: opts.cre,

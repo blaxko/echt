@@ -24,6 +24,7 @@ export interface Transfer {
 
 export interface RunRecord {
   scenario: string;
+  generatedAt?: string;
   label: string;
   dryRun?: boolean;
   verdictTx: string | null;
