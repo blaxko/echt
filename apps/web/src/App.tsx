@@ -63,6 +63,14 @@ export function App() {
   };
 
   // Keyboard: R replays, E opens the Evidence Brief. Ignored while typing or inside a dialog.
+  // Esc closes the run log when it is open, as the drawer pattern expects.
+  useEffect(() => {
+    if (!drawerOpen) return;
+    const onEsc = (e: KeyboardEvent) => { if (e.key === "Escape") setDrawerOpen(false); };
+    window.addEventListener("keydown", onEsc);
+    return () => window.removeEventListener("keydown", onEsc);
+  }, [drawerOpen]);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement).tagName;
