@@ -131,7 +131,7 @@ export function Dashboard({ brief }: { brief: string | null }) {
           <>
             <Banner record={record} phase={phase} />
             <div className="columns">
-              <div className="reveal"><PaymentGraph record={record} /></div>
+              <div><PaymentGraph record={record} /></div>
               <div className="side">
                 <Proposal record={record} />
                 <Market record={record} />

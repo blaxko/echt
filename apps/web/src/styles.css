@@ -110,7 +110,7 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 .columns > *, .side > *, .zone, .banner { min-width: 0; }
 .side { display: grid; gap: var(--gap); align-content: start; }
 .graph { width: 100%; height: auto; }
-.graph .node { fill: var(--surface); stroke: var(--line); }
+.graph .node { fill: var(--surface); stroke: var(--ink-muted); }
 .graph .node.source { stroke: var(--ink-muted); }
 .graph .node.voice.linked { stroke: var(--block); }
 .graph .node-label { fill: var(--ink); font-size: 13px; }
@@ -305,8 +305,9 @@ dialog.replay::backdrop { background: rgba(0, 0, 0, 0.4); }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .js .reveal { opacity: 0; transform: translateY(16px); transition: opacity 500ms cubic-bezier(0.2, 0.8, 0.2, 1), transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1); }
-  .js .reveal.is-in { opacity: 1; transform: none; }
+  /* Scoped to the landing and section pages. The dashboard never runs the observer, so it must never hide content. */
+  .js .site .reveal { opacity: 0; transform: translateY(16px); transition: opacity 500ms cubic-bezier(0.2, 0.8, 0.2, 1), transform 500ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .js .site .reveal.is-in { opacity: 1; transform: none; }
   .hero-glow { animation: drift 12s ease-in-out infinite alternate; }
   .hero-art .wire { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1100ms ease-out forwards; animation-delay: calc(var(--i) * 90ms + 200ms); }
   .hero-art .verdict-chip { animation: chip-in 400ms ease-out 1.8s both; }
