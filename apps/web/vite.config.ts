@@ -20,7 +20,8 @@ const publicBuild: Plugin = {
       const bundle = ctx.bundle ?? {};
       for (const [name, asset] of Object.entries(bundle)) {
         if (!name.endsWith(".css") || asset.type !== "asset") continue;
-        const css = String(asset.source);
+        // The stylesheet is inlined into index.html at the site root, so font paths resolve from ./ and not ../.
+        const css = String(asset.source).replace(/url\(\.\.\/fonts\//g, "url(./fonts/");
         const tag = out.match(/<link[^>]*rel="stylesheet"[^>]*>/)?.[0];
         if (tag && tag.includes(name)) out = out.replace(tag, `<style>${css}</style>`);
         delete bundle[name];

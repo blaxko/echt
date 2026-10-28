@@ -1,69 +1,61 @@
-/* Tokens first. Colours are defined once and redefined for dark mode, so every rule below uses a token.
-   The dashboard takes its dark palette from the dashboard reference: deep teal-navy, a brass hub accent, 14 px panels.
-   The landing pages set their own dark tokens on .site (see the site section below). */
+/* One palette, everywhere, independent of the OS setting (design/reference/notes.md, section 1).
+   No light mode and no OS-theme media queries: the colours never change with the system theme. */
 :root {
-  color-scheme: light dark;
-  --bg: #eef3f3;
-  --surface: #ffffff;
-  --ink: #0e1a1c;
-  --ink-muted: #46595c;
-  --line: #c3d1d2;
-  --focus: #0b5cad;
-  --block: #9b1c1c;
-  --review: #8a4b00;
-  --eligible: #1d5e3a;
-  --open: #0f5132;
-  --run: #2b4c7e;
-  --link: #0b5cad;
-  --hub: #8a5f2e;
-  --glow: rgba(11, 92, 173, 0.07);
-  --radius: 14px;
-  --gap: 16px;
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-  font-size: 16px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #071012;
-    --surface: #0f1c1f;
-    --ink: #e6f1ef;
-    --ink-muted: #9db3b0;
-    --line: #2a4044;
-    --focus: #6fd6e6;
-    --block: #ff9b9b;
-    --review: #ffc46b;
-    --eligible: #8fe0b4;
-    --open: #8fe0b4;
-    --run: #9fd8ea;
-    --link: #7fdcea;
-    --hub: #c89a65;
-    --glow: rgba(32, 56, 56, 0.55);
-  }
-}
-
-:root[data-theme="dark"] {
-  --bg: #071012;
-  --surface: #0f1c1f;
-  --ink: #e6f1ef;
-  --ink-muted: #9db3b0;
-  --line: #2a4044;
-  --focus: #6fd6e6;
-  --block: #ff9b9b;
+  color-scheme: dark;
+  --bg: #000000;
+  --surface: #0b0d0b;
+  --surface-raised: #111411;
+  --ink: #f4f4f2;
+  --ink-muted: #a7aca5;
+  --line: #242b24;
+  --accent: #a1d11c;
+  --accent-ink: #0b0d0b;
+  --link: #a1d11c;
+  --focus: #a1d11c;
+  --teal: #203838;
+  --hub: #c89a65;
+  --block: #ff8a8a;
   --review: #ffc46b;
   --eligible: #8fe0b4;
   --open: #8fe0b4;
   --run: #9fd8ea;
-  --link: #7fdcea;
-  --hub: #c89a65;
-  --glow: rgba(32, 56, 56, 0.55);
+  --radius: 14px;
+  --gap: 16px;
+  font-family: "Manrope", sans-serif;
+  font-size: 16px;
+  background: var(--bg);
 }
+
+html { background: var(--bg); }
 
 body {
   margin: 0;
-  background: radial-gradient(60% 45% at 18% 0%, var(--glow), transparent 70%), var(--bg);
+  background: radial-gradient(60% 45% at 18% 0%, rgba(32, 56, 56, 0.55), transparent 70%), var(--bg);
   color: var(--ink);
   min-height: 100vh;
+  overscroll-behavior: none;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/manrope-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/manrope-latin-600-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/manrope-latin-700-normal.woff2") format("woff2");
 }
 h1, h2, h3 { line-height: 1.2; }
 h2 { font-size: 1rem; margin: 0 0 8px; }
@@ -88,10 +80,6 @@ code { font-family: ui-monospace, Consolas, monospace; font-size: 0.85em; word-b
 .lockup .mark-black { display: none; }
 .lockup-word { font-weight: 700; font-size: 1.25rem; letter-spacing: -0.01em; }
 .top .lockup .mark { height: 24px; }
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) .top .lockup .mark-white { display: none; }
-  :root:not([data-theme="dark"]) .top .lockup .mark-black { display: block; }
-}
 .tabs { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; }
 .legend { margin: 0 0 0 auto; color: var(--ink-muted); font-size: 0.85rem; }
 
@@ -152,9 +140,8 @@ dialog.replay { max-width: 520px; background: var(--surface); color: var(--ink);
 dialog.replay::backdrop { background: rgba(0, 0, 0, 0.4); }
 .replay-result { font-size: 1.1rem; }
 
-/* The Brief is a printed page: it keeps light text tokens whatever the system theme. */
-.brief { --ink: #111; --ink-muted: #46595c; --link: #0b5cad; --line: #bbb; --surface: #fff; background: #fff; color: #111; max-width: 780px; margin: 0 auto; padding: 24px; }
-.brief table th, .brief table td { border-color: #bbb; }
+/* The Brief reads on screen in the same palette as every other page. Print switches to light (see @media print). */
+.brief { max-width: 780px; margin: 0 auto; padding: 24px; }
 
 /* Wide tables scroll inside their own box, never the page. */
 .table-alt, .brief { overflow-x: auto; }
@@ -182,15 +169,6 @@ dialog.replay::backdrop { background: rgba(0, 0, 0, 0.4); }
 
 /* ---- Landing and section pages (.site). Dark by design, whatever the system setting. ---- */
 .site {
-  color-scheme: dark;
-  --bg: #000000;
-  --surface: #0b0d0b;
-  --ink: #f4f4f2;
-  --ink-muted: #a7aca5;
-  --line: #242b24;
-  --focus: #a1d11c;
-  --accent: #a1d11c;
-  --block: #ff8a8a;
   --section-gap: 72px;
   min-height: 100vh;
   background: var(--bg);
@@ -376,7 +354,10 @@ dialog.replay::backdrop { background: rgba(0, 0, 0, 0.4); }
 }
 
 @media print {
-  body { background: #fff; color: #000; }
+  /* Print is the one light view: the palette tokens are replaced with ink on white. */
+  :root { --bg: #fff; --surface: #fff; --surface-raised: #fff; --ink: #000; --ink-muted: #333; --line: #999; --link: #000; --accent: #000; }
+  html, body { background: #fff; }
+  body { color: #000; }
   .no-print, .top, .screen, .skip { display: none !important; }
   .brief { padding: 0; }
   .brief a { color: #000; text-decoration: none; }

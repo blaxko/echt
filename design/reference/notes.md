@@ -34,28 +34,34 @@ Pixel sizes below are therefore ratios of the frame, not CSS pixels. Animation d
 | Central hub (brass) | `#C89A65` | the gold central node |
 | Accent violet/pink | (node colours, not sampled exactly) | node ring |
 
-### Echt tokens chosen from these
+### Final palette (single theme, shipped)
 
-| Token | Light | Dark | Use |
-|---|---|---|---|
-| `--bg` | `#f6f7f9` | `#050607` | page |
-| `--surface` | `#ffffff` | `#0c1417` | cards (dashboard dark is teal-navy) |
-| `--surface-glass` | n/a | `rgba(20,34,38,0.72)` | dashboard panels |
-| `--ink` | `#0b0d0c` | `#f4f4f2` | text |
-| `--ink-muted` | `#5b625e` | `#9aa6a2` | secondary text |
-| `--accent` | `#4f7f10` (lime, AA on white) | `#a1d11c` | landing CTA and highlight |
-| `--glow-teal` | n/a | `#203838` | dashboard background wash |
-| `--hub` | `#c89a65` | `#c89a65` | dashboard hub and brass accents |
-| `--focus` | `#0b5cad` | `#7fb6ff` | focus ring (unchanged, AA) |
-| `--block` / `--review` / `--eligible` | unchanged | unchanged | verdict colours stay as they are |
+One dark palette on every route (landing, section pages, menu, dashboard, Brief, loading, error and empty
+states). No light mode and no OS-theme media queries. `color-scheme: dark`. Print is the only light view.
 
-Verdict colours are not restyled. They carry meaning and are checked against AA.
+| Token | Hex | Use |
+|---|---|---|
+| `--bg` | `#000000` | page, html, body, theme-color |
+| `--surface` | `#0b0d0b` | cards and panels |
+| `--surface-raised` | `#111411` | raised surface |
+| `--ink` | `#f4f4f2` | text |
+| `--ink-muted` | `#a7aca5` | secondary text |
+| `--line` | `#242b24` | borders |
+| `--accent` / `--link` / `--focus` | `#a1d11c` | lime accent, links, focus ring |
+| `--accent-ink` | `#0b0d0b` | text on lime |
+| `--teal` | `#203838` | background glow |
+| `--hub` | `#c89a65` | brass accent |
+| `--block` / `--review` / `--eligible` / `--run` | `#ff8a8a` / `#ffc46b` / `#8fe0b4` / `#9fd8ea` | verdict colours, checked for AA on `--bg` and `--surface` |
+
+The earlier teal-navy dashboard palette (#071012 and #0f1c1f) is retired: one palette everywhere, as requested.
+Contrast on `--bg`/`--surface` is checked by axe (see the release summary).
 
 ## 2. Type
 
-Sans grotesk in the reference (geometric, medium-to-bold weights). Echt has no web font: the public build
-serves only `'self'` fonts and the CSP has `font-src 'self'`. We use the system stack:
-`ui-sans-serif, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif`.
+Geometric grotesk in the reference (medium-to-bold weights). The reference font is not named in this file, so
+the closest open-licence match is used: **Manrope** (SIL OFL 1.1, self-hosted from `@fontsource/manrope` 5.3.0).
+Files: `apps/web/public/fonts/manrope-latin-{400,600,700}-normal.woff2` and `OFL-manrope.txt`. Served from
+`'self'`; the CSP allows it. The 700 weight is preloaded. The choice is logged in `docs/DECISIONS.md` (D34).
 
 | Style | Size (desktop / mobile) | Weight | Line height | Tracking |
 |---|---|---|---|---|
