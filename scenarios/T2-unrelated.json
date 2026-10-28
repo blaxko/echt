@@ -164,6 +164,6 @@
     "paymentVerdict": "ELIGIBLE",
     "reason": "NO_QUALIFYING_PATTERN",
     "convergingCount": 7,
-    "linkedCount": 1
+    "linkedCount": 0
   }
 }

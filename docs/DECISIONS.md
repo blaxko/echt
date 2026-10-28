@@ -56,7 +56,7 @@ Column order taken from `cre workflow supported-chains` (name, selector, forward
 | Pin depth | ≥ 12 blocks behind head |
 | CRE HTTP budget | ≤ 12 of 15 calls per execution |
 | Timeouts | RYO 60 s · provider 10 s · LLM 30 s |
-| Scenario symbol | **TBD**: the first symbol RYO returns `status: ok` for once its market data recovers |
+| Scenario symbol | **Not set.** RYO retry 28 Oct: BTC, ETH and SOL all still return `VALIDATION_FAILED` (trace ids in `scenarios/fixtures/ryo-analyze_token-*-error-retry-28oct.json`). Scenarios use `ETH` as a placeholder and the market gate reads `UNAVAILABLE`. A payment verdict does not need market data |
 
 ## Deadlines
 
@@ -90,6 +90,20 @@ Every scenario reads the same chain history, so a transfer to one scenario's wal
 - T2 voices are personas 08–14, with their own wallets. It pays 08 only (0.002 ETH).
 - T3, T4, T5 and T6 reuse T1's on-chain transfers and differ only in posts, attestations or provider state.
 - `scripts/scenario-plan.ts` holds the sets. `scripts/test/scenario-plan.test.ts` proves T1 and T2 read disjoint wallet addresses. The 84 h guard was removed.
+
+## CRE workflow decisions (28 Oct)
+
+| # | Decision | Why |
+|---|---|---|
+| D11 | `cre workflow simulate` runs with `--skip-type-checks`. The workflow's `tsconfig.json` comes from `cre init` and is not hand-edited (CLAUDE.md §9). The policy package keeps `.ts` import suffixes, which that tsconfig rejects (TS5097). Bun tests and the root `pnpm typecheck` cover the logic | Keeps the policy package on NodeNext, and the generated tsconfig unchanged |
+| D12 | Each Etherscan call waits 400 ms first (`nodeRuntime.sleep`). The free tier allows 3 calls per second, and a burst returned `NOTOK: Max calls per sec rate limit reached` for one wallet. That made the run REVIEW, which is the correct fail-closed result, but a paced run is what we want | Observed 28 Oct |
+| D13 | The workflow does two passes: one lookup per voice (at most 7 calls), then one lookup per campaign source found (at most 5 calls). Total ≤ 12, under CRE's limit of 15 | PRD FR5.2 |
+| D14 | Unrecoverable lookups are returned as data (`ok: false`), not thrown. The policy turns them into REVIEW (`PROVIDER_FAILED`), so a gap never reads as ELIGIBLE | CLAUDE.md §9 |
+| D15 | The workflow's report is the ABI-encoded `Verdict` struct. Persona IDs are hashed (`keccak256`) on-chain. `evidenceHash` is `hashCanonical` of the evidence object | CLAUDE.md §8 and §9 |
+
+| D16 | The server starts a run with `POST /api/runs/:scenario`. It is a simulation by default, and writes on Sepolia only with `?broadcast=true`. It refuses a scenario whose `postBlock` is null (409) or whose posts are still in the future (409) before any CRE call. Only one read-only RPC call (head block) runs first. The pinned block is head − 20 | CLAUDE.md §8 (pin depth) and §9 (never present a simulation as live) |
+
+Dry simulation (no broadcast, 28 Oct 05:20 UTC) on the real T1 transfers, pinned 12,009,848: `BLOCK`, `THRESHOLD_MET`, linked persona_01–05. This was a pipeline check with a test `postBlock`, not a T1 run. No verdict was written on-chain.
 
 ## Post schedule and scenario files (28 Oct)
 
