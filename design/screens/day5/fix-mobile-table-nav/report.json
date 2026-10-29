@@ -1,0 +1,94 @@
+{
+  "brief-375": {
+    "axe": [],
+    "metrics": {
+      "sw": 375,
+      "cw": 375,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": null,
+      "dialog": null,
+      "proofButtons": [],
+      "fontOk": true,
+      "zoneText": [],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "brief-1440": {
+    "axe": [],
+    "metrics": {
+      "sw": 1440,
+      "cw": 1440,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": null,
+      "dialog": null,
+      "proofButtons": [],
+      "fontOk": true,
+      "zoneText": [],
+      "overflowing": 0,
+      "whatifVerdict": null
+    },
+    "consoleErrors": []
+  },
+  "app-375": {
+    "axe": [],
+    "metrics": {
+      "sw": 375,
+      "cw": 375,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        635,
+        151,
+        342,
+        371,
+        1123
+      ],
+      "overflowing": 0,
+      "whatifVerdict": "What-if verdict: BLOCK · THRESHOLD_MET"
+    },
+    "consoleErrors": []
+  },
+  "app-1440": {
+    "axe": [],
+    "metrics": {
+      "sw": 1440,
+      "cw": 1440,
+      "title": "Echt · check crypto hype before a practice trade",
+      "htmlBg": "rgb(0, 0, 0)",
+      "bodyBg": "rgb(0, 0, 0)",
+      "banner": "■ NO POSITION · BLOCK",
+      "dialog": null,
+      "proofButtons": [
+        "Evidence Brief (E)",
+        "JSON",
+        "Replay (R)"
+      ],
+      "fontOk": true,
+      "zoneText": [
+        262,
+        151,
+        342,
+        371,
+        1123
+      ],
+      "overflowing": 0,
+      "whatifVerdict": "What-if verdict: BLOCK · THRESHOLD_MET"
+    },
+    "consoleErrors": []
+  }
+}

@@ -2,9 +2,8 @@ import type { JsonValue } from "@echt/policy";
 import { useEffect, useState } from "react";
 import { fetchRecord, PUBLIC_DEMO, startRun } from "./api.ts";
 import type { ReplayResult } from "./replay.ts";
-import { Banner, Brief, Market, PaymentGraph, Proof, Proposal, ReplayDialog, RunDrawer, SCENARIOS, type RunPhase } from "./components.tsx";
+import { AppHeader, Banner, Brief, Market, PaymentGraph, Proof, Proposal, ReplayDialog, RunDrawer, SCENARIOS, type RunPhase } from "./components.tsx";
 import { recordOf, screenFor, shownFor, type LoadState } from "./state.ts";
-import { Lockup } from "./site.tsx";
 import { baseWhatIf, viewRecord, type WhatIf } from "./whatif.ts";
 import { WhatIfPanel } from "./whatif-panel.tsx";
 import type { RunInput } from "@echt/policy";
@@ -93,9 +92,12 @@ export function Dashboard({ brief }: { brief: string | null }) {
 
   if (brief && record && record.scenario === brief) {
     return (
-      <main id="main">
-        <Brief record={record} scenario={brief} />
-      </main>
+      <>
+        <AppHeader />
+        <main id="main">
+          <Brief record={record} scenario={brief} />
+        </main>
+      </>
     );
   }
 
@@ -113,8 +115,7 @@ export function Dashboard({ brief }: { brief: string | null }) {
   return (
     <>
       <a className="skip" href="#main">Skip to decision</a>
-      <header className="top">
-        <h1 className="brand"><a className="home-link" href="#/" aria-label="Echt home"><Lockup /></a></h1>
+      <AppHeader>
         <nav aria-label="Scenarios">
           <ul className="tabs">
             {SCENARIOS.map((s) => (
@@ -127,7 +128,7 @@ export function Dashboard({ brief }: { brief: string | null }) {
           </ul>
         </nav>
         <p className="legend" aria-label="Provenance legend">SYNTHETIC personas · TESTNET transfers · SIMULATED verdict run</p>
-      </header>
+      </AppHeader>
       <main id="main" className="screen">
         {screen === "loading" && <p role="status" className="loading">Loading the run record for {scenario}…</p>}
         {screen === "error" && load.status === "error" && (

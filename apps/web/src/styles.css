@@ -459,6 +459,30 @@ html { scrollbar-color: var(--line) var(--bg); }
   .tile-trail, .tile-closed, .tile-replay, .tile-chain, .tile-practice { grid-column: 1 / -1; }
 }
 
+/* Header: a visible "← Home" link on every size. The logo links to the same place. */
+.home-text { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); font-weight: 600; text-decoration: none; white-space: nowrap; }
+.home-text:hover { text-decoration: underline; }
+
+/* Transfer table: short addresses are monospace, tabular, and never wrap. */
+table.transfers td, table.transfers th { white-space: nowrap; }
+table.transfers code { font-family: ui-monospace, Consolas, monospace; font-variant-numeric: tabular-nums; word-break: normal; overflow-wrap: normal; }
+.col-voice { display: none; }
+.mobile-sender { display: none; }
+.hash-short { display: none; }
+
+@media (max-width: 599px) {
+  .brief { padding: 16px; }
+  .brief table { font-size: 13px; }
+  .brief th, .brief td { padding: 6px 4px; }
+  .col-to { display: none; }
+  .col-voice { display: table-cell; }
+  .mobile-sender { display: block; }
+  .mobile-sender a { white-space: nowrap; }
+  .hash-long { display: none; }
+  .hash-short { display: inline; }
+  table.transfers.one-sender .col-from { display: none; }
+}
+
 @media print {
   /* Print is the one light view: the palette tokens are replaced with ink on white. */
   :root { --bg: #fff; --surface: #fff; --surface-raised: #fff; --ink: #000; --ink-muted: #333; --line: #999; --link: #000; --accent: #000; }

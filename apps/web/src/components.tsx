@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { PUBLIC_DEMO, type RunRecord, type Transfer, type Voice } from "./api.ts";
-import { ethFrom, hours, reasonText, short, txLink } from "./format.ts";
+import { addressView, etherscanAddress, ethFrom, hours, reasonText, sameSender, short, txLink } from "./format.ts";
+import { Lockup } from "./site.tsx";
 import type { ReplayResult } from "./replay.ts";
 import { finalState } from "./state.ts";
 
@@ -253,10 +254,69 @@ export function downloadCsv(record: RunRecord, scenario: string) {
   URL.revokeObjectURL(a.href);
 }
 
-export function Brief({ record, scenario }: { record: RunRecord; scenario: string }) {
+// The brand row shared by the dashboard and the Brief. The logo and "← Home" both go to the landing page.
+export function AppHeader({ children }: { children?: ReactNode }) {
+  return (
+    <header className="top">
+      <h1 className="brand"><a className="home-link" href="#/" aria-label="Echt home"><Lockup /></a></h1>
+      <a className="home-text" href="#/">← Home</a>
+      {children}
+    </header>
+  );
+}
+
+// Qualifying transfers. Addresses are shown short with the full value in title and aria-label. Below 600 px the From
+// column hides only when every transfer has the same sender, and the Voice column (persona and To address) shows instead.
+export function TransferTable({ record }: { record: RunRecord }) {
   const transfers = (record.inputs as { transfers: Transfer[] }).transfers;
   const byHash = new Map(transfers.map((t) => [t.txHash, t]));
   const qualifying = (record.evidence.transfers ?? []).map((q) => ({ ...q, t: byHash.get(q.txHash) }));
+  if (qualifying.length === 0) return <p>None.</p>;
+  const oneSender = sameSender(qualifying.map((q) => ({ from: q.t?.from ?? "" })));
+  const sender = qualifying[0]?.t?.from ?? "";
+  const voiceOf = (wallet: string) => record.voices.find((v) => v.wallet.toLowerCase() === wallet.toLowerCase())?.personaId ?? "no voice";
+  return (
+    <>
+      {oneSender && (
+        <p className="mobile-sender">
+          All transfers from campaign wallet{" "}
+          <a href={etherscanAddress(sender)} target="_blank" rel="noreferrer" title={sender} aria-label={`${addressView(sender).short}, full address ${sender}, on Sepolia Etherscan`}>{addressView(sender).short}</a>
+        </p>
+      )}
+      <table className={oneSender ? "transfers one-sender" : "transfers"}>
+        <thead>
+          <tr>
+            <th scope="col" className="col-from">From</th>
+            <th scope="col" className="col-to">To</th>
+            <th scope="col" className="col-voice">Voice</th>
+            <th scope="col">Amount (ETH)</th>
+            <th scope="col">Block</th>
+            <th scope="col">Transaction</th>
+          </tr>
+        </thead>
+        <tbody>{qualifying.map((q) => {
+          const from = q.t?.from ?? "";
+          const to = q.t?.to ?? "";
+          const fv = addressView(from);
+          const tv = addressView(to);
+          const persona = voiceOf(to);
+          return (
+            <tr key={q.txHash}>
+              <td className="col-from" title={fv.full} aria-label={fv.full}><code>{fv.short}</code></td>
+              <td className="col-to" title={tv.full} aria-label={tv.full}><code>{tv.short}</code></td>
+              <td className="col-voice" title={tv.full} aria-label={`${persona} ${tv.full}`}><span>{persona}</span><br /><code>{tv.short}</code></td>
+              <td>{ethFrom(q.amountWei)}</td>
+              <td>{q.t?.blockNumber}</td>
+              <td><a href={txLink(q.txHash)} target="_blank" rel="noreferrer"><span className="hash-long">{short(q.txHash)}</span><span className="hash-short">{addressView(q.txHash).short}</span></a></td>
+            </tr>
+          );
+        })}</tbody>
+      </table>
+    </>
+  );
+}
+
+export function Brief({ record, scenario }: { record: RunRecord; scenario: string }) {
   return (
     <article className="brief">
       <h1>Evidence Brief · {scenario}</h1>
@@ -273,14 +333,7 @@ export function Brief({ record, scenario }: { record: RunRecord; scenario: strin
         ))}</tbody>
       </table>
       <h2>Qualifying transfers</h2>
-      {qualifying.length === 0 ? <p>None.</p> : (
-        <table>
-          <thead><tr><th>From</th><th>To</th><th>Amount (ETH)</th><th>Block</th><th>Transaction</th></tr></thead>
-          <tbody>{qualifying.map((q) => (
-            <tr key={q.txHash}><td><code>{short(q.t?.from ?? "", 10, 6)}</code></td><td><code>{short(q.t?.to ?? "", 10, 6)}</code></td><td>{ethFrom(q.amountWei)}</td><td>{q.t?.blockNumber}</td><td><a href={txLink(q.txHash)} target="_blank" rel="noreferrer">{short(q.txHash)}</a></td></tr>
-          ))}</tbody>
-        </table>
-      )}
+      <TransferTable record={record} />
       <h2>Market data (RYO)</h2>
       <p>{record.market.status}: {record.market.tool} for {record.market.symbol} returned “{record.market.message}” ({record.market.code}), trace id {record.market.traceId}.</p>
       <h2>Missing data</h2>

@@ -25,3 +25,15 @@ export function reasonText(verdict: string, reasons: string[], linked: number, t
   if (reasons.includes("DISCLOSED_CAMPAIGN")) return "Linked voices all disclosed. Shown as disclosed connections, not counted toward BLOCK.";
   return "No qualifying transfer pattern observed in this window. This is not a finding that the activity is organic or safe.";
 }
+
+/** A wallet address as shown in tables: 0x, four characters, an ellipsis and four characters. The full value stays in `full`. */
+export const addressView = (addr: string) => ({ short: `${addr.slice(0, 6)}…${addr.slice(-4)}`, full: addr });
+
+export const etherscanAddress = (addr: string) => `https://sepolia.etherscan.io/address/${addr}`;
+
+/** True only when every transfer has the same sender (case-insensitive). No transfers is not "one sender": keep the column. */
+export const sameSender = (transfers: readonly { from: string }[]): boolean => {
+  if (transfers.length === 0) return false;
+  const first = transfers[0]!.from.toLowerCase();
+  return transfers.every((t) => t.from.toLowerCase() === first);
+};
