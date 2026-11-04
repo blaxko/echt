@@ -9,7 +9,7 @@
     "scenarios": "tsx scenario-posts.ts"
   },
   "dependencies": {
-    "viem": "2.57.11"
+    "viem": "2.57.14"
   },
   "devDependencies": {
     "tsx": "4.23.15"
