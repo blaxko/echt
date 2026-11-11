@@ -1,0 +1,46 @@
+<template>
+  <style>
+    
+@font-face { font-family: "Manrope"; src: url("assets/fonts/manrope-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Manrope"; src: url("assets/fonts/manrope-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+@font-face { font-family: "Manrope"; src: url("assets/fonts/manrope-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+    #root { position: absolute; inset: 0; background: #121212; overflow: hidden; font-family: "Manrope", sans-serif; color: #f2f2f2; }
+    
+    .stack { position: absolute; left: 192px; right: 192px; top: 300px; display: flex; flex-direction: column; gap: 28px; }
+    .line { margin: 0; letter-spacing: -0.02em; line-height: 1.08; }
+    .hero { font-size: 76px; font-weight: 700; }
+    .sub { font-size: 48px; font-weight: 600; color: #a3a3a3; }
+    .w { display: inline-block; }
+    .source { position: absolute; left: 192px; right: 192px; top: 132px; font-size: 30px; color: #a3a3a3; line-height: 1.4; }
+    .source b { color: #f2f2f2; font-weight: 600; }
+    .source .url { font-size: 28px; color: #a3a3a3; word-break: break-all; }
+  </style>
+  <div id="root" data-composition-id="s1" data-width="1920" data-height="1080">
+    <div class="stack" id="s1-stack">
+      <p class="line hero" id="s1-l0"><span class="w" id="s1-w0-0">About</span> <span class="w" id="s1-w0-1" style="color:#c2ee55">160</span> <span class="w" id="s1-w0-2">crypto</span> <span class="w" id="s1-w0-3">influencers</span> <span class="w" id="s1-w0-4">took</span> <span class="w" id="s1-w0-5">paid</span> <span class="w" id="s1-w0-6">promotions.</span></p>
+      <p class="line sub" id="s1-l1"><span class="w" id="s1-w1-0">Fewer</span> <span class="w" id="s1-w1-1">than</span> <span class="w" id="s1-w1-2">5</span> <span class="w" id="s1-w1-3">labelled</span> <span class="w" id="s1-w1-4">them</span> <span class="w" id="s1-w1-5">as</span> <span class="w" id="s1-w1-6">ads.</span></p>
+    </div>
+    <p class="source" id="s1-source"><b>Source: ZachXBT, via The Block (2025). Not our data.</b><br /><span class="url">https://www.theblock.co/post/368956/zachxbt-says-over-100-crypto-influencers-accepted-promo-deals-without-disclosing-paid-ads</span></p>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#s1-w0-0", { opacity: 1, filter: "blur(0px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0);
+    tl.fromTo("#s1-w0-1", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.07);
+    tl.fromTo("#s1-w0-2", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.13);
+    tl.fromTo("#s1-w0-3", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.2);
+    tl.fromTo("#s1-w0-4", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.27);
+    tl.fromTo("#s1-w0-5", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.34);
+    tl.fromTo("#s1-w0-6", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.4);
+    tl.fromTo("#s1-w1-0", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 3.27);
+    tl.fromTo("#s1-w1-1", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 3.34);
+    tl.fromTo("#s1-w1-2", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 3.4);
+    tl.fromTo("#s1-w1-3", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 3.47);
+    tl.fromTo("#s1-w1-4", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 3.54);
+    tl.fromTo("#s1-w1-5", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 3.6);
+    tl.fromTo("#s1-w1-6", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 3.67);
+    tl.to("#s1-stack", { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, 10.69);
+    tl.to("#s1-source", { opacity: 0, duration: 0.2, ease: "power2.in" }, 10.69);
+
+    window.__timelines["s1"] = tl;
+  </script>
+</template>

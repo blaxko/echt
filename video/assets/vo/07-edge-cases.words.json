@@ -1,0 +1,169 @@
+{
+ "voice": "en-GB-RyanNeural",
+ "rate": "-5%",
+ "text": "When data is missing, Echt doesn\u2019t guess. With the transfer provider down, the verdict is review, never eligible. And when there\u2019s no shared wallet, the check passes.",
+ "words": [
+  {
+   "text": "When",
+   "start": 0.1,
+   "end": 0.376,
+   "id": "w0"
+  },
+  {
+   "text": "data",
+   "start": 0.389,
+   "end": 0.732,
+   "id": "w1"
+  },
+  {
+   "text": "is",
+   "start": 0.745,
+   "end": 0.916,
+   "id": "w2"
+  },
+  {
+   "text": "missing",
+   "start": 0.929,
+   "end": 1.35,
+   "id": "w3"
+  },
+  {
+   "text": "Echt",
+   "start": 1.521,
+   "end": 1.679,
+   "id": "w4"
+  },
+  {
+   "text": "doesn\u2019t",
+   "start": 1.692,
+   "end": 1.995,
+   "id": "w5"
+  },
+  {
+   "text": "guess",
+   "start": 2.008,
+   "end": 2.495,
+   "id": "w6"
+  },
+  {
+   "text": "With",
+   "start": 3.405,
+   "end": 3.603,
+   "id": "w7"
+  },
+  {
+   "text": "the",
+   "start": 3.616,
+   "end": 3.682,
+   "id": "w8"
+  },
+  {
+   "text": "transfer",
+   "start": 3.695,
+   "end": 4.247,
+   "id": "w9"
+  },
+  {
+   "text": "provider",
+   "start": 4.261,
+   "end": 4.734,
+   "id": "w10"
+  },
+  {
+   "text": "down",
+   "start": 4.747,
+   "end": 5.168,
+   "id": "w11"
+  },
+  {
+   "text": "the",
+   "start": 5.313,
+   "end": 5.405,
+   "id": "w12"
+  },
+  {
+   "text": "verdict",
+   "start": 5.418,
+   "end": 5.879,
+   "id": "w13"
+  },
+  {
+   "text": "is",
+   "start": 5.892,
+   "end": 6.024,
+   "id": "w14"
+  },
+  {
+   "text": "review",
+   "start": 6.037,
+   "end": 6.51,
+   "id": "w15"
+  },
+  {
+   "text": "never",
+   "start": 6.8,
+   "end": 7.063,
+   "id": "w16"
+  },
+  {
+   "text": "eligible",
+   "start": 7.076,
+   "end": 7.668,
+   "id": "w17"
+  },
+  {
+   "text": "And",
+   "start": 8.576,
+   "end": 8.8,
+   "id": "w18"
+  },
+  {
+   "text": "when",
+   "start": 8.813,
+   "end": 9.024,
+   "id": "w19"
+  },
+  {
+   "text": "there\u2019s",
+   "start": 9.037,
+   "end": 9.221,
+   "id": "w20"
+  },
+  {
+   "text": "no",
+   "start": 9.234,
+   "end": 9.471,
+   "id": "w21"
+  },
+  {
+   "text": "shared",
+   "start": 9.484,
+   "end": 9.853,
+   "id": "w22"
+  },
+  {
+   "text": "wallet",
+   "start": 9.866,
+   "end": 10.3,
+   "id": "w23"
+  },
+  {
+   "text": "the",
+   "start": 10.524,
+   "end": 10.603,
+   "id": "w24"
+  },
+  {
+   "text": "check",
+   "start": 10.616,
+   "end": 10.892,
+   "id": "w25"
+  },
+  {
+   "text": "passes",
+   "start": 10.905,
+   "end": 11.589,
+   "id": "w26"
+  }
+ ]
+}

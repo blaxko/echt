@@ -1,0 +1,145 @@
+{
+ "voice": "en-GB-RyanNeural",
+ "rate": "-5%",
+ "text": "Last year, a leaked campaign showed about one hundred and sixty crypto influencers took paid promotions. Fewer than five labelled them as ads.",
+ "words": [
+  {
+   "text": "Last",
+   "start": 0.1,
+   "end": 0.521,
+   "id": "w0"
+  },
+  {
+   "text": "year",
+   "start": 0.534,
+   "end": 0.889,
+   "id": "w1"
+  },
+  {
+   "text": "a",
+   "start": 1.034,
+   "end": 1.074,
+   "id": "w2"
+  },
+  {
+   "text": "leaked",
+   "start": 1.087,
+   "end": 1.337,
+   "id": "w3"
+  },
+  {
+   "text": "campaign",
+   "start": 1.35,
+   "end": 1.85,
+   "id": "w4"
+  },
+  {
+   "text": "showed",
+   "start": 1.863,
+   "end": 2.179,
+   "id": "w5"
+  },
+  {
+   "text": "about",
+   "start": 2.192,
+   "end": 2.482,
+   "id": "w6"
+  },
+  {
+   "text": "one",
+   "start": 2.495,
+   "end": 2.718,
+   "id": "w7"
+  },
+  {
+   "text": "hundred",
+   "start": 2.732,
+   "end": 3.047,
+   "id": "w8"
+  },
+  {
+   "text": "and",
+   "start": 3.061,
+   "end": 3.139,
+   "id": "w9"
+  },
+  {
+   "text": "sixty",
+   "start": 3.153,
+   "end": 3.534,
+   "id": "w10"
+  },
+  {
+   "text": "crypto",
+   "start": 3.547,
+   "end": 3.982,
+   "id": "w11"
+  },
+  {
+   "text": "influencers",
+   "start": 3.995,
+   "end": 4.653,
+   "id": "w12"
+  },
+  {
+   "text": "took",
+   "start": 4.666,
+   "end": 4.863,
+   "id": "w13"
+  },
+  {
+   "text": "paid",
+   "start": 4.876,
+   "end": 5.153,
+   "id": "w14"
+  },
+  {
+   "text": "promotions",
+   "start": 5.166,
+   "end": 5.995,
+   "id": "w15"
+  },
+  {
+   "text": "Fewer",
+   "start": 6.905,
+   "end": 7.274,
+   "id": "w16"
+  },
+  {
+   "text": "than",
+   "start": 7.287,
+   "end": 7.445,
+   "id": "w17"
+  },
+  {
+   "text": "five",
+   "start": 7.458,
+   "end": 7.853,
+   "id": "w18"
+  },
+  {
+   "text": "labelled",
+   "start": 7.866,
+   "end": 8.261,
+   "id": "w19"
+  },
+  {
+   "text": "them",
+   "start": 8.274,
+   "end": 8.392,
+   "id": "w20"
+  },
+  {
+   "text": "as",
+   "start": 8.405,
+   "end": 8.511,
+   "id": "w21"
+  },
+  {
+   "text": "ads",
+   "start": 8.524,
+   "end": 8.997,
+   "id": "w22"
+  }
+ ]
+}

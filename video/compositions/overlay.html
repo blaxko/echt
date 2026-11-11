@@ -1,0 +1,21 @@
+<template>
+  <style>
+    
+@font-face { font-family: "Manrope"; src: url("assets/fonts/manrope-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Manrope"; src: url("assets/fonts/manrope-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+@font-face { font-family: "Manrope"; src: url("assets/fonts/manrope-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+    #root { position: absolute; inset: 0; background: #121212; overflow: hidden; font-family: "Manrope", sans-serif; color: #f2f2f2; }
+    
+    #root { background: transparent; }
+    .tag { position: absolute; right: 96px; top: 40px; margin: 0; padding: 10px 18px; border-radius: 999px; background: rgba(18,18,18,0.9); border: 1px solid #c2ee55; font-size: 28px; font-weight: 600; color: #f2f2f2; }
+  </style>
+  <div id="root" data-composition-id="overlay" data-width="1920" data-height="1080">
+    <p class="tag" id="tag">SYNTHETIC accounts · TESTNET payments · Chainlink CRE local simulation</p>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#tag", { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power2.out" }, 0.2);
+
+    window.__timelines["overlay"] = tl;
+  </script>
+</template>

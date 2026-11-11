@@ -1,0 +1,44 @@
+<template>
+  <style>
+    
+@font-face { font-family: "Manrope"; src: url("assets/fonts/manrope-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Manrope"; src: url("assets/fonts/manrope-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+@font-face { font-family: "Manrope"; src: url("assets/fonts/manrope-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+    #root { position: absolute; inset: 0; background: #121212; overflow: hidden; font-family: "Manrope", sans-serif; color: #f2f2f2; }
+    
+    .stack { position: absolute; left: 192px; right: 192px; top: 300px; display: flex; flex-direction: column; gap: 28px; }
+    .line { margin: 0; letter-spacing: -0.02em; line-height: 1.08; }
+    .hero { font-size: 76px; font-weight: 700; }
+    .sub { font-size: 48px; font-weight: 600; color: #a3a3a3; }
+    .w { display: inline-block; }
+    .source { position: absolute; left: 192px; right: 192px; top: 132px; font-size: 30px; color: #a3a3a3; line-height: 1.4; }
+    .source b { color: #f2f2f2; font-weight: 600; }
+    .source .url { font-size: 28px; color: #a3a3a3; word-break: break-all; }
+  </style>
+  <div id="root" data-composition-id="s2" data-width="1920" data-height="1080">
+    <div class="stack" id="s2-stack">
+      <p class="line hero" id="s2-l0"><span class="w" id="s2-w0-0">AI</span> <span class="w" id="s2-w0-1">trading</span> <span class="w" id="s2-w0-2">agents</span> <span class="w" id="s2-w0-3">read</span> <span class="w" id="s2-w0-4">the</span> <span class="w" id="s2-w0-5">same</span> <span class="w" id="s2-w0-6">feeds.</span></p>
+      <p class="line sub" id="s2-l1"><span class="w" id="s2-w1-0">Seven</span> <span class="w" id="s2-w1-1">voices</span> <span class="w" id="s2-w1-2">agree.</span> <span class="w" id="s2-w1-3">A</span> <span class="w" id="s2-w1-4">naive</span> <span class="w" id="s2-w1-5">agent</span> <span class="w" id="s2-w1-6" style="color:#c2ee55">buys.</span></p>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#s2-w0-0", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.5);
+    tl.fromTo("#s2-w0-1", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.57);
+    tl.fromTo("#s2-w0-2", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.63);
+    tl.fromTo("#s2-w0-3", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.7);
+    tl.fromTo("#s2-w0-4", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.77);
+    tl.fromTo("#s2-w0-5", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.84);
+    tl.fromTo("#s2-w0-6", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.9);
+    tl.fromTo("#s2-w1-0", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 4.57);
+    tl.fromTo("#s2-w1-1", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 4.64);
+    tl.fromTo("#s2-w1-2", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 4.7);
+    tl.fromTo("#s2-w1-3", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 4.77);
+    tl.fromTo("#s2-w1-4", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 4.84);
+    tl.fromTo("#s2-w1-5", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 4.9);
+    tl.fromTo("#s2-w1-6", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 4.97);
+    tl.to("#s2-stack", { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, 10.26);
+
+    window.__timelines["s2"] = tl;
+  </script>
+</template>
