@@ -6,6 +6,7 @@ import { AppHeader, Banner, Brief, Market, PaymentGraph, Proof, Proposal, Replay
 import { recordOf, screenFor, shownFor, type LoadState } from "./state.ts";
 import { baseWhatIf, viewRecord, type WhatIf } from "./whatif.ts";
 import { WhatIfPanel } from "./whatif-panel.tsx";
+import { Summary } from "./summary.tsx";
 import type { RunInput } from "@echt/policy";
 
 // The decision dashboard and the Evidence Brief. It is loaded on demand (see App.tsx), so the landing page does not pay for it.
@@ -127,7 +128,7 @@ export function Dashboard({ brief }: { brief: string | null }) {
             ))}
           </ul>
         </nav>
-        <p className="legend" aria-label="Provenance legend">SYNTHETIC personas · TESTNET transfers · SIMULATED verdict run</p>
+        <p className="legend" aria-label="Provenance legend">Demo data: SYNTHETIC personas · TESTNET transfers · SIMULATED verdict run</p>
       </AppHeader>
       <main id="main" className="screen">
         {screen === "loading" && <p role="status" className="loading">Loading the run record for {scenario}…</p>}
@@ -140,6 +141,7 @@ export function Dashboard({ brief }: { brief: string | null }) {
         {(screen === "record" || screen === "empty") && (
           <>
             <Banner record={record} phase={phase} />
+            {record && <Summary record={record} scenario={scenario} />}
             <div className="columns">
               <div><PaymentGraph record={record && whatif ? viewRecord(record, whatif) : record} /></div>
               <div className="side">

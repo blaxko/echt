@@ -6,10 +6,10 @@ import type { ReplayResult } from "./replay.ts";
 import { finalState } from "./state.ts";
 
 export const SCENARIOS = [
-  { id: "T1", name: "T1 Coordinated" },
-  { id: "T2", name: "T2 Unrelated" },
-  { id: "T5", name: "T5 Fault" },
-  { id: "T6", name: "T6 Tampered" },
+  { id: "T1", name: "T1 · Paid campaign" },
+  { id: "T2", name: "T2 · No campaign" },
+  { id: "T5", name: "T5 · Data missing" },
+  { id: "T6", name: "T6 · Tampered record" },
 ] as const;
 
 export type RunPhase = { kind: "idle" } | { kind: "running"; id: string } | { kind: "refused"; message: string } | { kind: "finished" };
@@ -68,7 +68,7 @@ export function PaymentGraph({ record }: { record: RunRecord | null }) {
   // The table is open on phones unless the reader has closed it; a reader's choice always wins.
   const [choice, setChoice] = useState<boolean | null>(null);
   const tableOpen = choice ?? narrow;
-  if (!record) return <section aria-labelledby="zone-graph" className="zone"><h2 id="zone-graph">Payment graph</h2><p>No run recorded yet.</p></section>;
+  if (!record) return <section aria-labelledby="zone-graph" className="zone"><h2 id="zone-graph">Who paid whom</h2><p>No run recorded yet.</p></section>;
   const paid = record.voices.filter((v) => v.paymentTx);
   const source = (record.inputs as { transfers: Transfer[] }).transfers[0]?.from ?? "";
   const width = 640;
@@ -76,7 +76,8 @@ export function PaymentGraph({ record }: { record: RunRecord | null }) {
   const height = Math.max(rowH * record.voices.length + 40, 160);
   return (
     <section aria-labelledby="zone-graph" className="zone">
-      <h2 id="zone-graph">Payment graph <span className="muted">· {paid.length} payment{paid.length === 1 ? "" : "s"} from one source</span></h2>
+      <h2 id="zone-graph">Who paid whom <span className="muted">· {paid.length} payment{paid.length === 1 ? "" : "s"} from one source</span></h2>
+      <p className="zone-help">Each red line is a real payment on the Ethereum Sepolia test network, made before the account posted. Click a line to open it.</p>
       <svg viewBox={`0 0 ${width} ${height}`} role="group" aria-label={`Campaign source paid ${paid.length} voice wallets before posting. Each edge opens its transaction on Sepolia Etherscan.`} className="graph">
         <rect x="8" y={height / 2 - 26} width="170" height="52" rx="8" className="node source" />
         <text x="93" y={height / 2 - 4} textAnchor="middle" className="node-label">Campaign source</text>
@@ -131,7 +132,7 @@ export function Proposal({ record }: { record: RunRecord | null }) {
   const state = finalState(record);
   return (
     <section aria-labelledby="zone-proposal" className="zone proposal">
-      <h2 id="zone-proposal">Before the check · proposal</h2>
+      <h2 id="zone-proposal">What the agent wanted to do</h2>
       <p><s>Practice long · {p.symbol} · ${p.sizeUsd} · stop −{Math.round(p.stopPct * 100)}%</s></p>
       <p className="muted">{p.rationale}</p>
       <p><strong>Final action: </strong>{state === "OPEN_PRACTICE_POSITION" ? "OPEN PRACTICE POSITION" : "NO POSITION"}</p>
@@ -142,7 +143,7 @@ export function Proposal({ record }: { record: RunRecord | null }) {
 export function Market({ record }: { record: RunRecord | null }) {
   return (
     <section aria-labelledby="zone-market" className="zone">
-      <h2 id="zone-market">Market evidence · RYO</h2>
+      <h2 id="zone-market">Market data · RYO</h2>
       {!record && <p>No market evidence recorded.</p>}
       {record && (
         <>
@@ -161,7 +162,8 @@ export function Proof({ record, scenario, phase, onRun, onBrief, onReplay, onExp
 }) {
   return (
     <section aria-labelledby="zone-proof" className="zone proof">
-      <h2 id="zone-proof">Proof</h2>
+      <h2 id="zone-proof">Proof you can check yourself</h2>
+      <p className="zone-help">The decision and a fingerprint (hash) of the evidence are stored on-chain. Replay recomputes it here; a match means nothing was changed.</p>
       {record ? (
         <dl className="proof-list">
           <div><dt>Evidence hash</dt><dd><code title={record.evidenceHash}>{short(record.evidenceHash, 12, 8)}</code></dd></div>

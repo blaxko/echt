@@ -13,7 +13,8 @@ export function WhatIfPanel({ record, w, setW, onReset }: { record: RunRecord; w
 
   return (
     <section aria-labelledby="zone-whatif" className="zone whatif">
-      <h2 id="zone-whatif">What-if <span className="muted">· computed in your browser · not on-chain</span></h2>
+      <h2 id="zone-whatif">Try it yourself: what-if <span className="muted">· computed in your browser · not on-chain</span></h2>
+      <p className="zone-help">Untick a payment or mark an account as having disclosed the ad, and watch the decision change.</p>
       <p className="whatif-recorded">Recorded verdict, unchanged: <strong>{record.verdict}</strong></p>
       <p className="whatif-result" aria-live="polite">
         What-if verdict: <strong>{decision.verdict}</strong>

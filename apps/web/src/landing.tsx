@@ -35,6 +35,62 @@ function Hero() {
         </div>
         <FloatingCards />
       </div>
+      <HeroPreview />
+    </section>
+  );
+}
+
+// A framed product shot under the hero, drawn from the recorded T1 numbers. Decorative: the dashboard is one click away.
+function HeroPreview() {
+  const voices = Array.from({ length: T1_FACTS.voices }, (_, i) => i < T1_FACTS.linked);
+  return (
+    <div className="site-wrap">
+      <div className="shot" aria-hidden="true">
+        <div className="shot-bar"><span>T1 · recorded run</span><em>Pinned block {T1_FACTS.pinnedBlock.toLocaleString("en-US")}</em></div>
+        <div className="shot-body">
+          <div className="shot-card shot-verdict notch">
+            <p className="shot-label">Verdict</p>
+            <p className="shot-big">{T1_FACTS.verdict}</p>
+            <div className="shot-kpis">
+              <p><strong>{T1_FACTS.linked}/{T1_FACTS.voices}</strong><span>linked</span></p>
+              <p><strong>{T1_FACTS.gapHours}</strong><span>before post</span></p>
+            </div>
+          </div>
+          <div className="shot-card notch">
+            <p className="shot-label">Voices · paid from one campaign wallet</p>
+            <ul className="shot-voices">
+              {voices.map((linked, i) => (
+                <li key={i} className={linked ? "is-linked" : ""}>
+                  Voice {i + 1}
+                  <span className="dots"><i /><i /><i /><i /></span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Big numbers from the recorded run, the way SaaS pages show proof at a glance.
+function Stats() {
+  const items = [
+    { n: `${T1_FACTS.linked} of ${T1_FACTS.voices}`, t: "converging voices paid from one wallet" },
+    { n: T1_FACTS.gapHours, t: "between payment and post" },
+    { n: "3", t: "verdicts: BLOCK, REVIEW, ELIGIBLE" },
+    { n: "0", t: "real funds moved. Practice trades only" },
+  ];
+  return (
+    <section className="section" aria-labelledby="stats-title">
+      <div className="site-wrap reveal">
+        <h2 id="stats-title" className="sr-only">The recorded run in numbers</h2>
+        <ul className="stats">
+          {items.map((s) => (
+            <li key={s.t}><strong>{s.n}</strong><span>{s.t}</span></li>
+          ))}
+        </ul>
+      </div>
     </section>
   );
 }
@@ -192,6 +248,7 @@ export function Landing() {
   return (
     <>
       <Hero />
+      <Stats />
       <Demo />
       <Bento />
       <ProblemFixResult />
