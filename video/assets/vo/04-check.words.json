@@ -1,0 +1,217 @@
+{
+ "voice": "en-GB-RyanNeural",
+ "rate": "-5%",
+ "text": "Before it opens, a Chainlink CRE workflow reads every account\u2019s wallet payments at a pinned block on Ethereum Sepolia, and asks one question: were these independent voices paid by the same wallet before they posted?",
+ "words": [
+  {
+   "text": "Before",
+   "start": 0.1,
+   "end": 0.416,
+   "id": "w0"
+  },
+  {
+   "text": "it",
+   "start": 0.429,
+   "end": 0.574,
+   "id": "w1"
+  },
+  {
+   "text": "opens",
+   "start": 0.587,
+   "end": 1.06,
+   "id": "w2"
+  },
+  {
+   "text": "a",
+   "start": 1.205,
+   "end": 1.258,
+   "id": "w3"
+  },
+  {
+   "text": "Chainlink",
+   "start": 1.271,
+   "end": 1.771,
+   "id": "w4"
+  },
+  {
+   "text": "CRE",
+   "start": 1.784,
+   "end": 2.35,
+   "id": "w5"
+  },
+  {
+   "text": "workflow",
+   "start": 2.363,
+   "end": 2.929,
+   "id": "w6"
+  },
+  {
+   "text": "reads",
+   "start": 2.942,
+   "end": 3.258,
+   "id": "w7"
+  },
+  {
+   "text": "every",
+   "start": 3.271,
+   "end": 3.508,
+   "id": "w8"
+  },
+  {
+   "text": "account\u2019s",
+   "start": 3.521,
+   "end": 3.889,
+   "id": "w9"
+  },
+  {
+   "text": "wallet",
+   "start": 3.903,
+   "end": 4.205,
+   "id": "w10"
+  },
+  {
+   "text": "payments",
+   "start": 4.218,
+   "end": 4.653,
+   "id": "w11"
+  },
+  {
+   "text": "at",
+   "start": 4.666,
+   "end": 4.771,
+   "id": "w12"
+  },
+  {
+   "text": "a",
+   "start": 4.784,
+   "end": 4.85,
+   "id": "w13"
+  },
+  {
+   "text": "pinned",
+   "start": 4.863,
+   "end": 5.166,
+   "id": "w14"
+  },
+  {
+   "text": "block",
+   "start": 5.179,
+   "end": 5.455,
+   "id": "w15"
+  },
+  {
+   "text": "on",
+   "start": 5.468,
+   "end": 5.6,
+   "id": "w16"
+  },
+  {
+   "text": "Ethereum",
+   "start": 5.613,
+   "end": 6.1,
+   "id": "w17"
+  },
+  {
+   "text": "Sepolia",
+   "start": 6.113,
+   "end": 6.797,
+   "id": "w18"
+  },
+  {
+   "text": "and",
+   "start": 6.995,
+   "end": 7.153,
+   "id": "w19"
+  },
+  {
+   "text": "asks",
+   "start": 7.166,
+   "end": 7.547,
+   "id": "w20"
+  },
+  {
+   "text": "one",
+   "start": 7.561,
+   "end": 7.85,
+   "id": "w21"
+  },
+  {
+   "text": "question",
+   "start": 7.863,
+   "end": 8.363,
+   "id": "w22"
+  },
+  {
+   "text": "were",
+   "start": 8.6,
+   "end": 8.718,
+   "id": "w23"
+  },
+  {
+   "text": "these",
+   "start": 8.732,
+   "end": 8.995,
+   "id": "w24"
+  },
+  {
+   "text": "independent",
+   "start": 9.008,
+   "end": 9.6,
+   "id": "w25"
+  },
+  {
+   "text": "voices",
+   "start": 9.613,
+   "end": 10.008,
+   "id": "w26"
+  },
+  {
+   "text": "paid",
+   "start": 10.021,
+   "end": 10.363,
+   "id": "w27"
+  },
+  {
+   "text": "by",
+   "start": 10.376,
+   "end": 10.508,
+   "id": "w28"
+  },
+  {
+   "text": "the",
+   "start": 10.521,
+   "end": 10.613,
+   "id": "w29"
+  },
+  {
+   "text": "same",
+   "start": 10.626,
+   "end": 10.903,
+   "id": "w30"
+  },
+  {
+   "text": "wallet",
+   "start": 10.916,
+   "end": 11.218,
+   "id": "w31"
+  },
+  {
+   "text": "before",
+   "start": 11.232,
+   "end": 11.561,
+   "id": "w32"
+  },
+  {
+   "text": "they",
+   "start": 11.574,
+   "end": 11.732,
+   "id": "w33"
+  },
+  {
+   "text": "posted",
+   "start": 11.745,
+   "end": 12.363,
+   "id": "w34"
+  }
+ ]
+}

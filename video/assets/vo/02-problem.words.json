@@ -1,0 +1,127 @@
+{
+ "voice": "en-GB-RyanNeural",
+ "rate": "-5%",
+ "text": "Now AI trading agents read those same feeds. When seven voices suddenly agree on one token, a naive agent buys.",
+ "words": [
+  {
+   "text": "Now",
+   "start": 0.1,
+   "end": 0.495,
+   "id": "w0"
+  },
+  {
+   "text": "AI",
+   "start": 0.508,
+   "end": 0.824,
+   "id": "w1"
+  },
+  {
+   "text": "trading",
+   "start": 0.837,
+   "end": 1.284,
+   "id": "w2"
+  },
+  {
+   "text": "agents",
+   "start": 1.297,
+   "end": 1.653,
+   "id": "w3"
+  },
+  {
+   "text": "read",
+   "start": 1.666,
+   "end": 1.903,
+   "id": "w4"
+  },
+  {
+   "text": "those",
+   "start": 1.916,
+   "end": 2.166,
+   "id": "w5"
+  },
+  {
+   "text": "same",
+   "start": 2.179,
+   "end": 2.455,
+   "id": "w6"
+  },
+  {
+   "text": "feeds",
+   "start": 2.468,
+   "end": 3.113,
+   "id": "w7"
+  },
+  {
+   "text": "When",
+   "start": 4.024,
+   "end": 4.313,
+   "id": "w8"
+  },
+  {
+   "text": "seven",
+   "start": 4.326,
+   "end": 4.682,
+   "id": "w9"
+  },
+  {
+   "text": "voices",
+   "start": 4.695,
+   "end": 5.116,
+   "id": "w10"
+  },
+  {
+   "text": "suddenly",
+   "start": 5.129,
+   "end": 5.511,
+   "id": "w11"
+  },
+  {
+   "text": "agree",
+   "start": 5.524,
+   "end": 5.918,
+   "id": "w12"
+  },
+  {
+   "text": "on",
+   "start": 5.932,
+   "end": 6.103,
+   "id": "w13"
+  },
+  {
+   "text": "one",
+   "start": 6.116,
+   "end": 6.379,
+   "id": "w14"
+  },
+  {
+   "text": "token",
+   "start": 6.392,
+   "end": 6.853,
+   "id": "w15"
+  },
+  {
+   "text": "a",
+   "start": 7.063,
+   "end": 7.103,
+   "id": "w16"
+  },
+  {
+   "text": "naive",
+   "start": 7.116,
+   "end": 7.537,
+   "id": "w17"
+  },
+  {
+   "text": "agent",
+   "start": 7.55,
+   "end": 7.932,
+   "id": "w18"
+  },
+  {
+   "text": "buys",
+   "start": 7.945,
+   "end": 8.55,
+   "id": "w19"
+  }
+ ]
+}

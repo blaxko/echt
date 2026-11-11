@@ -1,0 +1,115 @@
+{
+ "voice": "en-GB-RyanNeural",
+ "rate": "-5%",
+ "text": "This is Echt. Our practice agent sees seven bullish accounts and proposes a four-hundred-dollar practice trade on ETH.",
+ "words": [
+  {
+   "text": "This",
+   "start": 0.1,
+   "end": 0.376,
+   "id": "w0"
+  },
+  {
+   "text": "is",
+   "start": 0.389,
+   "end": 0.521,
+   "id": "w1"
+  },
+  {
+   "text": "Echt",
+   "start": 0.534,
+   "end": 0.929,
+   "id": "w2"
+  },
+  {
+   "text": "Our",
+   "start": 1.839,
+   "end": 2.116,
+   "id": "w3"
+  },
+  {
+   "text": "practice",
+   "start": 2.129,
+   "end": 2.563,
+   "id": "w4"
+  },
+  {
+   "text": "agent",
+   "start": 2.576,
+   "end": 2.932,
+   "id": "w5"
+  },
+  {
+   "text": "sees",
+   "start": 2.945,
+   "end": 3.208,
+   "id": "w6"
+  },
+  {
+   "text": "seven",
+   "start": 3.221,
+   "end": 3.537,
+   "id": "w7"
+  },
+  {
+   "text": "bullish",
+   "start": 3.55,
+   "end": 3.866,
+   "id": "w8"
+  },
+  {
+   "text": "accounts",
+   "start": 3.879,
+   "end": 4.3,
+   "id": "w9"
+  },
+  {
+   "text": "and",
+   "start": 4.313,
+   "end": 4.418,
+   "id": "w10"
+  },
+  {
+   "text": "proposes",
+   "start": 4.432,
+   "end": 4.958,
+   "id": "w11"
+  },
+  {
+   "text": "a",
+   "start": 4.971,
+   "end": 5.037,
+   "id": "w12"
+  },
+  {
+   "text": "four-hundred-dollar",
+   "start": 5.05,
+   "end": 5.918,
+   "id": "w13"
+  },
+  {
+   "text": "practice",
+   "start": 5.932,
+   "end": 6.339,
+   "id": "w14"
+  },
+  {
+   "text": "trade",
+   "start": 6.353,
+   "end": 6.747,
+   "id": "w15"
+  },
+  {
+   "text": "on",
+   "start": 6.761,
+   "end": 6.918,
+   "id": "w16"
+  },
+  {
+   "text": "ETH",
+   "start": 6.932,
+   "end": 7.747,
+   "id": "w17"
+  }
+ ]
+}

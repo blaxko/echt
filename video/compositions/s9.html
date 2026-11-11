@@ -1,0 +1,51 @@
+<template>
+  <style>
+    
+@font-face { font-family: "Manrope"; src: url("assets/fonts/manrope-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Manrope"; src: url("assets/fonts/manrope-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
+@font-face { font-family: "Manrope"; src: url("assets/fonts/manrope-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
+    #root { position: absolute; inset: 0; background: #121212; overflow: hidden; font-family: "Manrope", sans-serif; color: #f2f2f2; }
+    
+    .stack { position: absolute; left: 192px; right: 192px; top: 300px; display: flex; flex-direction: column; gap: 28px; }
+    .line { margin: 0; letter-spacing: -0.02em; line-height: 1.08; }
+    .hero { font-size: 76px; font-weight: 700; }
+    .sub { font-size: 48px; font-weight: 600; color: #a3a3a3; }
+    .w { display: inline-block; }
+    .source { position: absolute; left: 192px; right: 192px; top: 132px; font-size: 30px; color: #a3a3a3; line-height: 1.4; }
+    .source b { color: #f2f2f2; font-weight: 600; }
+    .source .url { font-size: 28px; color: #a3a3a3; word-break: break-all; }
+    .endcard { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
+    .endcard img { width: 260px; height: auto; margin-bottom: 24px; }
+    .url1 { margin: 0; font-size: 56px; font-weight: 700; color: #c2ee55; letter-spacing: -0.01em; }
+    .url2 { margin: 0; font-size: 36px; font-weight: 600; color: #f2f2f2; }
+  </style>
+  <div id="root" data-composition-id="s9" data-width="1920" data-height="1080">
+    <div class="stack" id="s9-stack">
+      <p class="line hero" id="s9-l0"><span class="w" id="s9-w0-0">Echt</span> <span class="w" id="s9-w0-1">doesn't</span> <span class="w" id="s9-w0-2">decide</span> <span class="w" id="s9-w0-3">who</span> <span class="w" id="s9-w0-4">broke</span> <span class="w" id="s9-w0-5">the</span> <span class="w" id="s9-w0-6">law.</span></p>
+      <p class="line sub" id="s9-l1"><span class="w" id="s9-w1-0">It</span> <span class="w" id="s9-w1-1">shows</span> <span class="w" id="s9-w1-2">the</span> <span class="w" id="s9-w1-3">pattern.</span></p>
+    </div>
+    <div class="endcard" id="s9-end">
+      <img id="s9-logo" src="assets/brand/echt-mark-white.svg" alt="Echt" />
+      <p class="url1" id="s9-site">echt-sepia.vercel.app</p>
+      <p class="url2" id="s9-repo">github.com/blaxko/echt</p>
+    </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+    tl.fromTo("#s9-w0-0", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.5);
+    tl.fromTo("#s9-w0-1", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.57);
+    tl.fromTo("#s9-w0-2", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.63);
+    tl.fromTo("#s9-w0-3", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.7);
+    tl.fromTo("#s9-w0-4", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.77);
+    tl.fromTo("#s9-w0-5", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.84);
+    tl.fromTo("#s9-w0-6", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.9);
+    tl.fromTo("#s9-w1-0", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 3.57);
+    tl.fromTo("#s9-w1-1", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 3.64);
+    tl.fromTo("#s9-w1-2", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 3.7);
+    tl.fromTo("#s9-w1-3", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 3.77);
+    tl.to("#s9-stack", { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, 8.63);
+    tl.fromTo("#s9-end", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.5, ease: "expo.out" }, 8.95);
+
+    window.__timelines["s9"] = tl;
+  </script>
+</template>
