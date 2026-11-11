@@ -4,42 +4,34 @@
 @font-face { font-family: "Manrope"; src: url("assets/fonts/manrope-latin-400-normal.woff2") format("woff2"); font-weight: 400; }
 @font-face { font-family: "Manrope"; src: url("assets/fonts/manrope-latin-600-normal.woff2") format("woff2"); font-weight: 600; }
 @font-face { font-family: "Manrope"; src: url("assets/fonts/manrope-latin-700-normal.woff2") format("woff2"); font-weight: 700; }
-    #root { position: absolute; inset: 0; background: #121212; overflow: hidden; font-family: "Manrope", sans-serif; color: #f2f2f2; }
+    #root { position: absolute; inset: 0; background: #121212; overflow: hidden; font-family: "Manrope", sans-serif; color: #f4f4f2; }
+    .pill { position: absolute; top: 28px; margin: 0; padding: 10px 20px; border-radius: 999px; background: #262626; color: #f4f4f2; font-size: 28px; font-weight: 600; line-height: 1.2; white-space: nowrap; }
+    .pill.white { background: #f4f4f2; color: #121212; }
     
-    .stack { position: absolute; left: 192px; right: 192px; top: 300px; display: flex; flex-direction: column; gap: 28px; }
-    .line { margin: 0; letter-spacing: -0.02em; line-height: 1.08; }
-    .hero { font-size: 76px; font-weight: 700; }
-    .sub { font-size: 48px; font-weight: 600; color: #a3a3a3; }
-    .w { display: inline-block; }
-    .source { position: absolute; left: 192px; right: 192px; top: 132px; font-size: 30px; color: #a3a3a3; line-height: 1.4; }
-    .source b { color: #f2f2f2; font-weight: 600; }
-    .source .url { font-size: 28px; color: #a3a3a3; word-break: break-all; }
+    .row { position: absolute; left: 192px; right: 192px; display: flex; align-items: baseline; gap: 40px; margin: 0; }
+    .num { font-size: 220px; font-weight: 700; letter-spacing: -0.04em; line-height: 0.9; }
+    .say { font-size: 60px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; max-width: 1100px; }
+    .say.muted { color: #a3a3a3; }
+    .head { font-size: 76px; font-weight: 700; letter-spacing: -0.025em; line-height: 1.1; max-width: 1450px; }
+    .lime { color: #c2ee55; }
+    .src { position: absolute; left: 192px; top: 112px; }
+    .srcurl { position: absolute; left: 212px; top: 176px; max-width: 1200px; margin: 0; font-size: 28px; color: #a3a3a3; word-break: break-all; line-height: 1.3; }
   </style>
   <div id="root" data-composition-id="s1" data-width="1920" data-height="1080">
-    <div class="stack" id="s1-stack">
-      <p class="line hero" id="s1-l0"><span class="w" id="s1-w0-0">About</span> <span class="w" id="s1-w0-1" style="color:#c2ee55">160</span> <span class="w" id="s1-w0-2">crypto</span> <span class="w" id="s1-w0-3">influencers</span> <span class="w" id="s1-w0-4">took</span> <span class="w" id="s1-w0-5">paid</span> <span class="w" id="s1-w0-6">promotions.</span></p>
-      <p class="line sub" id="s1-l1"><span class="w" id="s1-w1-0">Fewer</span> <span class="w" id="s1-w1-1">than</span> <span class="w" id="s1-w1-2">5</span> <span class="w" id="s1-w1-3">labelled</span> <span class="w" id="s1-w1-4">them</span> <span class="w" id="s1-w1-5">as</span> <span class="w" id="s1-w1-6">ads.</span></p>
-    </div>
-    <p class="source" id="s1-source"><b>Source: ZachXBT, via The Block (2025). Not our data.</b><br /><span class="url">https://www.theblock.co/post/368956/zachxbt-says-over-100-crypto-influencers-accepted-promo-deals-without-disclosing-paid-ads</span></p>
+    <p class="pill src" id="s1-src">Source: ZachXBT, via The Block (2025). Not our data.</p>
+    <p class="srcurl" id="s1-url">https://www.theblock.co/post/368956/zachxbt-says-over-100-crypto-influencers-accepted-promo-deals-without-disclosing-paid-ads</p>
+    <p class="row" id="s1-a" style="top: 300px"><span class="num">160</span><span class="say">crypto influencers took paid promotions.</span></p>
+    <p class="row" id="s1-b" style="top: 600px"><span class="say muted">Fewer than</span><span class="num lime">5</span><span class="say">labelled them as ads.</span></p>
   </div>
   <script>
+    const E = (() => { const cx = 0.6, bx = -1.2, ax = 1.6, cy = 0, by = 3, ay = -2;
+      const sx = (t) => ((ax * t + bx) * t + cx) * t, sy = (t) => ((ay * t + by) * t + cy) * t, dx = (t) => (3 * ax * t + 2 * bx) * t + cx;
+      return (p) => { if (p <= 0) return 0; if (p >= 1) return 1; let t = p; for (let i = 0; i < 10; i++) { const e = sx(t) - p; const d = dx(t); if (Math.abs(e) < 1e-6 || Math.abs(d) < 1e-6) break; t = Math.min(1, Math.max(0, t - e / d)); } return sy(t); }; })();
     const tl = gsap.timeline({ paused: true });
-    tl.fromTo("#s1-w0-0", { opacity: 1, filter: "blur(0px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0);
-    tl.fromTo("#s1-w0-1", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.07);
-    tl.fromTo("#s1-w0-2", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.13);
-    tl.fromTo("#s1-w0-3", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.2);
-    tl.fromTo("#s1-w0-4", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.27);
-    tl.fromTo("#s1-w0-5", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.34);
-    tl.fromTo("#s1-w0-6", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 0.4);
-    tl.fromTo("#s1-w1-0", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 3.27);
-    tl.fromTo("#s1-w1-1", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 3.34);
-    tl.fromTo("#s1-w1-2", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 3.4);
-    tl.fromTo("#s1-w1-3", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 3.47);
-    tl.fromTo("#s1-w1-4", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 3.54);
-    tl.fromTo("#s1-w1-5", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 3.6);
-    tl.fromTo("#s1-w1-6", { opacity: 0, filter: "blur(6px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.13, ease: "power4.out" }, 3.67);
-    tl.to("#s1-stack", { opacity: 0, filter: "blur(8px)", duration: 0.2, ease: "power2.in" }, 10.69);
-    tl.to("#s1-source", { opacity: 0, duration: 0.2, ease: "power2.in" }, 10.69);
+    tl.fromTo("#s1-a", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: E }, 0);
+    tl.fromTo("#s1-b", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: E }, 7.31);
+    tl.set("#s1-src, #s1-url", { opacity: 1 }, 0);
+    tl.to("#s1-a, #s1-b, #s1-src, #s1-url", { opacity: 0, duration: 0.4, ease: E }, 10.46);
 
     window.__timelines["s1"] = tl;
   </script>

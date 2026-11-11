@@ -23,9 +23,13 @@ design/reference/*.mp4
 design/reference/*.mov
 design/reference/frames/
 
-# Demo video: commit sources only
+# Demo video: commit sources only. video/echt-demo.mp4 is the only media file allowed in git.
 video/out/
 video/**/*.mp4
+!video/echt-demo.mp4
+video/**/*.mov
+video/**/*.vtt
+video/**/*.words.json
 video/renders/
 *.mp3
 *.wav
